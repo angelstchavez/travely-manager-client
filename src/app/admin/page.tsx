@@ -7,14 +7,16 @@ import SideNav from "@/components/side-nav";
 function Page({ children }: { children: React.ReactNode }) {
   return (
     <div>
+      <div className="flex">
       <SideNav />
-      <main className="flex-1">
-        <MarginWidthWrapper>
-          <Header />
-          <HeaderMobile />
-          <PageWrapper>{children}</PageWrapper>
-        </MarginWidthWrapper>
-      </main>
+        <main className="flex-1">
+          <MarginWidthWrapper>
+            <Header />
+            <HeaderMobile />
+            <PageWrapper>{children}</PageWrapper>
+          </MarginWidthWrapper>
+        </main>
+      </div>
     </div>
   );
 }

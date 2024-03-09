@@ -10,7 +10,7 @@ export default function Page() {
 
   useEffect(() => {
     logout();
-    router.push("/login");
+    router.push("/");
   });
 
   return null;
