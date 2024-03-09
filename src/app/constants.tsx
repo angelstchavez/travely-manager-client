@@ -37,7 +37,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     icon: <Icon icon="lucide:folder" width="24" height="24" />,
     submenu: true,
     subMenuItems: [
-      { title: "Conduductores", path: "/admin/administrator/drivers" },
+      { title: "Conductores", path: "/admin/administrator/drivers" },
       { title: "Vendedores", path: "/admin/administrator/sellers" },
       { title: "Usuarios", path: "/admin/administrator/users" },
     ],
