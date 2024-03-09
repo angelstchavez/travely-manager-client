@@ -14,8 +14,8 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     icon: <Icon icon="lucide:folder" width="24" height="24" />,
     submenu: true,
     subMenuItems: [
-      { title: "Registrar venta", path: "/processes/register-sale" },
-      { title: "Registrar reserva", path: "/processes/register-reservation" },
+      { title: "Registrar venta", path: "/admin/processes/register-sale" },
+      { title: "Registrar reserva", path: "/admin/processes/register-reservation" },
     ],
   },
   {
@@ -24,11 +24,11 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     icon: <Icon icon="lucide:folder" width="24" height="24" />,
     submenu: true,
     subMenuItems: [
-      { title: "Viajes", path: "/registers/trips" },
-      { title: "Rutas", path: "/registers/routes" },
-      { title: "Vehiculos", path: "/registers/vehicles" },
-      { title: "Clientes", path: "/registers/customers" },
-      { title: "Terminales", path: "/registers/transport-terminals" },
+      { title: "Viajes", path: "/admin/registers/trips" },
+      { title: "Rutas", path: "/admin/registers/routes" },
+      { title: "Vehiculos", path: "/admin/registers/vehicles" },
+      { title: "Clientes", path: "/admin/registers/customers" },
+      { title: "Terminales", path: "/admin/registers/transport-terminals" },
     ],
   },
   {
@@ -37,20 +37,15 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     icon: <Icon icon="lucide:folder" width="24" height="24" />,
     submenu: true,
     subMenuItems: [
-      { title: "Conduductores", path: "/administrator/drivers" },
-      { title: "Vendedores", path: "/administrator/sellers" },
-      { title: "Usuarios", path: "/administrator/users" },
+      { title: "Conduductores", path: "/admin/administrator/drivers" },
+      { title: "Vendedores", path: "/admin/administrator/sellers" },
+      { title: "Usuarios", path: "/admin/administrator/users" },
     ],
   },
   {
     title: "Configuración",
-    path: "/settings",
+    path: "/admin/settings",
     icon: <Icon icon="lucide:settings" width="24" height="24" />,
-    submenu: true,
-    subMenuItems: [
-      { title: "Cuenta", path: "/settings/account" },
-      { title: "Privacidad", path: "/settings/privacy" },
-    ],
   },
   {
     title: "Cerrar sesión",
