@@ -33,9 +33,9 @@ function VehicleTab() {
             <select
               id="color"
               name="color"
-              className="w-full pl-3 pr-10 mt-1 border-gray-300 focus:outline-none sm:text-sm rounded-md relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+              className="w-full pl-3 pr-10 mt-1 border-gray-300 focus:outline-none sm:text-sm relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             >
-              <option value="">Seleccione un color</option>
+              <option value="">Seleccione</option>
               <option value="rojo">Rojo</option>
               <option value="azul">Azul</option>
               <option value="verde">Verde</option>
@@ -73,7 +73,7 @@ function VehicleTab() {
               className="w-full pl-3 pr-10 mt-1 border-gray-300 focus:outline-nonesm:text-sm rounded-mdml-1 relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             >
               {/* Opciones de marca */}
-              <option value="">Seleccione un modelo</option>
+              <option value="">Seleccione</option>
               <option value="Mercedes-Benz Citaro">Mercedes-Benz Citaro</option>
               <option value="Volvo 9700">Volvo 9700</option>
               <option value="Scania Interlink">Scania Interlink</option>

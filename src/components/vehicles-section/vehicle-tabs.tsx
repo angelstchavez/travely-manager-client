@@ -5,11 +5,11 @@ import React, { useState } from "react";
 import { useTabs } from "@/hooks/use-tabs";
 import { Framer } from "@/lib/framer";
 
-import VeicleTab from "./vehicles-section/vehicleTab";
-import ModelTab from "./vehicles-section/modelTab";
-import BrandTab from "./vehicles-section/brandTab";
+import VeicleTab from "./vehicleTab";
+import ModelTab from "./modelTab";
+import BrandTab from "./brandTab";
 
-const Tabs = () => {
+const VehicleTabs = () => {
   const [hookProps] = useState({
     tabs: [
       {
@@ -43,4 +43,4 @@ const Tabs = () => {
   );
 };
 
-export default Tabs;
+export default VehicleTabs;

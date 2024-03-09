@@ -37,7 +37,7 @@ function ModelTab() {
               name="category"
               className="w-full pl-3 pr-10 mt-1 border-gray-300 focus:outline-nonesm:text-sm rounded-mdml-1 relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             >
-              <option value="">Seleccione una categoría</option>
+              <option value="">Seleccione</option>
               <option value="compacto">Compacto</option>
               <option value="sedán">Sedán</option>
               <option value="SUV">SUV</option>
@@ -59,7 +59,7 @@ function ModelTab() {
               name="fuelType"
               className="w-full pl-3 pr-10 mt-1 border-gray-300 focus:outline-nonesm:text-sm rounded-mdml-1 relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             >
-              <option value="">Seleccione un tipo de gasolina</option>
+              <option value="">Seleccione</option>
               <option value="gasolina regular">Gasolina Regular</option>
               <option value="gasolina premium">Gasolina Premium</option>
               <option value="diésel">Diésel</option>
@@ -95,7 +95,7 @@ function ModelTab() {
               name="transmissionType"
               className="w-full pl-3 pr-10 mt-1 border-gray-300 focus:outline-nonesm:text-sm rounded-mdml-1 relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             >
-              <option value="">Seleccione un tipo de transmisión</option>
+              <option value="">Seleccione</option>
               <option value="manual">Manual</option>
               <option value="automática">Automática</option>
               {/* Opciones de tipo de transmisión */}
@@ -113,7 +113,7 @@ function ModelTab() {
               name="brand"
               className="w-full pl-3 pr-10 mt-1 border-gray-300 focus:outline-nonesm:text-sm rounded-mdml-1 relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             >
-              <option value="">Seleccione una marca</option>
+              <option value="">Seleccione</option>
               <option value="Mercedes-Benz">Mercedes-Benz</option>
               <option value="Volvo">Volvo</option>
               <option value="Scania">Scania</option>
