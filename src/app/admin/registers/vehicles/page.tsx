@@ -1,7 +1,12 @@
+import Tabs from "@/components/tabs";
 import React from "react";
 
 function VehiclePage() {
-  return <div>VehiclePage</div>;
+  return (
+    <>
+      <Tabs></Tabs>
+    </>
+  );
 }
 
 export default VehiclePage;
