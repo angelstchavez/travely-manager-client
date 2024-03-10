@@ -6,12 +6,12 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
   {
     title: "Inicio",
     path: "/",
-    icon: <Icon icon="lucide:home" width="24" height="24" />,
+    icon: <Icon icon="typcn:home" width="24" height="24" />,
   },
   {
     title: "Procesos",
     path: "/processes",
-    icon: <Icon icon="lucide:folder" width="24" height="24" />,
+    icon: <Icon icon="material-symbols:folder" width="24" height="24" />,
     submenu: true,
     subMenuItems: [
       { title: "Registrar venta", path: "/admin/processes/register-sale" },
@@ -21,7 +21,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
   {
     title: "Registros",
     path: "/registers",
-    icon: <Icon icon="lucide:folder" width="24" height="24" />,
+    icon: <Icon icon="material-symbols:folder" width="24" height="24" />,
     submenu: true,
     subMenuItems: [
       { title: "Viajes", path: "/admin/registers/trips" },
@@ -34,7 +34,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
   {
     title: "Administrador",
     path: "/administrator",
-    icon: <Icon icon="lucide:folder" width="24" height="24" />,
+    icon: <Icon icon="material-symbols:folder" width="24" height="24" />,
     submenu: true,
     subMenuItems: [
       { title: "Asignaciones", path: "/admin/administrator/assignments" },
@@ -45,11 +45,11 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
   {
     title: "Configuración",
     path: "/admin/settings",
-    icon: <Icon icon="lucide:settings" width="24" height="24" />,
+    icon: <Icon icon="material-symbols:settings" width="24" height="24" />,
   },
   {
     title: "Cerrar sesión",
     path: "/admin/logout",
-    icon: <Icon icon="ri:logout-circle-r-line" width="24" height="24" />,
+    icon: <Icon icon="raphael:power" width="24" height="24" />,
   },
 ];

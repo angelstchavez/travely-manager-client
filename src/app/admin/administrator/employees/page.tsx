@@ -1,4 +1,4 @@
-import EmployeeTabs from "@/components/employees-section/employees-tab";
+import EmployeeTabs from "@/components/employee/employees-tab";
 import React from "react";
 
 function EmploeePage() {
