@@ -5,7 +5,7 @@ import { SideNavItem } from "./types";
 export const SIDENAV_ITEMS: SideNavItem[] = [
   {
     title: "Inicio",
-    path: "/",
+    path: "/admin",
     icon: <Icon icon="typcn:home" width="24" height="24" />,
   },
   {
