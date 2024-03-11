@@ -34,7 +34,7 @@ const EmployeeTabs = () => {
 
   return (
     <div className="w-full flex flex-col">
-      <div className="w-full items-start flex bg-white px-8 pt-16">
+      <div className="w-full items-start flex bg-white px-8">
         <Framer.Tabs {...framer.tabProps} />
       </div>
 

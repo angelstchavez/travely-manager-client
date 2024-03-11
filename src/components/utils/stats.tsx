@@ -20,7 +20,7 @@ function Stats() {
       />
       <BoxStat
         cantidad={200}
-        icon={<Icon icon="ri:reserved-fill" />}
+        icon={<Icon icon="mdi:alpha-r-box" />}
         title="Reservas"
       />
       <BoxStat
@@ -35,7 +35,7 @@ function Stats() {
       />
       <BoxStat
         cantidad={250}
-        icon={<Icon icon="line-md:person-filled" />}
+        icon={<Icon icon="mdi:account-tie" />}
         title="Empleados"
       />
     </div>
