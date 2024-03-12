@@ -13,37 +13,49 @@ const Autobus: React.FC<AutobusProps> = ({ seats }) => {
   const fourthRow = seats.slice(columnSize * 3);
 
   return (
-    <div className="grid grid-cols-5 bg-white
-    rounded-lg border border-gray-300 p-2 xl:p-5">
-      <div className="col-span-1">
-        {firstRow.map((seat, index) => (
-          <div key={`first-row-${index}`} className="mb-2">
-            {seat}
-          </div>
-        ))}
+    <>
+    <div className=" border-gray-300 rounded-lg border bg-white">
+      <div>
+        Hola mi perro
       </div>
-      <div className="col-span-2">
-        {secondRow.map((seat, index) => (
-          <div key={`second-row-${index}`} className="mb-2">
-            {seat}
-          </div>
-        ))}
-      </div>
-      <div className="col-span-1">
-        {thirdRow.map((seat, index) => (
-          <div key={`third-row-${index}`} className="mb-2">
-            {seat}
-          </div>
-        ))}
-      </div>
-      <div className="col-span-1">
-        {fourthRow.map((seat, index) => (
-          <div key={`fourth-row-${index}`} className="mb-2">
-            {seat}
-          </div>
-        ))}
+
+      <div className="grid grid-cols-5 gap-x-3 
+        p-2 xl:px-5 ">
+        
+        <div className="col-span-1 ">
+          {firstRow.map((seat, index) => (
+            <div key={`first-row-${index}`} className="mb-1">
+              {seat}
+            </div>
+          ))}
+        </div>
+        <div className="col-span-1 ">
+          {secondRow.map((seat, index) => (
+            <div key={`second-row-${index}`} className="mb-1 ">
+              {seat}
+            </div>
+          ))}
+        </div>
+        <div className="bg-none rounded-lg col-span-1">
+
+        </div>
+        <div className="col-span-1 ">
+          {thirdRow.map((seat, index) => (
+            <div key={`third-row-${index}`} className="mb-1 ">
+              {seat}
+            </div>
+          ))}
+        </div>
+        <div className="col-span-1 ">
+          {fourthRow.map((seat, index) => (
+            <div key={`fourth-row-${index}`} className="mb-1 ">
+              {seat}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
+    </>
   );
 };
 

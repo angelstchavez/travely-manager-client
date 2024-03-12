@@ -33,7 +33,7 @@ const Seat: React.FC<SeatProps> = ({ id, number, status, onHover }) => {
     <div
       id={id}
       className={`border border-gray-300 p-2 rounded-md flex items-center justify-center transition-colors duration-300 cursor-pointer ${seatColor} ${hoverColor}`}
-      style={{ width: "60px", height: "60px" }} // Aplicar color de fondo dinámico
+      style={{ width: "50px", height: "50px" }} // Aplicar color de fondo dinámico
       onMouseEnter={onHover} // Manejar el evento hover
     >
       <span className="text-black font-bold text-lg">{number}</span>

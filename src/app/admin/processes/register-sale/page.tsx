@@ -22,13 +22,15 @@ function RegisterSalePage() {
   return (
     <>
       <span className="font-bold text-4xl">Registrar venta</span>
+
       <div className="flex">
-        <div className="w-1/2">
-          <Autobus seats={seatsArray} />
-        </div>
-        <div
-          className="bg-white rounded-lg border border-gray-300 flex-1"
-        ></div>
+          <div className="w-[30%]">
+            <Autobus seats={seatsArray} />
+          </div>
+          <div
+            className="bg-white rounded-lg border border-gray-300 w-[70%]">
+
+          </div>
       </div>
     </>
   );
