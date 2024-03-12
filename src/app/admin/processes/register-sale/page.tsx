@@ -26,7 +26,9 @@ function RegisterSalePage() {
         <div className="w-1/2">
           <Autobus seats={seatsArray} />
         </div>
-        <div className="bg-black flex-1">dgsdhgsdh</div>
+        <div
+          className="bg-white rounded-lg border border-gray-300 flex-1"
+        ></div>
       </div>
     </>
   );

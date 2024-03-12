@@ -13,8 +13,8 @@ const Autobus: React.FC<AutobusProps> = ({ seats }) => {
   const fourthRow = seats.slice(columnSize * 3);
 
   return (
-    <div className="grid grid-cols-5 items-center bg-white
-    rounded-lg border border-gray-300 p-4 xl:p-5">
+    <div className="grid grid-cols-5 bg-white
+    rounded-lg border border-gray-300 p-2 xl:p-5">
       <div className="col-span-1">
         {firstRow.map((seat, index) => (
           <div key={`first-row-${index}`} className="mb-2">
