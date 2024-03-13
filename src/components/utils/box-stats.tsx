@@ -16,7 +16,7 @@ const BoxStat = ({ cantidad, icon, title }: Props) => {
         <div className="text-2xl">{icon}</div>
       </div>
       <div>
-        <h1 className="text-4xl font-bold">{cantidad}</h1>
+        <h1 className="text-2xl font-bold">{cantidad}</h1>
       </div>
     </div>
   );
