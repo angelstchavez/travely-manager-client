@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React from "react";
 import { Icon } from "@iconify/react";
@@ -7,7 +7,7 @@ import BoxStat from "./box-stats";
 
 function Stats() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="bg-white rounded-xl p-3 border border-zinc-200 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
       <BoxStat
         cantidad={100}
         icon={<Icon icon="mdi:travel" />}
