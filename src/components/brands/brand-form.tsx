@@ -1,18 +1,47 @@
 import React, { useState } from "react";
 import ConfirmationModal from "../modals/confirmation-modal";
+import ErrorModal from "../modals/error-modal";
+import SuccessModal from "../modals/success-modal";
 
 function BrandForm() {
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
+  const [showError, setShowError] = useState<boolean>(false);
+  const [showSuccess, setShowSuccess] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [brandName, setBrandName] = useState<string>("");
 
-  const handleConfirm = () => {
-    // Lógica para aceptar la creación de la marca de vehículo
-    // Aquí puedes llamar a la API para realizar la acción deseada
-    console.log("Marca de vehículo creada");
-    setShowConfirmation(false);
+  const handleConfirm = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-brand/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: brandName }),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Marca de vehículo creada");
+        setShowConfirmation(false);
+        setShowSuccess(true);
+      } else {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || "Error al crear la marca de vehículo"
+        );
+      }
+    } catch (error: any) {
+      // Aquí se especifica que "error" es de tipo "any" para evitar el error "unknown"
+      console.error("Error al crear la marca de vehículo:", error.message);
+      setShowError(true);
+      setErrorMessage(error.message);
+    }
   };
 
   const handleCancel = () => {
-    // Lógica para cancelar la creación de la marca de vehículo
     console.log("Creación de marca de vehículo cancelada");
     setShowConfirmation(false);
   };
@@ -28,10 +57,12 @@ function BrandForm() {
             name="brandName"
             className="block w-full sm:w-40 rounded-md border-0 py-1.5 pl-3 pr-10 sm:pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
             placeholder="Nombre"
+            value={brandName}
+            onChange={(e) => setBrandName(e.target.value)}
           />
           <button
             type="button"
-            className="ml-1 relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+            className="ml-2 relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             onClick={() => setShowConfirmation(true)}
           >
             <span>Crear</span>
@@ -45,6 +76,10 @@ function BrandForm() {
           onCancel={handleCancel}
         />
       )}
+      {showSuccess && (
+        <SuccessModal successMessage="Marca de vehículo creada con éxito" />
+      )}
+      {showError && <ErrorModal errorDescription={errorMessage} />}
     </section>
   );
 }
