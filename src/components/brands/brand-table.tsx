@@ -1,14 +1,17 @@
+// BrandList.tsx
 import React, { useState, useEffect } from "react";
 import ErrorModal from "../modals/error-modal";
 import Cookies from "js-cookie";
 import ConfirmationModal from "../modals/confirmation-modal";
+import BrandTableRow from "./brand-table-row";
+import Pagination from "../pagination";
 
 interface Brand {
   id: number;
   name: string;
 }
 
-function BrandTable(): JSX.Element {
+const BrandList: React.FC = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [error, setError] = useState<string>("");
   const [brandToDelete, setBrandToDelete] = useState<Brand | null>(null);
@@ -16,7 +19,7 @@ function BrandTable(): JSX.Element {
   const [itemsPerPage] = useState<number>(10);
 
   useEffect(() => {
-    const fetchData = async (): Promise<void> => {
+    const fetchData = async () => {
       try {
         const cookieValue = decodeURIComponent(Cookies.get("authTokens") || "");
         const cookieData: { data: { token?: string } } =
@@ -130,19 +133,11 @@ function BrandTable(): JSX.Element {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {brands.map((brand) => (
-              <tr key={brand.id} className="hover:bg-gray-100">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {brand.name}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button
-                    className="text-red-600 hover:text-red-900"
-                    onClick={() => handleDelete(brand)}
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
+              <BrandTableRow
+                key={brand.id}
+                brand={brand}
+                onDelete={handleDelete}
+              />
             ))}
           </tbody>
         </table>
@@ -155,21 +150,13 @@ function BrandTable(): JSX.Element {
           actionType="delete"
         />
       )}
-      <div className="flex justify-center mt-4">
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i}
-            className={`mx-2 px-4 py-2 rounded ${
-              currentPage === i + 1 ? "bg-blue-500 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setCurrentPage(i + 1)}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </div>
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
     </section>
   );
-}
+};
 
-export default BrandTable;
+export default BrandList;
