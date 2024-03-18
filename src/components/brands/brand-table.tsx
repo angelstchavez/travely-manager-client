@@ -44,11 +44,13 @@ function BrandTable(): JSX.Element {
           throw new Error("Error al obtener las marcas de vehículos.");
         }
 
-        const data: Brand[] | any = await response.json();
-        if (!Array.isArray(data)) {
-          throw new Error("Los datos obtenidos no son un arreglo de marcas.");
+        const responseData = await response.json();
+
+        if (!responseData.success || !responseData.data) {
+          throw new Error("La respuesta no contiene datos válidos.");
         }
-        setBrands(data);
+
+        setBrands(responseData.data);
       } catch (error: any) {
         setError(error.message);
       }
