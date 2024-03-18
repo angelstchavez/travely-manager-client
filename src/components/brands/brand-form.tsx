@@ -13,13 +13,12 @@ function BrandForm() {
 
   const handleConfirm = async () => {
     try {
-      // Obtener el valor del cookie y decodificarlo
+      if (!brandName) {
+        throw new Error("El nombre de la marca es obligatorio.");
+      }
+
       const cookieValue = decodeURIComponent(Cookies.get("authTokens") || "");
-
-      // Convertir el valor del cookie a objeto JSON
       const cookieData: { data: { token?: string } } = JSON.parse(cookieValue);
-
-      // Obtener el token del objeto JSON
       const token = cookieData.data.token;
 
       if (!token) {
@@ -44,12 +43,11 @@ function BrandForm() {
         setShowSuccess(true);
       } else {
         const errorData = await response.json();
-        throw new Error(
-          errorData.message || "Error al crear la marca de vehículo"
-        );
+        const errorMessageFromBackend =
+          errorData.message || "Error al crear la marca de vehículo";
+        throw new Error(errorMessageFromBackend);
       }
     } catch (error: any) {
-      // Aquí se especifica que "error" es de tipo "any" para evitar el error "unknown"
       console.error("Error al crear la marca de vehículo:", error.message);
       setShowError(true);
       setErrorMessage(error.message);
