@@ -1,5 +1,6 @@
 "use client";
 
+import RouteReport from "@/components/routes/route-report";
 import React, { useState } from "react";
 
 interface RoutePageProps {}
@@ -231,14 +232,7 @@ const RoutePage: React.FC<RoutePageProps> = () => {
       </section>
 
       {/* Tercera sección: Botón para descargar PDF */}
-      <section className="border rounded p-4 my-4 flex justify-end bg-white">
-        <button
-          type="button"
-          className="ml-1 relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-        >
-          <span>Descargar PDF</span>
-        </button>
-      </section>
+      <RouteReport></RouteReport>
     </div>
   );
 };
