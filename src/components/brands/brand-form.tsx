@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ConfirmationModal from "../modals/confirmation-modal";
 import ErrorModal from "../modals/error-modal";
+import Cookies from "js-cookie";
 import SuccessModal from "../modals/success-modal";
 
 function BrandForm() {
@@ -12,12 +13,26 @@ function BrandForm() {
 
   const handleConfirm = async () => {
     try {
+      // Obtener el valor del cookie y decodificarlo
+      const cookieValue = decodeURIComponent(Cookies.get("authTokens") || "");
+
+      // Convertir el valor del cookie a objeto JSON
+      const cookieData: { data: { token?: string } } = JSON.parse(cookieValue);
+
+      // Obtener el token del objeto JSON
+      const token = cookieData.data.token;
+
+      if (!token) {
+        throw new Error("No se encontró el token en el cookie.");
+      }
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-brand/create`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ name: brandName }),
         }
