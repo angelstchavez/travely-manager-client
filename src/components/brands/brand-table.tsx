@@ -126,7 +126,7 @@ function BrandTable(): JSX.Element {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {brands.map((brand) => (
-              <tr key={brand.id}>
+              <tr key={brand.id} className="hover:bg-gray-100">
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   {brand.name}
                 </td>
@@ -148,6 +148,7 @@ function BrandTable(): JSX.Element {
           processText={`eliminar la marca de vehículo "${brandToDelete.name}"`}
           onAccept={handleDeleteConfirmation}
           onCancel={handleDeleteCancel}
+          actionType="delete"
         />
       )}
     </section>

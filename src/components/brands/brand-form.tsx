@@ -87,6 +87,7 @@ function BrandForm() {
           processText="crear la marca de vehículo"
           onAccept={handleConfirm}
           onCancel={handleCancel}
+          actionType="register"
         />
       )}
       {showSuccess && (
