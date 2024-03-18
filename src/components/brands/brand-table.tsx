@@ -12,6 +12,8 @@ function BrandTable(): JSX.Element {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [error, setError] = useState<string>("");
   const [brandToDelete, setBrandToDelete] = useState<Brand | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(10);
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
@@ -26,7 +28,7 @@ function BrandTable(): JSX.Element {
         }
 
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-brand/get-all`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-brand/get-all?page=${currentPage}&perPage=${itemsPerPage}`,
           {
             method: "GET",
             headers: {
@@ -53,7 +55,7 @@ function BrandTable(): JSX.Element {
     };
 
     fetchData();
-  }, []);
+  }, [currentPage, itemsPerPage]);
 
   const handleDeleteConfirmation = async () => {
     if (brandToDelete) {
@@ -101,6 +103,8 @@ function BrandTable(): JSX.Element {
   const handleDelete = (brand: Brand) => {
     setBrandToDelete(brand);
   };
+
+  const totalPages = Math.ceil(brands.length / itemsPerPage);
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
@@ -151,6 +155,19 @@ function BrandTable(): JSX.Element {
           actionType="delete"
         />
       )}
+      <div className="flex justify-center mt-4">
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i}
+            className={`mx-2 px-4 py-2 rounded ${
+              currentPage === i + 1 ? "bg-blue-500 text-white" : "bg-gray-200"
+            }`}
+            onClick={() => setCurrentPage(i + 1)}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
     </section>
   );
 }
