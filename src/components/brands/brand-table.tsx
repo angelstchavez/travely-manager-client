@@ -30,7 +30,7 @@ function BrandTable(): JSX.Element {
         }
 
         const response = await fetch(
-          "http://localhost:5000/api/v1/car-brand/get-all",
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-brand/get-all`,
           {
             method: "GET",
             headers: {
@@ -44,7 +44,10 @@ function BrandTable(): JSX.Element {
           throw new Error("Error al obtener las marcas de vehículos.");
         }
 
-        const data: Brand[] = await response.json();
+        const data: Brand[] | any = await response.json();
+        if (!Array.isArray(data)) {
+          throw new Error("Los datos obtenidos no son un arreglo de marcas.");
+        }
         setBrands(data);
       } catch (error: any) {
         setError(error.message);
