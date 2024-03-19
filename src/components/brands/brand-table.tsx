@@ -4,7 +4,7 @@ import ErrorModal from "../modals/error-modal";
 import Cookies from "js-cookie";
 import ConfirmationModal from "../modals/confirmation-modal";
 import BrandTableRow from "./brand-table-row";
-import Pagination from "../pagination";
+import Pagination from "../utils/pagination";
 
 interface Brand {
   id: number;

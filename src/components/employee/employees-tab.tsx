@@ -34,11 +34,11 @@ const EmployeeTabs = () => {
 
   return (
     <div className="w-full flex flex-col">
-      <div className="w-full items-start flex bg-white px-8">
+      <div className="w-full items-start flex bg-white px-2 border rounded">
         <Framer.Tabs {...framer.tabProps} />
       </div>
 
-      <div className="pt-10">{framer.selectedTab.children}</div>
+      <div>{framer.selectedTab.children}</div>
     </div>
   );
 };

@@ -2,8 +2,8 @@
 import React, { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/authContext";
-import ErrorComponent from "@/components/error-message";
-import Header from "@/components/header";
+import ErrorComponent from "@/components/utils/error-message";
+import Header from "@/components/utils/header";
 
 function Page() {
   const [username, setUsername] = React.useState("");

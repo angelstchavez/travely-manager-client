@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ErrorModal from "../modals/error-modal";
 import ConfirmationModal from "../modals/confirmation-modal";
-import Pagination from "../pagination";
+import Pagination from "../utils/pagination";
 import Cookies from "js-cookie";
 
 interface CarModel {

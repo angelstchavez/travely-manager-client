@@ -1,10 +1,10 @@
 "use client";
 
-import Header from "@/components/header";
-import HeaderMobile from "@/components/header-mobile";
-import MarginWidthWrapper from "@/components/margin-width-wrapper";
-import PageWrapper from "@/components/page-wrapper";
-import SideNav from "@/components/side-nav";
+import Header from "@/components/utils/header";
+import HeaderMobile from "@/components/utils/header-mobile";
+import MarginWidthWrapper from "@/components/utils/margin-width-wrapper";
+import PageWrapper from "@/components/utils/page-wrapper";
+import SideNav from "@/components/utils/side-nav";
 import { useAuthContext } from "@/contexts/authContext";
 import { ReactNode } from "react";
 
