@@ -1,8 +1,10 @@
+"use client"
+
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import ErrorModal from "../modals/error-modal";
 
-function ModelReport() {
+function CustomerReport() {
   const [error, setError] = useState<Error | null>(null); // Estado para controlar el error
 
   const downloadPDF = async () => {
@@ -22,7 +24,7 @@ function ModelReport() {
 
       // Realizar la solicitud GET para descargar el PDF
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-model/get-all-report`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/customer/get-all-report`,
         {
           method: "GET",
           headers: {
@@ -66,4 +68,4 @@ function ModelReport() {
   );
 }
 
-export default ModelReport;
+export default CustomerReport;

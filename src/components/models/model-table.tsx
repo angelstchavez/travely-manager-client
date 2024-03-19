@@ -195,11 +195,6 @@ const CarModelList: React.FC = () => {
           actionType="delete"
         />
       )}
-      <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />
     </section>
   );
 };

@@ -1,3 +1,5 @@
+import CustomerReport from "@/components/customers/customer-report";
+import TableCustomer from "@/components/customers/customer-table";
 import React from "react";
 
 function CustomerPage() {
@@ -100,21 +102,8 @@ function CustomerPage() {
         </div>
       </section>
 
-      {/* Segunda sección: Tabla */}
-      <section className="border rounded p-4 my-4 bg-white">
-        <h2 className="text-lg font-semibold">Lista de Clientes</h2>
-        {/* Aquí irá la tabla */}
-      </section>
-
-      {/* Tercera sección: Botón para descargar PDF */}
-      <section className="border rounded p-4 my-4 flex justify-end bg-white">
-        <button
-          type="button"
-          className="ml-1 relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-        >
-          <span>Descargar PDF</span>
-        </button>
-      </section>
+      <TableCustomer></TableCustomer>
+      <CustomerReport></CustomerReport>
     </div>
   );
 }

@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import ErrorModal from "../modals/error-modal";
@@ -57,7 +59,7 @@ function BrandReport() {
       {/* Renderizar el ErrorModal si hay un error */}
       <button
         type="button"
-        className="relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-customGreen bg-customBlueLigth hover:bg-customerSuperLigth"
+        className="relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-white bg-customBlueLigth hover:bg-customerSuperLigth"
         onClick={downloadPDF}
       >
         <span>Descargar PDF</span>
