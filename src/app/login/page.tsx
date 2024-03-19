@@ -92,7 +92,7 @@ function Page() {
               </div>
               <button
                 type="submit"
-                className="w-full ml-1 flex justify-center items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-customBlue hover:bg-customBlueDark"
+                className="w-full ml-1 flex justify-center items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-customBlueDarkPro"
               >
                 Iniciar sesión
               </button>
