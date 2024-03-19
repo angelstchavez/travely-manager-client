@@ -249,7 +249,7 @@ function ModelForm() {
         <div className="relative flex-grow flex items-center">
           <button
             type="button"
-            className="ml-1 relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+            className="relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-customGreen bg-customBlueLigth hover:bg-customerSuperLigth"
             onClick={handleSubmit}
           >
             <span>Crear</span>

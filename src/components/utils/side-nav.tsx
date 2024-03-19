@@ -11,14 +11,13 @@ import { Icon } from "@iconify/react";
 
 const SideNav = () => {
   return (
-    <div className="md:w-60 bg-white h-screen flex-1 fixed border-r border-zinc-200 hidden md:flex">
-      <div className="flex flex-col space-y-6 w-full">
+    <div className="md:w-60 h-screen flex-1 fixed hidden md:flex">
+      <div className="flex flex-col space-y-6 w-full bg-white">
         <Link
           href="/"
-          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-12 w-full"
+          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 h-12 w-full"
         >
-          <span className="h-7 w-7 bg-zinc-300 rounded-lg" />
-          <span className="font-bold text-sm hidden md:flex">Travely Manager</span>
+          <span className="font-bold text-xl hidden md:flex text-customBlueDar">Travely Manager</span>
         </Link>
 
         <div className="flex flex-col space-y-2  md:px-6 ">
@@ -46,8 +45,8 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
         <>
           <button
             onClick={toggleSubMenu}
-            className={`flex flex-row items-center p-2 rounded-lg hover-bg-zinc-100 w-full justify-between hover:bg-zinc-100 ${
-              pathname.includes(item.path) ? "bg-zinc-100" : ""
+            className={`flex flex-row items-center p-2 rounded-lg hover-bg-zinc-100 w-full justify-between hover:bg-customBlueLigt ${
+              pathname.includes(item.path) ? "bg-customBlueLigth text-customGreen hover:bg-customSuperLigth" : "hover:bg-zinc-100"
             }`}
           >
             <div className="flex flex-row space-x-4 items-center">
@@ -61,7 +60,7 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
           </button>
 
           {subMenuOpen && (
-            <div className="my-2 ml-12 flex flex-col space-y-4 text-sm">
+            <div className="my-2 ml-12 flex text-sm flex-col space-y-4 text-black">
               {item.subMenuItems?.map((subItem, idx) => {
                 return (
                   <Link
@@ -81,8 +80,8 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
       ) : (
         <Link
           href={item.path}
-          className={`flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-zinc-100 ${
-            item.path === pathname ? "bg-zinc-100" : ""
+          className={`flex flex-row space-x-4 items-center p-2 rounded-lg ${
+            item.path === pathname ? "bg-customBlueLigth text-customGreen hover:bg-customSuperLigth" : "hover:bg-zinc-100"
           }`}
         >
           {item.icon}

@@ -43,16 +43,16 @@ function Page() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center h-screen px-6 py-8 mx-auto md:h-screen lg:py-0 bg-gray-50">
+      <div className="flex flex-col items-center justify-center h-screen px-6 py-8 mx-auto md:h-screen lg:py-0 bg-customBlue">
         <a
           href="/"
-          className="flex items-center mb-6 text-5xl font-bold text-gray-900"
+          className="flex items-center mb-6 text-5xl font-bold text-customGreen"
         >
           Travely Manager
         </a>
         <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-customBlue md:text-2xl">
               Iniciar sesión en tu cuenta
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleForm}>
@@ -92,7 +92,7 @@ function Page() {
               </div>
               <button
                 type="submit"
-                className="w-full ml-1 flex justify-center items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                className="w-full ml-1 flex justify-center items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-customBlue hover:bg-customBlueDark"
               >
                 Iniciar sesión
               </button>
