@@ -106,7 +106,7 @@ function VehicleTable() {
   };
 
   return (
-    <section className="border rounded p-4 my-4 bg-white">
+    <section className="border rounded p-4 my-4 bg-white grid grid-col-1">
       {error && <div>Error: {error}</div>}
       <input
         type="text"

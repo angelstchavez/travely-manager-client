@@ -114,7 +114,7 @@ const TableRoute: React.FC = () => {
   }, [routes, searchTerm]);
 
   return (
-    <section className="border rounded p-4 my-4 bg-white">
+    <section className="border rounded p-4 my-4 bg-white grid grid-col-1">
       <h2 className="text-lg font-semibold">Lista de Rutas de Viaje</h2>
       {error && <ErrorModal errorDescription={error} />}
       <input
