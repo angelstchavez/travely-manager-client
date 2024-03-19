@@ -46,7 +46,7 @@ function Page() {
       <div className="flex flex-col items-center justify-center h-screen px-6 py-8 mx-auto md:h-screen lg:py-0 bg-customBlue">
         <a
           href="/"
-          className="flex items-center mb-6 text-5xl font-bold text-customGreen"
+          className="flex items-center mb-6 text-4xl font-bold text-customGreen"
         >
           Travely Manager
         </a>
