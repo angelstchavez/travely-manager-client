@@ -17,7 +17,9 @@ interface Vehicle {
 
 function VehicleTable() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,12 +54,15 @@ function VehicleTable() {
         }
 
         setVehicles(responseData.data);
+        setFilteredVehicles(responseData.data); // Inicialmente, mostrar todos los vehículos
+        setLoading(false); // Se establece la carga como completada
       } catch (error) {
         if (typeof error === "string") {
           setError(error);
         } else {
           setError("Ha ocurrido un error desconocido.");
         }
+        setLoading(false); // Se establece la carga como completada aunque haya errores
       }
     };
 
@@ -67,31 +72,56 @@ function VehicleTable() {
   const columns: TableColumn<Vehicle>[] = [
     {
       name: "Placa",
-      selector: row => row.plate,
+      selector: (row) => row.plate,
       sortable: true,
     },
     {
       name: "Color",
-      selector: row => row.color,
+      selector: (row) => row.color,
+      sortable: true,
     },
     {
       name: "Fabricación",
-      selector: row => row.manufacturingYear,
+      selector: (row) => row.manufacturingYear,
+      sortable: true,
     },
     {
       name: "Marca",
       selector: (row) => row.carModel.carBrand.name,
+      sortable: true,
     },
     {
       name: "Modelo",
       selector: (row) => row.carModel.name,
+      sortable: true,
     },
   ];
+
+  const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchTerm = e.target.value.toLowerCase();
+    const filtered = vehicles.filter((vehicle) =>
+      vehicle.plate.toLowerCase().includes(searchTerm)
+    );
+    setFilteredVehicles(filtered);
+  };
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
       {error && <div>Error: {error}</div>}
-      <DataTable columns={columns} data={vehicles}></DataTable>
+      <input
+        type="text"
+        placeholder="Buscar por placa"
+        onChange={handleFilter}
+        className="pl-3 pr-10 mt-1 border-gray-300 focus:outline-none sm:text-sm rounded-md relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+      />
+      <DataTable
+        columns={columns}
+        data={filteredVehicles}
+        pagination
+        paginationPerPage={5}
+        fixedHeader
+        progressPending={loading} // Indica si la carga está pendiente o no
+      />
     </section>
   );
 }

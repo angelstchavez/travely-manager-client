@@ -1,10 +1,6 @@
-// BrandList.tsx
 import React, { useState, useEffect } from "react";
-import ErrorModal from "../modals/error-modal";
 import Cookies from "js-cookie";
-import ConfirmationModal from "../modals/confirmation-modal";
-import BrandTableRow from "./brand-table-row";
-import Pagination from "../utils/pagination";
+import DataTable, { TableColumn } from "react-data-table-component";
 
 interface Brand {
   id: number;
@@ -13,10 +9,12 @@ interface Brand {
 
 const BrandList: React.FC = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
+  const [filteredBrands, setFilteredBrands] = useState<Brand[]>([]);
   const [error, setError] = useState<string>("");
-  const [brandToDelete, setBrandToDelete] = useState<Brand | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,108 +50,91 @@ const BrandList: React.FC = () => {
         }
 
         setBrands(responseData.data);
+        setFilteredBrands(responseData.data); // Inicialmente, mostrar todas las marcas
+        setLoading(false); // Se establece la carga como completada
       } catch (error: any) {
         setError(error.message);
+        setLoading(false); // Se establece la carga como completada aunque haya errores
       }
     };
 
     fetchData();
   }, [currentPage, itemsPerPage]);
 
-  const handleDeleteConfirmation = async () => {
-    if (brandToDelete) {
-      try {
-        const cookieValue = decodeURIComponent(Cookies.get("authTokens") || "");
-        const cookieData: { data: { token?: string } } =
-          JSON.parse(cookieValue);
-        const token = cookieData.data.token;
+  const columns: TableColumn<Brand>[] = [
+    {
+      name: "Nombre",
+      selector: (row) => row.name,
+      sortable: true,
+    },
+    {
+      name: "Eliminar",
+      cell: (row) => (
+        <button onClick={() => handleDelete(row)}>Eliminar</button>
+      ),
+    },
+  ];
 
-        if (!token) {
-          throw new Error("No se encontró el token en el cookie.");
-        }
+  useEffect(() => {
+    const filtered = brands.filter((brand) =>
+      brand.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredBrands(filtered);
+  }, [brands, searchTerm]);
 
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-brand/delete?carBrandId=${brandToDelete.id}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              Accept: "application/json",
-            },
-          }
-        );
+  const handleDelete = async (brand: Brand) => {
+    try {
+      const cookieValue = decodeURIComponent(Cookies.get("authTokens") || "");
+      const cookieData: { data: { token?: string } } = JSON.parse(cookieValue);
+      const token = cookieData.data.token;
 
-        if (response.ok) {
-          const updatedBrands = brands.filter(
-            (brand) => brand.id !== brandToDelete.id
-          );
-          setBrands(updatedBrands);
-        } else {
-          throw new Error("Error al eliminar la marca de vehículo.");
-        }
-      } catch (error: any) {
-        setError(error.message);
-      } finally {
-        setBrandToDelete(null);
+      if (!token) {
+        throw new Error("No se encontró el token en el cookie.");
       }
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-brand/delete?carBrandId=${brand.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const updatedBrands = brands.filter((b) => b.id !== brand.id);
+        setBrands(updatedBrands);
+        setSearchTerm(""); // Limpiar el término de búsqueda
+      } else {
+        throw new Error("Error al eliminar la marca de vehículo.");
+      }
+    } catch (error: any) {
+      setError(error.message);
     }
   };
 
-  const handleDeleteCancel = () => {
-    setBrandToDelete(null);
-  };
-
-  const handleDelete = (brand: Brand) => {
-    setBrandToDelete(brand);
-  };
-
-  const totalPages = Math.ceil(brands.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredBrands.length / itemsPerPage);
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
-      <h2 className="text-lg font-semibold">Lista de Marcas de Vehículos</h2>
-      {error && <ErrorModal errorDescription={error} />}
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Nombre
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Eliminar
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {brands.map((brand) => (
-              <BrandTableRow
-                key={brand.id}
-                brand={brand}
-                onDelete={handleDelete}
-              />
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {brandToDelete && (
-        <ConfirmationModal
-          processText={`eliminar la marca de vehículo "${brandToDelete.name}"`}
-          onAccept={handleDeleteConfirmation}
-          onCancel={handleDeleteCancel}
-          actionType="delete"
-        />
-      )}
-      <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
+      {error && <div>Error: {error}</div>}
+      <input
+        type="text"
+        placeholder="Buscar por nombre"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="pl-3 pr-10 mt-1 border-gray-300 focus:outline-none sm:text-sm rounded-md relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+      />
+      <DataTable
+        columns={columns}
+        data={filteredBrands}
+        pagination
+        paginationPerPage={itemsPerPage}
+        paginationTotalRows={brands.length}
+        onChangePage={(page) => setCurrentPage(page)}
+        progressPending={loading}
       />
     </section>
   );

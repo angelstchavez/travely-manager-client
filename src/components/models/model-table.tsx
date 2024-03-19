@@ -3,6 +3,7 @@ import ErrorModal from "../modals/error-modal";
 import ConfirmationModal from "../modals/confirmation-modal";
 import Pagination from "../utils/pagination";
 import Cookies from "js-cookie";
+import DataTable, { TableColumn } from "react-data-table-component";
 
 interface CarModel {
   id: number;
@@ -19,12 +20,14 @@ interface CarModel {
 
 const CarModelList: React.FC = () => {
   const [carModels, setCarModels] = useState<CarModel[]>([]);
+  const [filteredCarModels, setFilteredCarModels] = useState<CarModel[]>([]);
   const [error, setError] = useState<string>("");
   const [carModelToDelete, setCarModelToDelete] = useState<CarModel | null>(
     null
   );
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,6 +63,7 @@ const CarModelList: React.FC = () => {
         }
 
         setCarModels(responseData.data);
+        setFilteredCarModels(responseData.data); // Inicialmente, mostrar todos los modelos de vehículos
       } catch (error: any) {
         setError(error.message);
       }
@@ -96,6 +100,7 @@ const CarModelList: React.FC = () => {
             (carModel) => carModel.id !== carModelToDelete.id
           );
           setCarModels(updatedCarModels);
+          setSearchTerm(""); // Limpiar el término de búsqueda
         } else {
           throw new Error("Error al eliminar el modelo de vehículo.");
         }
@@ -115,61 +120,73 @@ const CarModelList: React.FC = () => {
     setCarModelToDelete(carModel);
   };
 
-  const totalPages = Math.ceil(carModels.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredCarModels.length / itemsPerPage);
+
+  const columns: TableColumn<CarModel>[] = [
+    {
+      name: "Nombre",
+      selector: (row) => row.name,
+      sortable: true,
+    },
+    {
+      name: "Categoría",
+      selector: (row) => row.category,
+      sortable: true,
+    },
+    {
+      name: "Marca",
+      selector: (row) => row.carBrand.name,
+      sortable: true,
+    },
+    {
+      name: "Gasolina",
+      selector: (row) => row.fuelType,
+      sortable: true,
+    },
+    {
+      name: "Asientos",
+      selector: (row) => row.seatingCapacity,
+      sortable: true,
+    },
+    {
+      name: "Transmisión",
+      selector: (row) => row.transmissionType,
+      sortable: true,
+    },
+    {
+      name: "Eliminar",
+      cell: (row) => (
+        <button onClick={() => handleDelete(row)}>Eliminar</button>
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    const filtered = carModels.filter((carModel) =>
+      carModel.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredCarModels(filtered);
+  }, [carModels, searchTerm]);
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
       <h2 className="text-lg font-semibold">Lista de Modelos de Vehículos</h2>
       {error && <ErrorModal errorDescription={error} />}
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="table-cell w-1/5 md:w-auto lg:w-1/5 text-left">Nombre</th>
-              <th className="table-cell w-1/5 md:w-auto lg:w-1/5 text-left">Categoría</th>
-              <th className="table-cell w-1/5 md:w-auto lg:w-1/5 text-left">Marca</th>
-              <th className="table-cell w-1/5 md:w-auto lg:w-1/5 text-left">Gasolina</th>
-              <th className="table-cell w-1/5 md:w-auto lg:w-1/5 text-left">Asientos</th>
-              <th className="table-cell w-1/5 md:w-auto lg:w-1/5 text-left">
-                Transmisión
-              </th>
-              <th className="w-1/6 md:w-auto lg:w-1/6">Eliminar</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {carModels.map((carModel) => (
-              <tr key={carModel.id} className="hover:bg-gray-100">
-                <td className="px-5 py-4 md:whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                  {carModel.name}
-                </td>
-                <td className="px-5 py-4 md:whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                  {carModel.category}
-                </td>
-                <td className="px-5 py-4 md:whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                  {carModel.carBrand.name}
-                </td>
-                <td className="px-5 py-4 md:whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                  {carModel.fuelType}
-                </td>
-                <td className="px-5 py-4 md:whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                  {carModel.seatingCapacity}
-                </td>
-                <td className="px-5 py-4 md:whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                  {carModel.transmissionType}
-                </td>
-                <td className="px-5 py-4 md:whitespace-nowrap text-right text-sm font-medium">
-                  <button
-                    className="text-red-600 hover:text-red-900"
-                    onClick={() => handleDelete(carModel)}
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <input
+        type="text"
+        placeholder="Buscar por nombre"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="pl-3 pr-10 mt-1 border-gray-300 focus:outline-none sm:text-sm rounded-md relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+      />
+      <DataTable
+        columns={columns}
+        data={filteredCarModels}
+        pagination
+        paginationPerPage={itemsPerPage}
+        paginationTotalRows={carModels.length}
+        onChangePage={(page) => setCurrentPage(page)}
+      />
       {carModelToDelete && (
         <ConfirmationModal
           processText={`eliminar el modelo de vehículo "${carModelToDelete.name}"`}
