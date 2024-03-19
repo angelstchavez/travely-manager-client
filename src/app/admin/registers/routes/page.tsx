@@ -1,6 +1,7 @@
 "use client";
 
 import RouteReport from "@/components/routes/route-report";
+import TableRoute from "@/components/routes/route-table";
 import React, { useState } from "react";
 
 interface RoutePageProps {}
@@ -225,13 +226,7 @@ const RoutePage: React.FC<RoutePageProps> = () => {
         </div>
       </section>
 
-      {/* Segunda sección: Tabla */}
-      <section className="border rounded p-4 my-4 bg-white">
-        <h2 className="text-lg font-semibold">Lista de rutas de viaje</h2>
-        {/* Aquí irá la tabla */}
-      </section>
-
-      {/* Tercera sección: Botón para descargar PDF */}
+      <TableRoute></TableRoute>              
       <RouteReport></RouteReport>
     </div>
   );
