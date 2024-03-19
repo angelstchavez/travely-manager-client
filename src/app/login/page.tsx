@@ -2,7 +2,6 @@
 import React, { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/authContext";
-import ErrorComponent from "@/components/utils/error-message";
 import Header from "@/components/utils/header";
 
 function Page() {
@@ -33,20 +32,6 @@ function Page() {
     if (!response.ok) {
       const errorData = await response.json();
       setErrorMessage(errorData.message);
-
-      // Limpiar el temporizador existente si existe
-      if (timerId) {
-        clearTimeout(timerId);
-      }
-
-      // Establecer un nuevo temporizador para cerrar el mensaje después de 10 segundos
-      const newTimerId = setTimeout(() => {
-        clearErrorMessage();
-      }, 10000);
-
-      // Guardar el ID del nuevo temporizador en el estado
-      setTimerId(newTimerId);
-
       return;
     }
 
@@ -58,7 +43,6 @@ function Page() {
 
   return (
     <>
-      <Header></Header>
       <div className="flex flex-col items-center justify-center h-screen px-6 py-8 mx-auto md:h-screen lg:py-0 bg-gray-50">
         <a
           href="/"
@@ -106,12 +90,6 @@ function Page() {
                   className="w-full pl-3 pr-10 mt-1 border-gray-300 focus:outline-none sm:text-sm ml-1 relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
                 />
               </div>
-              {errorMessage && (
-                <ErrorComponent
-                  errorMessage={errorMessage}
-                  onClose={clearErrorMessage}
-                />
-              )}
               <button
                 type="submit"
                 className="w-full ml-1 flex justify-center items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
