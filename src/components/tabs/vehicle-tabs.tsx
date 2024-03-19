@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useTabs } from "@/hooks/use-tabs";
 import { Framer } from "@/lib/framer";
 
-import VeicleTab from "./vehicleTab";
+import VeicleTab from "../vehicle/vehicleTab";
 import ModelTab from "./modelTab";
 import BrandTab from "./brandTab";
 

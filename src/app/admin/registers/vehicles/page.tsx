@@ -1,4 +1,4 @@
-import VehicleTabs from "@/components/vehicle/vehicle-tabs";
+import VehicleTabs from "@/components/tabs/vehicle-tabs";
 import React from "react";
 
 function VehiclePage() {
