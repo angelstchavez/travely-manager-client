@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import DataTable, { TableColumn } from "react-data-table-component";
+import Loading from "../utils/loading";
 
 interface Brand {
   id: number;
@@ -51,10 +52,10 @@ const BrandList: React.FC = () => {
 
         setBrands(responseData.data);
         setFilteredBrands(responseData.data); // Inicialmente, mostrar todas las marcas
-        setLoading(false); // Se establece la carga como completada
       } catch (error: any) {
         setError(error.message);
-        setLoading(false); // Se establece la carga como completada aunque haya errores
+      } finally {
+        setLoading(false); // Se establece la carga como completada
       }
     };
 
@@ -135,6 +136,7 @@ const BrandList: React.FC = () => {
         paginationTotalRows={brands.length}
         onChangePage={(page) => setCurrentPage(page)}
         progressPending={loading}
+        progressComponent={<Loading />}
       />
     </section>
   );

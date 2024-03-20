@@ -7,20 +7,25 @@ import Loading from "../utils/loading";
 interface City {
   id: number;
   name: string;
+  departmentId: number;
+  department: any; // Tipo de datos del departamento, si es necesario
 }
 
-interface Route {
+interface TransportTerminal {
   id: number;
-  departureCity: City;
-  destinationCity: City;
-  durationHours: number;
-  distanceKilometers: number;
+  name: string;
+  address: string;
+  phoneNumber: string;
+  city: City;
+  isActive: boolean;
 }
 
-const TableRoute: React.FC = () => {
-  const [routes, setRoutes] = useState<Route[]>([]);
-  const [filteredRoutes, setFilteredRoutes] = useState<Route[]>([]);
-  const [error, setError] = useState<string | null>(null);
+const TableTransportTerminal: React.FC = () => {
+  const [terminals, setTerminals] = useState<TransportTerminal[]>([]);
+  const [filteredTerminals, setFilteredTerminals] = useState<
+    TransportTerminal[]
+  >([]);
+  const [error, setError] = useState<Error | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -37,7 +42,7 @@ const TableRoute: React.FC = () => {
         }
 
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/travel-route/get-all`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/transport-terminal/get-all`,
           {
             method: "GET",
             headers: {
@@ -48,7 +53,7 @@ const TableRoute: React.FC = () => {
         );
 
         if (!response.ok) {
-          throw new Error("Error al obtener las rutas de viaje.");
+          throw new Error("Error al obtener los terminales de transporte.");
         }
 
         const responseData = await response.json();
@@ -57,68 +62,68 @@ const TableRoute: React.FC = () => {
           throw new Error("La respuesta no contiene datos válidos.");
         }
 
-        setRoutes(responseData.data);
-        setFilteredRoutes(responseData.data);
+        setTerminals(responseData.data);
+        setFilteredTerminals(responseData.data);
+        setLoading(false); // Carga completada
       } catch (error: any) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
+        setError(error);
+        setLoading(false); // Carga completada aunque haya errores
       }
     };
 
     fetchData();
   }, []);
 
-  const columns: TableColumn<Route>[] = [
+  const columns: TableColumn<TransportTerminal>[] = [
     {
-      name: "Ciudad de Origen",
-      selector: (row) => row.departureCity.name,
+      name: "Nombre",
+      selector: (row) => row.name,
       sortable: true,
     },
     {
-      name: "Ciudad de Destino",
-      selector: (row) => row.destinationCity.name,
+      name: "Ciudad",
+      selector: (row) => row.city.name,
       sortable: true,
     },
     {
-      name: "Distancia (Kilómetros)",
-      selector: (row) => row.distanceKilometers,
+      name: "Dirección",
+      selector: (row) => row.address,
       sortable: true,
     },
     {
-      name: "Duración (Horas)",
-      selector: (row) => row.durationHours,
+      name: "Teléfono",
+      selector: (row) => row.phoneNumber,
       sortable: true,
     },
   ];
 
   useEffect(() => {
-    const filtered = routes.filter(
-      (route) =>
-        route.departureCity.name
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        route.destinationCity.name
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase())
+    const filtered = terminals.filter(
+      (terminal) =>
+        terminal.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        terminal.city.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        terminal.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        terminal.phoneNumber.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setFilteredRoutes(filtered);
-  }, [routes, searchTerm]);
+    setFilteredTerminals(filtered);
+  }, [terminals, searchTerm]);
 
   return (
-    <section className="border rounded p-4 my-4 bg-white grid grid-col-1">
-      <h2 className="text-lg font-semibold">Lista de Rutas de Viaje</h2>
-      {error && <ErrorModal errorDescription={error} />}
+    <section className="border rounded p-4 my-4 bg-white grid grid-cols-1">
+      <h2 className="text-lg font-semibold">
+        Lista de Terminales de Transporte
+      </h2>
+      {error && <ErrorModal errorDescription={(error as Error).message} />}
       <input
         type="text"
-        placeholder="Buscar por ciudad"
+        placeholder="Buscar por terminal"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="pl-3 pr-12 mt-1 border-gray-300 focus:outline-none sm:text-sm rounded-md relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
       />
       <DataTable
         columns={columns}
-        data={filteredRoutes}
+        data={filteredTerminals}
         pagination
         progressPending={loading}
         progressComponent={<Loading />}
@@ -127,4 +132,4 @@ const TableRoute: React.FC = () => {
   );
 };
 
-export default TableRoute;
+export default TableTransportTerminal;

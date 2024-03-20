@@ -1,5 +1,7 @@
 "use client";
 
+import TransportTerminalReport from "@/components/terminals/transport-terminal-report";
+import TableTransportTerminal from "@/components/terminals/transport-terminal-table";
 import React, { useState } from "react";
 
 interface Department {
@@ -147,20 +149,8 @@ const TransportTerminalPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="border rounded p-4 my-4 bg-white">
-        <h2 className="text-lg font-semibold">
-          Lista de Terminales de Transporte
-        </h2>
-      </section>
-
-      <section className="border rounded p-4 my-4 flex justify-end bg-white">
-        <button
-          type="button"
-          className="ml-1 relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-        >
-          <span>Descargar PDF</span>
-        </button>
-      </section>
+      <TableTransportTerminal></TableTransportTerminal>
+      <TransportTerminalReport></TransportTerminalReport>
     </div>
   );
 };

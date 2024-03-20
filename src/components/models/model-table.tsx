@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ErrorModal from "../modals/error-modal";
 import ConfirmationModal from "../modals/confirmation-modal";
-import Pagination from "../utils/pagination";
 import Cookies from "js-cookie";
 import DataTable, { TableColumn } from "react-data-table-component";
+import Loading from "../utils/loading";
 
 interface CarModel {
   id: number;
@@ -28,6 +28,7 @@ const CarModelList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,6 +67,8 @@ const CarModelList: React.FC = () => {
         setFilteredCarModels(responseData.data); // Inicialmente, mostrar todos los modelos de vehículos
       } catch (error: any) {
         setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -186,6 +189,8 @@ const CarModelList: React.FC = () => {
         paginationPerPage={itemsPerPage}
         paginationTotalRows={carModels.length}
         onChangePage={(page) => setCurrentPage(page)}
+        progressPending={loading}
+        progressComponent={<Loading />}
       />
       {carModelToDelete && (
         <ConfirmationModal

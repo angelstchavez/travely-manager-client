@@ -7,7 +7,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       <Header />
       <div className="flex-1 relative bg-customBlue">
-        <div className="mx-auto max-w-2xl py-10 sm:py-16 lg:py-20 px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl py-16 sm:py-16 lg:py-20 px-6 lg:px-8">
           
         </div>
         <JumbotronSection />

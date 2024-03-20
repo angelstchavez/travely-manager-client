@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import DataTable, { TableColumn } from "react-data-table-component";
+import Loading from "../utils/loading";
 
 interface Vehicle {
   id: number;
@@ -121,6 +122,7 @@ function VehicleTable() {
         paginationPerPage={5}
         fixedHeader
         progressPending={loading} // Indica si la carga está pendiente o no
+        progressComponent={<Loading />} // Componente a mostrar durante la carga
       />
     </section>
   );
