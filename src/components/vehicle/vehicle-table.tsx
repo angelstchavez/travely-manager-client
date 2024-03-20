@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import DataTable, { TableColumn } from "react-data-table-component";
 import Loading from "../utils/loading";
+import ConfirmationModal from "../modals/confirmation-modal";
 
 interface Vehicle {
   id: number;
@@ -21,6 +22,7 @@ function VehicleTable() {
   const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [vehicleToDelete, setVehicleToDelete] = useState<Vehicle | null>(null); // Nuevo estado para el vehículo a eliminar
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,46 +72,102 @@ function VehicleTable() {
     fetchData();
   }, []);
 
+  const handleDeleteConfirmation = async () => {
+    if (vehicleToDelete) {
+      try {
+        const cookieValue = decodeURIComponent(Cookies.get("authTokens") || "");
+        const cookieData = JSON.parse(cookieValue);
+        const token = cookieData?.data?.token;
+
+        if (!token) {
+          throw new Error("No se encontró el token en el cookie.");
+        }
+
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/car/delete?carId=${vehicleToDelete.id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const updatedVehicles = vehicles.filter(
+            (vehicle) => vehicle.id !== vehicleToDelete.id
+          );
+          setVehicles(updatedVehicles);
+          setFilteredVehicles(updatedVehicles);
+          setVehicleToDelete(null);
+        } else {
+          throw new Error("Error al eliminar el vehículo.");
+        }
+      } catch (error) {
+        setError("Error al eliminar el vehículo.");
+      }
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setVehicleToDelete(null);
+  };
+
+  const handleDelete = (vehicle: Vehicle) => {
+    setVehicleToDelete(vehicle);
+  };
+
   const columns: TableColumn<Vehicle>[] = [
     {
       name: "Placa",
       selector: (row) => row.plate,
       sortable: true,
-      style:{
+      style: {
         fontSize: 14,
-      }
+      },
     },
     {
       name: "Color",
       selector: (row) => row.color,
       sortable: true,
-      style:{
+      style: {
         fontSize: 14,
-      }
+      },
     },
     {
       name: "Fabricación",
       selector: (row) => row.manufacturingYear,
       sortable: true,
-      style:{
+      style: {
         fontSize: 14,
-      }
+      },
     },
     {
       name: "Marca",
       selector: (row) => row.carModel.carBrand.name,
       sortable: true,
-      style:{
+      style: {
         fontSize: 14,
-      }
+      },
     },
     {
       name: "Modelo",
       selector: (row) => row.carModel.name,
       sortable: true,
-      style:{
+      style: {
         fontSize: 14,
-      }
+      },
+    },
+    {
+      name: "Acción",
+      cell: (row) => (
+        <button onClick={() => handleDelete(row)}>Eliminar</button>
+      ),
+      style: {
+        color: "#f43",
+        fontSize: 14,
+      },
     },
   ];
 
@@ -140,12 +198,20 @@ function VehicleTable() {
           columns={columns}
           data={filteredVehicles}
           pagination
-          paginationPerPage={5}
+          paginationPerPage={10}
           fixedHeader
           progressPending={loading}
           progressComponent={<Loading />}
         />
       </div>
+      {vehicleToDelete && (
+        <ConfirmationModal
+          processText={`eliminar el vehículo con placa "${vehicleToDelete.plate}"`}
+          onAccept={handleDeleteConfirmation}
+          onCancel={handleDeleteCancel}
+          actionType="delete"
+        />
+      )}
     </section>
   );
 }

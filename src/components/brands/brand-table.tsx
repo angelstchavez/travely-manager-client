@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import DataTable, { TableColumn } from "react-data-table-component";
 import Loading from "../utils/loading";
+import ConfirmationModal from "../modals/confirmation-modal";
 
 interface Brand {
   id: number;
@@ -16,6 +17,7 @@ const BrandList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [brandToDelete, setBrandToDelete] = useState<Brand | null>(null); // Nuevo estado para la marca de vehículo a eliminar
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,24 +64,70 @@ const BrandList: React.FC = () => {
     fetchData();
   }, [currentPage, itemsPerPage]);
 
+  const handleDeleteConfirmation = async () => {
+    if (brandToDelete) {
+      try {
+        const cookieValue = decodeURIComponent(Cookies.get("authTokens") || "");
+        const cookieData = JSON.parse(cookieValue);
+        const token = cookieData?.data?.token;
+
+        if (!token) {
+          throw new Error("No se encontró el token en el cookie.");
+        }
+
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-brand/delete?carBrandId=${brandToDelete.id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const updatedBrands = brands.filter(
+            (brand) => brand.id !== brandToDelete.id
+          );
+          setBrands(updatedBrands);
+          setFilteredBrands(updatedBrands);
+          setBrandToDelete(null);
+        } else {
+          throw new Error("Error al eliminar la marca de vehículo.");
+        }
+      } catch (error) {
+        setError("Error al eliminar la marca de vehículo.");
+      }
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setBrandToDelete(null);
+  };
+
+  const handleDelete = (brand: Brand) => {
+    setBrandToDelete(brand);
+  };
+
   const columns: TableColumn<Brand>[] = [
     {
       name: "Nombre",
       selector: (row) => row.name,
       sortable: true,
-      style:{
+      style: {
         fontSize: 14,
-      }
+      },
     },
     {
       name: "Acción",
       cell: (row) => (
         <button onClick={() => handleDelete(row)}>Eliminar</button>
       ),
-      style:{
+      style: {
         color: "#f43",
         fontSize: 14,
-      }
+      },
     },
   ];
 
@@ -89,39 +137,6 @@ const BrandList: React.FC = () => {
     );
     setFilteredBrands(filtered);
   }, [brands, searchTerm]);
-
-  const handleDelete = async (brand: Brand) => {
-    try {
-      const cookieValue = decodeURIComponent(Cookies.get("authTokens") || "");
-      const cookieData: { data: { token?: string } } = JSON.parse(cookieValue);
-      const token = cookieData.data.token;
-
-      if (!token) {
-        throw new Error("No se encontró el token en el cookie.");
-      }
-
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-brand/delete?carBrandId=${brand.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-          },
-        }
-      );
-
-      if (response.ok) {
-        const updatedBrands = brands.filter((b) => b.id !== brand.id);
-        setBrands(updatedBrands);
-        setSearchTerm(""); // Limpiar el término de búsqueda
-      } else {
-        throw new Error("Error al eliminar la marca de vehículo.");
-      }
-    } catch (error: any) {
-      setError(error.message);
-    }
-  };
 
   const totalPages = Math.ceil(filteredBrands.length / itemsPerPage);
 
@@ -154,6 +169,14 @@ const BrandList: React.FC = () => {
             progressComponent={<Loading />}
           />
         </div>
+        {brandToDelete && (
+          <ConfirmationModal
+            processText={`eliminar la marca de vehículo "${brandToDelete.name}"`}
+            onAccept={handleDeleteConfirmation}
+            onCancel={handleDeleteCancel}
+            actionType="delete"
+          />
+        )}
       </section>
     </>
   );

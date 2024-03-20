@@ -163,6 +163,7 @@ function ModelForm() {
             value={formData.name}
             onChange={handleInputChange}
             required
+            maxLength={50}
           />
           {errors.name && (
             <p className="text-red-500 text-xs mt-1">{errors.name}</p>

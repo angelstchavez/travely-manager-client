@@ -224,13 +224,15 @@ function VehicleForm() {
         throw new Error("No se encontró el token en el cookie.");
       }
 
+      const currentDate = new Date();
+      
       const requestData = {
-        plate: formData.licensePlate,
+        plate: formData.licensePlate.toUpperCase(),
         color: formData.color,
         manufacturingYear: parseInt(formData.manufactureYear),
-        isActive: true, // Esto puede cambiar según tu lógica de negocio
+        isActive: true,
         carModelId: parseInt(selectedModel),
-        createdAt: new Date().toISOString(), // Puedes ajustar según tus necesidades
+        createdAt: currentDate.toISOString(),
       };
 
       const response = await fetch(
@@ -287,6 +289,7 @@ function VehicleForm() {
             value={formData.licensePlate}
             onChange={handleInputChange}
             required
+            maxLength={6} 
           />
           {errors.licensePlate && (
             <p className="text-red-500 text-xs mt-1">{errors.licensePlate}</p>
