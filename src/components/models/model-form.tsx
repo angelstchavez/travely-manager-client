@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import SuccessModal from "../modals/success-modal";
 
 interface Brand {
   id: number;
@@ -17,6 +18,7 @@ function ModelForm() {
     carBrandId: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -128,6 +130,7 @@ function ModelForm() {
       }
 
       // Éxito al crear el modelo de vehículo
+      setShowSuccessModal(true);
       // Lógica adicional según sea necesario, como redirigir a una página diferente
     } catch (error: any) {
       setErrors((prevErrors) => ({
@@ -320,6 +323,9 @@ function ModelForm() {
       </div>
       {errors.general && (
         <p className="text-red-500 text-xs mt-4">{errors.general}</p>
+      )}
+      {showSuccessModal && (
+        <SuccessModal successMessage="El modelo de vehículo se creó exitosamente." />
       )}
     </section>
   );
