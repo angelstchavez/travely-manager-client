@@ -3,6 +3,8 @@ import Cookies from "js-cookie";
 import DataTable, { TableColumn } from "react-data-table-component";
 import Loading from "../utils/loading";
 import ConfirmationModal from "../modals/confirmation-modal";
+import UpdateBrandModal from "./brand-update";
+import SuccessModal from "../modals/success-modal";
 
 interface Brand {
   id: number;
@@ -17,7 +19,9 @@ const BrandList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [brandToDelete, setBrandToDelete] = useState<Brand | null>(null); // Nuevo estado para la marca de vehículo a eliminar
+  const [brandToDelete, setBrandToDelete] = useState<Brand | null>(null);
+  const [brandToUpdate, setBrandToUpdate] = useState<Brand | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,11 +57,11 @@ const BrandList: React.FC = () => {
         }
 
         setBrands(responseData.data);
-        setFilteredBrands(responseData.data); // Inicialmente, mostrar todas las marcas
+        setFilteredBrands(responseData.data);
       } catch (error: any) {
         setError(error.message);
       } finally {
-        setLoading(false); // Se establece la carga como completada
+        setLoading(false);
       }
     };
 
@@ -102,6 +106,24 @@ const BrandList: React.FC = () => {
     }
   };
 
+  const handleUpdate = (brand: Brand) => {
+    setBrandToUpdate(brand);
+  };
+
+  const handleUpdateModalClose = () => {
+    setBrandToUpdate(null);
+  };
+
+  const handleUpdateConfirmation = async (updatedBrandData: Brand) => {
+    setBrandToUpdate(null);
+    setSuccessMessage("La marca de vehículo se actualizó satisfactoriamente.");
+
+    // Limpiar el mensaje de éxito después de 3 segundos
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 3000);
+  };
+
   const handleDeleteCancel = () => {
     setBrandToDelete(null);
   };
@@ -120,14 +142,23 @@ const BrandList: React.FC = () => {
       },
     },
     {
-      name: "Acción",
+      name: "Acciones",
       cell: (row) => (
-        <button onClick={() => handleDelete(row)}>Eliminar</button>
+        <>
+          <button
+            className="bg-orange-600 rounded text-white mr-2 p-1"
+            onClick={() => handleUpdate(row)}
+          >
+            Actualizar
+          </button>
+          <button
+            className="bg-red-600 rounded text-white p-1"
+            onClick={() => handleDelete(row)}
+          >
+            Eliminar
+          </button>
+        </>
       ),
-      style: {
-        color: "#f43",
-        fontSize: 14,
-      },
     },
   ];
 
@@ -142,7 +173,6 @@ const BrandList: React.FC = () => {
 
   return (
     <>
-      {" "}
       <section className="border rounded p-4 my-4 bg-white">
         <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
           Marcas de vehículos
@@ -178,6 +208,14 @@ const BrandList: React.FC = () => {
           />
         )}
       </section>
+      {brandToUpdate && (
+        <UpdateBrandModal
+          brand={brandToUpdate}
+          onClose={handleUpdateModalClose}
+          onConfirm={handleUpdateConfirmation}
+        />
+      )}
+      {successMessage && <SuccessModal successMessage={successMessage} />}
     </>
   );
 };

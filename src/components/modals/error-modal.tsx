@@ -6,7 +6,7 @@ interface ErrorModalProps {
 
 const ErrorModal: React.FC<ErrorModalProps> = ({ errorDescription }) => {
   return (
-    <div className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 overflow-auto bg-tm80 bg-opacity-50 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg p-6 mx-5 max-w-md">
         <div className="text-center">
           <h2 className="mt-4 text-lg md:text-xl font-semibold">Error</h2>
