@@ -1,24 +1,28 @@
+"use client";
+
+import { Icon } from "@iconify/react/dist/iconify.js";
+
 const JumbotronSection = () => {
   return (
-    <div className="bg-customBlueDarkPro flex-grow p-4 relative">
+    <div className="bg-customBlueDarkPro flex-grow p-4 relative rounded-lg">
       <div className="py-2 px-4 mx-auto max-w-screen-xl text-center lg:py-16 z-10 relative">
-        <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-zinc-950 md:text-5xl lg:text-6xl dark:text-white">
-          Bienvenido a{" "}
+        <h1 className="mb-4 text-5xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
+          Bienvenido a <br></br>
           <span className="bg-clip-text text-transparent bg-gradient-to-r to-customGreen from-customSuperLigth">
             Travely Manager
           </span>{" "}
         </h1>
-        <p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-200">
-          Adquiere tu ticket de viaje en cuestión de minutos
-        </p>
+        <div className="my-8"></div>
         <a
           href="/login"
-          className="inline-flex justify-between items-center py-1 px-1 pe-4 mb-7 text-sm text-customGreen rounded-full bg-customBlue hover:bg-customBlueLigth"
+          className="inline-flex justify-between items-center py-1 px-1 pe-4 text-sm text-customGreen rounded-full bg-customBlue hover:bg-customBlueLigth"
         >
           <span className="text-xs bg-customGreen rounded-full text-customBlueDarkPro px-4 py-1.5 me-3">
-            Accede
+            <div className="text-xl">
+              <Icon icon="solar:bus-bold-duotone" />
+            </div>
           </span>
-          <span className="text-sm font-medium">Travely Manager</span>
+          <span className="text-sm font-medium">Ingresar</span>
           <svg
             className="w-2.5 h-2.5 ms-2 rtl:rotate-180"
             aria-hidden="true"
@@ -36,7 +40,6 @@ const JumbotronSection = () => {
           </svg>
         </a>
       </div>
-      <div className="bg-gradient-to-b from-green-50 to-transparentw-full h-full absolute top-0 left-0 z-0"></div>
     </div>
   );
 };
