@@ -14,7 +14,7 @@ function ModelForm() {
     fuelType: "",
     seatingCapacity: "",
     transmissionType: "",
-    brandId: "",
+    carBrandId: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -82,6 +82,9 @@ function ModelForm() {
     Object.entries(formData).forEach(([key, value]) => {
       if (value.trim() === "") {
         formErrors[key] = "Este campo es obligatorio.";
+      } else if (parseInt(formData.seatingCapacity) < 2) {
+        formErrors.seatingCapacity =
+          "La cantidad de asientos debe ser al menos 2.";
       }
     });
 
@@ -277,18 +280,18 @@ function ModelForm() {
         {/* Marca */}
         <div>
           <label
-            htmlFor="brandId"
+            htmlFor="carBrandId"
             className="block text-sm font-medium text-gray-700"
           >
             Marca
           </label>
           <select
-            id="brandId"
-            name="brandId"
+            id="carBrandId"
+            name="carBrandId"
             className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
-              errors.brandId ? "border-red-500" : "border"
+              errors.carBrandId ? "border-red-500" : "border"
             } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
-            value={formData.brandId}
+            value={formData.carBrandId}
             onChange={handleInputChange}
             required
           >
@@ -299,8 +302,8 @@ function ModelForm() {
               </option>
             ))}
           </select>
-          {errors.brandId && (
-            <p className="text-red-500 text-xs mt-1">{errors.brandId}</p>
+          {errors.carBrandId && (
+            <p className="text-red-500 text-xs mt-1">{errors.carBrandId}</p>
           )}
         </div>
       </div>
@@ -308,7 +311,7 @@ function ModelForm() {
         <div className="relative flex-grow flex items-center">
           <button
             type="button"
-            className="relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-white bg-customBlueLigth hover:bg-customerSuperLigth"
+            className="relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-white bg-tm10"
             onClick={handleSubmit}
           >
             <span>Crear</span>
