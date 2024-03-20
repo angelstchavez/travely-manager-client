@@ -10,7 +10,7 @@ function BrandForm() {
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [brandName, setBrandName] = useState<string>("");
-
+  const [isBrandNameValid, setIsBrandNameValid] = useState<boolean>(false);
   const handleConfirm = async () => {
     try {
       if (!brandName) {
@@ -54,6 +54,12 @@ function BrandForm() {
     }
   };
 
+  // Función para validar el campo de nombre de marca
+  const validateBrandName = (name: string) => {
+    const isValid = name.trim() !== ""; // Verifica si el campo no está vacío
+    setIsBrandNameValid(isValid);
+  };
+
   const handleCancel = () => {
     console.log("Creación de marca de vehículo cancelada");
     setShowConfirmation(false);
@@ -62,26 +68,31 @@ function BrandForm() {
   return (
     <section className="border rounded p-4 my-4 bg-white">
       <h2 className="text-lg font-semibold">Crear Marca de Vehículo</h2>
-      <div className="mt-4 flex flex-col sm:flex-row sm:items-center">
-        <div className="relative flex-grow flex items-center">
-          <input
-            type="text"
-            id="brandName"
-            name="brandName"
-            className="block w-full sm:w-40 rounded-md border-0 py-1.5 pl-3 pr-10 sm:pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-            placeholder="Nombre"
-            value={brandName}
-            onChange={(e) => setBrandName(e.target.value)}
-          />
-          <button
-            type="button"
-            className="m-2 relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-customGreen bg-customBlueLigth hover:bg-customerSuperLigth"
-            onClick={() => setShowConfirmation(true)}
-          >
-            <span>Crear</span>
-          </button>
-        </div>
+      <div className="mt-4 flex items-center">
+        <input
+          type="text"
+          id="brandName"
+          name="brandName"
+          className="block w-full sm:w-40 rounded-md border-0 py-1.5 pl-3 pr-10 sm:pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+          placeholder="Nombre"
+          value={brandName}
+          onChange={(e) => {
+            setBrandName(e.target.value);
+            validateBrandName(e.target.value); // Validar el campo de nombre
+          }}
+        />
+        <button
+          type="button"
+          className={`m-2 relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-white bg-customBlueLigth hover:bg-customerSuperLigth ${!isBrandNameValid && "opacity-50 cursor-not-allowed"}`}
+          onClick={() => setShowConfirmation(true)}
+          disabled={!isBrandNameValid}
+        >
+          <span>Crear</span>
+        </button>
       </div>
+      {!isBrandNameValid && (
+        <p className="text-red-500 text-xs">El nombre es obligatorio.</p>
+      )}
       {showConfirmation && (
         <ConfirmationModal
           processText="crear la marca de vehículo"
