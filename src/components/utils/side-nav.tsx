@@ -17,8 +17,8 @@ const SideNav = () => {
           href="/"
           className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 h-12 w-full"
         >
-          <span className="border rounded bg-customBlueDarkPro px-2 py-2"></span>
-          <span className="font-bold text-xl hidden md:flex text-customBlueDark">Travely Manager</span>
+          <span className="border rounded bg-tm60 px-2 py-2"></span>
+          <span className="font-bold text-xl hidden md:flex text-tm20">Travely Manager</span>
         </Link>
 
         <div className="flex flex-col space-y-2  md:px-6 ">
@@ -46,8 +46,8 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
         <>
           <button
             onClick={toggleSubMenu}
-            className={`flex flex-row items-center p-2 rounded-lg hover-bg-zinc-100 w-full justify-between hover:bg-customBlueLigt ${
-              pathname.includes(item.path) ? "bg-customBlueLigth text-white" : "hover:bg-zinc-100"
+            className={`flex flex-row items-center p-2 rounded-lg hover-bg-zinc-100 w-full justify-between ${
+              pathname.includes(item.path) ? "bg-tm20 text-white" : "hover:bg-zinc-100"
             }`}
           >
             <div className="flex flex-row space-x-4 items-center">
@@ -82,7 +82,7 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
         <Link
           href={item.path}
           className={`flex flex-row space-x-4 items-center p-2 rounded-lg ${
-            item.path === pathname ? "bg-customBlueLigth text-white" : "hover:bg-zinc-100"
+            item.path === pathname ? "bg-tm20 text-white" : "hover:bg-zinc-100"
           }`}
         >
           {item.icon}

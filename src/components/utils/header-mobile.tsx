@@ -96,7 +96,7 @@ export default HeaderMobile;
 const MenuToggle = ({ toggle }: { toggle: any }) => (
   <button
     onClick={toggle}
-    className="pointer-events-auto absolute right-3 top-[8px] z-30 bg-customGreen rounded px-1 py-1"
+    className="pointer-events-auto absolute right-3 top-[8px] z-30 bg-white rounded px-1 py-1"
   >
     <svg width="23" height="23" viewBox="0 -1 22 22">
       <Path

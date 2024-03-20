@@ -74,21 +74,33 @@ const TableRoute: React.FC = () => {
       name: "Ciudad de Origen",
       selector: (row) => row.departureCity.name,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
     {
       name: "Ciudad de Destino",
       selector: (row) => row.destinationCity.name,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
     {
       name: "Distancia (Kilómetros)",
       selector: (row) => row.distanceKilometers,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
     {
       name: "Duración (Horas)",
       selector: (row) => row.durationHours,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
   ];
 
@@ -106,8 +118,11 @@ const TableRoute: React.FC = () => {
   }, [routes, searchTerm]);
 
   return (
-    <section className="border rounded p-4 my-4 bg-white grid grid-col-1">
-      <h2 className="text-lg font-semibold">Lista de Rutas de Viaje</h2>
+    <section className="border rounded p-4 my-4 bg-white">
+      <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
+        Rutas de viaje
+      </h2>
+      <div className="m-2"></div>
       {error && <ErrorModal errorDescription={error} />}
       <input
         type="text"
@@ -116,13 +131,16 @@ const TableRoute: React.FC = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="pl-3 pr-12 mt-1 border-gray-300 focus:outline-none sm:text-sm rounded-md relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
       />
-      <DataTable
-        columns={columns}
-        data={filteredRoutes}
-        pagination
-        progressPending={loading}
-        progressComponent={<Loading />}
-      />
+      <div className="m-3"></div>
+      <div className="grid grid-col-1 border rounded">
+        <DataTable
+          columns={columns}
+          data={filteredRoutes}
+          pagination
+          progressPending={loading}
+          progressComponent={<Loading />}
+        />
+      </div>
     </section>
   );
 };

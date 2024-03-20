@@ -15,10 +15,10 @@ const Header = () => {
   return (
     <div
       className={cn(
-        `sticky inset-x-0 top-0 z-30 w-full transition-all bg-customBlueDark`,
+        `sticky inset-x-0 top-0 z-30 w-full transition-all bg-tm60`,
         {
-          ' bg-customBlueDark/75 backdrop-blur-lg': scrolled,
-          ' bg-customBlueDark': selectedLayout,
+          ' bg-tm60/75 backdrop-blur-lg': scrolled,
+          ' bg-tm60': selectedLayout,
         },
       )}
     >
@@ -28,13 +28,13 @@ const Header = () => {
             href="/admin"
             className="flex flex-row space-x-3 items-center justify-center md:hidden"
           >
-            <span className="font-bold text-xl flex text-customGreen">Travely Manager</span>
+            <span className="font-bold text-xl flex text-white">Travely Manager</span>
           </Link>
         </div>
 
         <div className="hidden md:block">
-          <div className="h-8 w-8 rounded-full bg-customGreen flex items-center justify-center text-center">
-            <span className="font-semibold text-sm text-customBlue">TM</span>
+          <div className="h-8 w-8 rounded-full bg-tm40 flex items-center justify-center text-center">
+            <span className="font-semibold text-sm text-white">TM</span>
           </div>
         </div>
       </div>

@@ -79,21 +79,33 @@ const TableTransportTerminal: React.FC = () => {
       name: "Nombre",
       selector: (row) => row.name,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
     {
       name: "Ciudad",
       selector: (row) => row.city.name,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
     {
       name: "Dirección",
       selector: (row) => row.address,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
     {
       name: "Teléfono",
       selector: (row) => row.phoneNumber,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
   ];
 
@@ -109,11 +121,11 @@ const TableTransportTerminal: React.FC = () => {
   }, [terminals, searchTerm]);
 
   return (
-    <section className="border rounded p-4 my-4 bg-white grid grid-cols-1">
-      <h2 className="text-lg font-semibold">
-        Lista de Terminales de Transporte
+    <section className="border rounded p-4 my-4 bg-white">
+      <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
+        Terminales de Transporte
       </h2>
-      {error && <ErrorModal errorDescription={(error as Error).message} />}
+      <div className="m-2"></div>
       <input
         type="text"
         placeholder="Buscar por terminal"
@@ -121,13 +133,17 @@ const TableTransportTerminal: React.FC = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="pl-3 pr-12 mt-1 border-gray-300 focus:outline-none sm:text-sm rounded-md relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
       />
-      <DataTable
-        columns={columns}
-        data={filteredTerminals}
-        pagination
-        progressPending={loading}
-        progressComponent={<Loading />}
-      />
+      {error && <ErrorModal errorDescription={(error as Error).message} />}
+      <div className="m-3"></div>
+      <div className="grid grid-col-1 border rounded">
+        <DataTable
+          columns={columns}
+          data={filteredTerminals}
+          pagination
+          progressPending={loading}
+          progressComponent={<Loading />}
+        />
+      </div>
     </section>
   );
 };

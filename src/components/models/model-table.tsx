@@ -64,7 +64,7 @@ const CarModelList: React.FC = () => {
         }
 
         setCarModels(responseData.data);
-        setFilteredCarModels(responseData.data); // Inicialmente, mostrar todos los modelos de vehículos
+        setFilteredCarModels(responseData.data);
       } catch (error: any) {
         setError(error.message);
       } finally {
@@ -103,7 +103,7 @@ const CarModelList: React.FC = () => {
             (carModel) => carModel.id !== carModelToDelete.id
           );
           setCarModels(updatedCarModels);
-          setSearchTerm(""); // Limpiar el término de búsqueda
+          setSearchTerm("");
         } else {
           throw new Error("Error al eliminar el modelo de vehículo.");
         }
@@ -130,37 +130,59 @@ const CarModelList: React.FC = () => {
       name: "Nombre",
       selector: (row) => row.name,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
     {
       name: "Categoría",
       selector: (row) => row.category,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
     {
       name: "Marca",
       selector: (row) => row.carBrand.name,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
     {
       name: "Gasolina",
       selector: (row) => row.fuelType,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
     {
       name: "Asientos",
       selector: (row) => row.seatingCapacity,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
     {
       name: "Transmisión",
       selector: (row) => row.transmissionType,
       sortable: true,
+      style: {
+        fontSize: 14,
+      },
     },
     {
-      name: "Eliminar",
+      name: "Acción",
       cell: (row) => (
         <button onClick={() => handleDelete(row)}>Eliminar</button>
       ),
+      style: {
+        color: "#f43",
+        fontSize: 14,
+      },
     },
   ];
 
@@ -172,9 +194,12 @@ const CarModelList: React.FC = () => {
   }, [carModels, searchTerm]);
 
   return (
-    <section className="border rounded p-4 my-4 bg-white grid grid-col-1">
-      <h2 className="text-lg font-semibold">Lista de Modelos de Vehículos</h2>
+    <section className="border rounded p-4 my-4 bg-white">
+      <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
+        Modelos de vehículos
+      </h2>
       {error && <ErrorModal errorDescription={error} />}
+      <div className="m-2"></div>
       <input
         type="text"
         placeholder="Buscar por nombre"
@@ -182,16 +207,20 @@ const CarModelList: React.FC = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="pl-3 pr-10 mt-1 border-gray-300 focus:outline-none sm:text-sm rounded-md relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
       />
-      <DataTable
-        columns={columns}
-        data={filteredCarModels}
-        pagination
-        paginationPerPage={itemsPerPage}
-        paginationTotalRows={carModels.length}
-        onChangePage={(page) => setCurrentPage(page)}
-        progressPending={loading}
-        progressComponent={<Loading />}
-      />
+      <div className="m-3"></div>
+      <div className="grid grid-col-1 border rounded">
+        <DataTable
+          columns={columns}
+          data={filteredCarModels}
+          pagination
+          paginationPerPage={itemsPerPage}
+          paginationTotalRows={carModels.length}
+          onChangePage={(page) => setCurrentPage(page)}
+          progressPending={loading}
+          progressComponent={<Loading />}
+        />
+      </div>
+
       {carModelToDelete && (
         <ConfirmationModal
           processText={`eliminar el modelo de vehículo "${carModelToDelete.name}"`}

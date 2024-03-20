@@ -119,7 +119,7 @@ function BrandForm() {
         <div className="relative flex-grow flex items-center">
           <button
             type="button"
-            className="relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-white bg-customBlueLigth hover:bg-customerSuperLigth"
+            className="relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-white bg-tm10 hover:bg-customerSuperLigth"
             onClick={handleSubmit}
           >
             <span>Crear</span>
