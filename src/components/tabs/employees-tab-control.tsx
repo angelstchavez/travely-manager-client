@@ -5,27 +5,27 @@ import React, { useState } from "react";
 import { useTabs } from "@/hooks/use-tabs";
 import { Framer } from "@/lib/framer";
 
-import VeicleTab from "../vehicle/vehicleTab";
-import ModelTab from "./modelTab";
-import BrandTab from "./brandTab";
+import EmployeeTab from "./EmployeeTab";
+import DriverTab from "./driver-tab";
+import SellerTab from "./seller-tab";
 
-const VehicleTabs = () => {
+const EmployeeTabs = () => {
   const [hookProps] = useState({
     tabs: [
       {
-        label: "Vehiculos",
-        children: <VeicleTab />,
-        id: "vehicles",
+        label: "General",
+        children: <EmployeeTab />,
+        id: "employees",
       },
       {
-        label: "Modelos",
-        children: <ModelTab />,
-        id: "models",
+        label: "Conductores",
+        children: <DriverTab />,
+        id: "drivers",
       },
       {
-        label: "Marcas",
-        children: <BrandTab />,
-        id: "brands",
+        label: "Vendedores",
+        children: <SellerTab />,
+        id: "sellers",
       },
     ],
     initialTabId: "Matches",
@@ -43,4 +43,4 @@ const VehicleTabs = () => {
   );
 };
 
-export default VehicleTabs;
+export default EmployeeTabs;
