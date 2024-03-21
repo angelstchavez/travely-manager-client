@@ -88,7 +88,7 @@ function TransportTerminalForm() {
       }
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/city/get-cities-by-department-id/${departmentId}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/city/get-cities-by-deparment-id/${departmentId}`,
         {
           method: "GET",
           headers: {
@@ -204,7 +204,7 @@ function TransportTerminalForm() {
       };
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/terminal/create`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/transport-terminal/create`,
         {
           method: "POST",
           headers: {

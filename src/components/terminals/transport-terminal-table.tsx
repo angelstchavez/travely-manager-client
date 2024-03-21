@@ -1,33 +1,46 @@
 import React, { useState, useEffect } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
-import ErrorModal from "../modals/error-modal";
 import Cookies from "js-cookie";
 import Loading from "../utils/loading";
-
-interface City {
-  id: number;
-  name: string;
-  departmentId: number;
-  department: any; // Tipo de datos del departamento, si es necesario
-}
+import ConfirmationModal from "../modals/confirmation-modal";
+import TransportTerminalUpdate from "./transport-terminal-update";
+import SuccessModal from "../modals/success-modal";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface TransportTerminal {
   id: number;
   name: string;
   address: string;
   phoneNumber: string;
+  department: Department;
   city: City;
-  isActive: boolean;
+}
+
+interface City {
+  id: string;
+  name: string;
+}
+
+interface Department {
+  id: string;
+  name: string;
 }
 
 const TableTransportTerminal: React.FC = () => {
-  const [terminals, setTerminals] = useState<TransportTerminal[]>([]);
-  const [filteredTerminals, setFilteredTerminals] = useState<
+  const [transportTerminals, setTransportTerminals] = useState<
     TransportTerminal[]
   >([]);
-  const [error, setError] = useState<Error | null>(null);
+  const [filteredTerminals, setFilteredTransportTerminals] = useState<
+    TransportTerminal[]
+  >([]);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [transportTerminalToDelete, setTransportTerminalToDelete] =
+    useState<TransportTerminal | null>(null);
+  const [transportTerminalToUpdate, setTransportTerminalToUpdate] =
+    useState<TransportTerminal | null>(null); // Nuevo estado para el vehículo a actualizar
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,8 +75,8 @@ const TableTransportTerminal: React.FC = () => {
           throw new Error("La respuesta no contiene datos válidos.");
         }
 
-        setTerminals(responseData.data);
-        setFilteredTerminals(responseData.data);
+        setTransportTerminals(responseData.data);
+        setFilteredTransportTerminals(responseData.data);
         setLoading(false); // Carga completada
       } catch (error: any) {
         setError(error);
@@ -73,6 +86,69 @@ const TableTransportTerminal: React.FC = () => {
 
     fetchData();
   }, []);
+
+  const handleDeleteConfirmation = async () => {
+    if (transportTerminalToDelete) {
+      try {
+        const cookieValue = decodeURIComponent(Cookies.get("authTokens") || "");
+        const cookieData = JSON.parse(cookieValue);
+        const token = cookieData?.data?.token;
+
+        if (!token) {
+          throw new Error("No se encontró el token en el cookie.");
+        }
+
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/transport-terminal/delete?transportTerminalId=${transportTerminalToDelete.id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const updatedTransportTerminals = transportTerminals.filter(
+            (transportTerminal) =>
+              transportTerminal.id !== transportTerminalToDelete.id
+          );
+          setTransportTerminals(updatedTransportTerminals);
+          setFilteredTransportTerminals(updatedTransportTerminals);
+          setTransportTerminalToDelete(null);
+        } else {
+          throw new Error("Error al eliminar el vehículo.");
+        }
+      } catch (error) {
+        setError("Error al eliminar el vehículo.");
+      }
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setTransportTerminalToDelete(null);
+  };
+
+  const handleDelete = (transportTerminal: TransportTerminal) => {
+    setTransportTerminalToDelete(transportTerminal);
+  };
+
+  const handleUpdate = (transportTerminal: TransportTerminal) => {
+    setTransportTerminalToUpdate(transportTerminal);
+  };
+
+  const handleUpdateModalClose = () => {
+    setTransportTerminalToUpdate(null);
+  };
+
+  const handleUpdateConfirmation = async (
+    updatedTransportTerminalData: TransportTerminal
+  ) => {
+    // Lógica para enviar los datos actualizados al servidor y manejar la respuesta
+    setTransportTerminalToUpdate(null);
+    setSuccessMessage("El vehículo se actualizó satisfactoriamente.");
+  };
 
   const columns: TableColumn<TransportTerminal>[] = [
     {
@@ -107,18 +183,37 @@ const TableTransportTerminal: React.FC = () => {
         fontSize: 14,
       },
     },
+    {
+      name: "Acciones",
+      cell: (row) => (
+        <>
+          <button
+            className="bg-orange-600 rounded text-white mr-2 p-1"
+            onClick={() => handleUpdate(row)}
+          >
+            <Icon icon="lets-icons:edit-fill" className="text-xl" />
+          </button>
+          <button
+            className="bg-red-600 rounded text-white p-1"
+            onClick={() => handleDelete(row)}
+          >
+            <Icon icon="mdi:delete" className="text-xl" />
+          </button>
+        </>
+      ),
+    },
   ];
 
   useEffect(() => {
-    const filtered = terminals.filter(
+    const filtered = transportTerminals.filter(
       (terminal) =>
         terminal.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         terminal.city.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         terminal.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
         terminal.phoneNumber.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setFilteredTerminals(filtered);
-  }, [terminals, searchTerm]);
+    setFilteredTransportTerminals(filtered);
+  }, [transportTerminals, searchTerm]);
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
@@ -128,12 +223,12 @@ const TableTransportTerminal: React.FC = () => {
       <div className="m-2"></div>
       <input
         type="text"
-        placeholder="Buscar por terminal"
+        placeholder="Bustransport-terminal por terminal"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="pl-3 pr-12 mt-1 border-gray-300 focus:outline-none sm:text-sm rounded-md relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
       />
-      {error && <ErrorModal errorDescription={(error as Error).message} />}
+      {error && <div>Error: {error}</div>}
       <div className="m-3"></div>
       <div className="grid grid-col-1 border rounded">
         <DataTable
@@ -144,6 +239,22 @@ const TableTransportTerminal: React.FC = () => {
           progressComponent={<Loading />}
         />
       </div>
+      {transportTerminalToDelete && (
+        <ConfirmationModal
+          processText={`eliminar el el terminal "${transportTerminalToDelete.name} - ${transportTerminalToDelete.city}"`}
+          onAccept={handleDeleteConfirmation}
+          onCancel={handleDeleteCancel}
+          actionType="delete"
+        />
+      )}
+      {transportTerminalToUpdate && (
+        <TransportTerminalUpdate
+          terminal={transportTerminalToUpdate}
+          onClose={handleUpdateModalClose}
+          onConfirm={handleUpdateConfirmation}
+        />
+      )}
+      {successMessage && <SuccessModal successMessage={successMessage} />}
     </section>
   );
 };
