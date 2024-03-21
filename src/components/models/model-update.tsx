@@ -18,6 +18,7 @@ interface CarModel {
     id: number;
     name: string;
   };
+  carBrandId: number;
 }
 
 interface CarModelUpdateModalProps {
@@ -27,16 +28,20 @@ interface CarModelUpdateModalProps {
 }
 
 const CarModelUpdateModal: React.FC<CarModelUpdateModalProps> = ({
+  carModel,
   onClose,
+  onConfirm,
 }) => {
   const [brands, setBrands] = useState<Brand[]>([]);
-  const [formData, setFormData] = useState({
-    name: "",
-    category: "",
-    fuelType: "",
-    seatingCapacity: "",
-    transmissionType: "",
-    carBrandId: "",
+  const [formData, setFormData] = useState<CarModel>({
+    id: carModel.id,
+    name: carModel.name,
+    category: carModel.category,
+    fuelType: carModel.fuelType,
+    seatingCapacity: carModel.seatingCapacity,
+    transmissionType: carModel.transmissionType,
+    carBrand: carModel.carBrand,
+    carBrandId: carModel.carBrand.id,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -88,28 +93,50 @@ const CarModelUpdateModal: React.FC<CarModelUpdateModalProps> = ({
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [e.target.name]:
-        e.target.value.trim() === "" ? "Este campo es obligatorio." : "",
+      [name]: value.trim() === "" ? "Este campo es obligatorio." : "",
     }));
   };
 
-  const handleSubmit = async () => {
+  const handleUpdate = async () => {
     const formErrors: Record<string, string> = {};
 
-    Object.entries(formData).forEach(([key, value]) => {
-      if (value.trim() === "") {
-        formErrors[key] = "Este campo es obligatorio.";
-      } else if (parseInt(formData.seatingCapacity) < 2) {
-        formErrors.seatingCapacity =
-          "La cantidad de asientos debe ser al menos 2.";
-      }
-    });
+    // Validar el campo "Nombre"
+    if (formData.name.trim() === "") {
+      formErrors.name = "Este campo es obligatorio.";
+    }
+
+    // Validar el campo "Categoría"
+    if (formData.category.trim() === "") {
+      formErrors.category = "Este campo es obligatorio.";
+    }
+
+    // Validar el campo "Tipo de Gasolina"
+    if (formData.fuelType.trim() === "") {
+      formErrors.fuelType = "Este campo es obligatorio.";
+    }
+
+    // Validar el campo "Capacidad de Asientos"
+    if (formData.seatingCapacity < 2) {
+      formErrors.seatingCapacity =
+        "La cantidad de asientos debe ser al menos 2.";
+    }
+
+    // Validar el campo "Tipo de Transmisión"
+    if (formData.transmissionType.trim() === "") {
+      formErrors.transmissionType = "Este campo es obligatorio.";
+    }
+
+    // Validar el campo "Marca"
+    if (!formData.carBrand.id) {
+      formErrors.carBrandId = "Debe seleccionar una marca.";
+    }
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
@@ -126,33 +153,23 @@ const CarModelUpdateModal: React.FC<CarModelUpdateModalProps> = ({
       }
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-model/create`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-model/update`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
         }
       );
 
       if (!response.ok) {
-        throw new Error("Error al crear el modelo de vehículo.");
+        throw new Error("Error al actualizar el modelo de vehículo.");
       }
 
-      const responseData = await response.json();
-
-      if (!responseData.success) {
-        throw new Error(
-          responseData.message || "Error al crear el modelo de vehículo."
-        );
-      }
-
-      // Éxito al crear el modelo de vehículo
       setShowSuccessModal(true);
-      // Lógica adicional según sea necesario, como redirigir a una página diferente
     } catch (error: any) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -165,7 +182,7 @@ const CarModelUpdateModal: React.FC<CarModelUpdateModalProps> = ({
     <div className="fixed inset-0 z-50 overflow-auto bg-tm90 bg-opacity-50 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg p-6 mx-5 max-w-md border">
         <h2 className="text-lg font-semibold mb-4">
-          Gestor de Modelos de Vehículos
+          Actualizar modelo de vehiculo
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Nombre */}
@@ -319,7 +336,7 @@ const CarModelUpdateModal: React.FC<CarModelUpdateModalProps> = ({
               className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
                 errors.carBrandId ? "border-red-500" : "border"
               } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
-              value={formData.carBrandId}
+              value={formData.carBrand.id}
               onChange={handleInputChange}
               required
             >
@@ -339,10 +356,10 @@ const CarModelUpdateModal: React.FC<CarModelUpdateModalProps> = ({
           <div className="relative flex-grow flex items-center">
             <button
               type="button"
-              className="relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-white bg-tm10"
-              onClick={handleSubmit}
+              className="relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-500"
+              onClick={handleUpdate}
             >
-              <span>Crear</span>
+              <span>Actualizar</span>
             </button>
           </div>
           <button

@@ -6,6 +6,7 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import Loading from "../utils/loading";
 import CarModelUpdateModal from "./model-update";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import SuccessModal from "../modals/success-modal";
 
 interface CarModel {
   id: number;
@@ -34,6 +35,7 @@ const CarModelList: React.FC = () => {
   const [itemsPerPage] = useState<number>(10);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +50,7 @@ const CarModelList: React.FC = () => {
         }
 
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-model/get-all?page=${currentPage}&perPage=${itemsPerPage}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/car-model/get-all`,
           {
             method: "GET",
             headers: {
@@ -139,6 +141,12 @@ const CarModelList: React.FC = () => {
   const handleUpdateConfirmation = async (updatedCarModelData: CarModel) => {
     setCarModelToUpdate(null);
     // Lógica de confirmación de actualización del modelo de vehículo
+    setSuccessMessage("La marca de vehículo se actualizó satisfactoriamente.");
+
+    // Limpiar el mensaje de éxito después de 3 segundos
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 3000);
   };
 
   const totalPages = Math.ceil(filteredCarModels.length / itemsPerPage);
@@ -267,6 +275,7 @@ grid grid-col-1 border rounded"
           onConfirm={handleUpdateConfirmation}
         />
       )}
+      {successMessage && <SuccessModal successMessage={successMessage} />}
     </section>
   );
 };
