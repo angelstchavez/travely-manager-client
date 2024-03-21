@@ -52,7 +52,7 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
           >
             <div className="flex flex-row space-x-4 items-center">
               {item.icon}
-              <span className="font-semibold text-sm  flex">{item.title}</span>
+              <span className="font-semibold text-sm flex">{item.title}</span>
             </div>
 
             <div className={`${subMenuOpen ? "rotate-180" : ""} flex`}>
@@ -61,14 +61,14 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
           </button>
 
           {subMenuOpen && (
-            <div className="my-2 ml-12 flex text-sm flex-col space-y-4 text-black">
+            <div className="my-2 ml-4 flex text-sm flex-col space-y-2 text-tm">
               {item.subMenuItems?.map((subItem, idx) => {
                 return (
                   <Link
                     key={idx}
                     href={subItem.path}
                     className={`${
-                      subItem.path === pathname ? "font-bold" : ""
+                      subItem.path === pathname ? "p-1 font-semibold text-tm40 bg-zinc-50 rounded border" : "p-1"
                     }`}
                   >
                     <span>{subItem.title}</span>

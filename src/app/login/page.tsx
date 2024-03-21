@@ -69,7 +69,7 @@ function Page() {
                   type="text"
                   name="username"
                   id="username"
-                  className="text-white w-full pl-3 pr-10 mt-1 focus:outline-none sm:text-sm ml-1 relative inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-tm80"
+                  className="text-white w-full pl-3 pr-10 mt-1 focus:outline-none sm:text-sm ml-1 relative inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-tm70"
                   placeholder="username"
                 />
               </div>
@@ -87,7 +87,7 @@ function Page() {
                   name="password"
                   id="password"
                   placeholder="••••••••••"
-                  className="text-white w-full pl-3 pr-10 mt-1 focus:outline-none sm:text-sm ml-1 relative inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-tm80"
+                  className="text-white w-full pl-3 pr-10 mt-1 focus:outline-none sm:text-sm ml-1 relative inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-tm70"
                 />
               </div>
               <button
@@ -108,8 +108,8 @@ function Page() {
             </form>
           </div>
         </div>
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-tm90 via-transparent to-transparent"></div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-tm90 via-transparent to-transparent"></div>
     </>
   );
 }
