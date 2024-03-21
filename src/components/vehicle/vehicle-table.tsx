@@ -3,6 +3,9 @@ import Cookies from "js-cookie";
 import DataTable, { TableColumn } from "react-data-table-component";
 import Loading from "../utils/loading";
 import ConfirmationModal from "../modals/confirmation-modal";
+import UpdateVehicleModal from "./vehicle-update"; // Importamos el nuevo componente de modal de actualización
+import { Icon } from "@iconify/react/dist/iconify.js";
+import SuccessModal from "../modals/success-modal";
 
 interface Vehicle {
   id: number;
@@ -10,8 +13,10 @@ interface Vehicle {
   color: string;
   manufacturingYear: number;
   carModel: {
+    id: number;
     name: string;
     carBrand: {
+      id: string;
       name: string;
     };
   };
@@ -22,7 +27,9 @@ function VehicleTable() {
   const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [vehicleToDelete, setVehicleToDelete] = useState<Vehicle | null>(null); // Nuevo estado para el vehículo a eliminar
+  const [vehicleToDelete, setVehicleToDelete] = useState<Vehicle | null>(null);
+  const [vehicleToUpdate, setVehicleToUpdate] = useState<Vehicle | null>(null); // Nuevo estado para el vehículo a actualizar
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,15 +64,15 @@ function VehicleTable() {
         }
 
         setVehicles(responseData.data);
-        setFilteredVehicles(responseData.data); // Inicialmente, mostrar todos los vehículos
-        setLoading(false); // Se establece la carga como completada
+        setFilteredVehicles(responseData.data);
+        setLoading(false);
       } catch (error) {
         if (typeof error === "string") {
           setError(error);
         } else {
           setError("Ha ocurrido un error desconocido.");
         }
-        setLoading(false); // Se establece la carga como completada aunque haya errores
+        setLoading(false);
       }
     };
 
@@ -118,6 +125,20 @@ function VehicleTable() {
     setVehicleToDelete(vehicle);
   };
 
+  const handleUpdate = (vehicle: Vehicle) => {
+    setVehicleToUpdate(vehicle);
+  };
+
+  const handleUpdateModalClose = () => {
+    setVehicleToUpdate(null);
+  };
+
+  const handleUpdateConfirmation = async (updatedVehicleData: Vehicle) => {
+    // Lógica para enviar los datos actualizados al servidor y manejar la respuesta
+    setVehicleToUpdate(null);
+    setSuccessMessage("El vehículo se actualizó satisfactoriamente.");
+  };
+
   const columns: TableColumn<Vehicle>[] = [
     {
       name: "Placa",
@@ -160,17 +181,27 @@ function VehicleTable() {
       },
     },
     {
-      name: "Acción",
+      name: "Acciones",
       cell: (row) => (
-        <button onClick={() => handleDelete(row)}>Eliminar</button>
+        <>
+          <button
+            className="bg-orange-600 rounded text-white mr-2 p-1"
+            onClick={() => handleUpdate(row)}
+          >
+            <Icon icon="lets-icons:edit-fill" className="text-xl" />
+          </button>
+          <button
+            className="bg-red-600 rounded text-white p-1"
+            onClick={() => handleDelete(row)}
+          >
+            <Icon icon="mdi:delete" className="text-xl" />
+          </button>
+        </>
       ),
-      style: {
-        color: "#f43",
-        fontSize: 14,
-      },
     },
   ];
 
+  // Función para filtrar los vehículos por placa
   const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value.toLowerCase();
     const filtered = vehicles.filter((vehicle) =>
@@ -180,39 +211,49 @@ function VehicleTable() {
   };
 
   return (
-    <section className="border rounded p-4 my-4 bg-white">
-      <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
-        Vehículos
-      </h2>
-      <div className="m-2"></div>
-      {error && <div>Error: {error}</div>}
-      <input
-        type="text"
-        placeholder="Buscar por placa"
-        onChange={handleFilter}
-        className="pl-3 pr-10 mt-1 border-gray-300 focus:outline-none sm:text-sm rounded-md relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-      />
-      <div className="m-3"></div>
-      <div className="grid grid-col-1 border rounded">
-        <DataTable
-          columns={columns}
-          data={filteredVehicles}
-          pagination
-          paginationPerPage={10}
-          fixedHeader
-          progressPending={loading}
-          progressComponent={<Loading />}
+    <>
+      <section className="border rounded p-4 my-4 bg-white">
+        <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
+          Vehículos
+        </h2>
+        <div className="m-2"></div>
+        {error && <div>Error: {error}</div>}
+        <input
+          type="text"
+          placeholder="Buscar por placa"
+          onChange={handleFilter}
+          className="pl-3 pr-10 mt-1 border-gray-300 focus:outline-none sm:text-sm rounded-md relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
         />
-      </div>
-      {vehicleToDelete && (
-        <ConfirmationModal
-          processText={`eliminar el vehículo con placa "${vehicleToDelete.plate}"`}
-          onAccept={handleDeleteConfirmation}
-          onCancel={handleDeleteCancel}
-          actionType="delete"
-        />
-      )}
-    </section>
+        <div className="m-3"></div>
+        <div className="grid grid-col-1 border rounded">
+          <DataTable
+            columns={columns}
+            data={filteredVehicles}
+            pagination
+            paginationPerPage={10}
+            fixedHeader
+            progressPending={loading}
+            progressComponent={<Loading />}
+          />
+        </div>
+        {vehicleToDelete && (
+          <ConfirmationModal
+            processText={`eliminar el vehículo con placa "${vehicleToDelete.plate}"`}
+            onAccept={handleDeleteConfirmation}
+            onCancel={handleDeleteCancel}
+            actionType="delete"
+          />
+        )}
+        {vehicleToUpdate && (
+          <UpdateVehicleModal
+            vehicle={vehicleToUpdate}
+            onClose={handleUpdateModalClose}
+            onConfirm={handleUpdateConfirmation}
+          />
+        )}
+        {successMessage && <SuccessModal successMessage={successMessage} />}
+      </section>
+    </>
   );
 }
 
