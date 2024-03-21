@@ -19,6 +19,7 @@ interface CarModel {
     id: number;
     name: string;
   };
+  carBrandId: number; 
 }
 
 const CarModelList: React.FC = () => {
