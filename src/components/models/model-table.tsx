@@ -4,6 +4,8 @@ import ConfirmationModal from "../modals/confirmation-modal";
 import Cookies from "js-cookie";
 import DataTable, { TableColumn } from "react-data-table-component";
 import Loading from "../utils/loading";
+import CarModelUpdateModal from "./model-update";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface CarModel {
   id: number;
@@ -23,6 +25,9 @@ const CarModelList: React.FC = () => {
   const [filteredCarModels, setFilteredCarModels] = useState<CarModel[]>([]);
   const [error, setError] = useState<string>("");
   const [carModelToDelete, setCarModelToDelete] = useState<CarModel | null>(
+    null
+  );
+  const [carModelToUpdate, setCarModelToUpdate] = useState<CarModel | null>(
     null
   );
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -123,6 +128,19 @@ const CarModelList: React.FC = () => {
     setCarModelToDelete(carModel);
   };
 
+  const handleUpdate = (carModel: CarModel) => {
+    setCarModelToUpdate(carModel);
+  };
+
+  const handleUpdateModalClose = () => {
+    setCarModelToUpdate(null);
+  };
+
+  const handleUpdateConfirmation = async (updatedCarModelData: CarModel) => {
+    setCarModelToUpdate(null);
+    // Lógica de confirmación de actualización del modelo de vehículo
+  };
+
   const totalPages = Math.ceil(filteredCarModels.length / itemsPerPage);
 
   const columns: TableColumn<CarModel>[] = [
@@ -175,14 +193,23 @@ const CarModelList: React.FC = () => {
       },
     },
     {
-      name: "Acción",
+      name: "Acciones",
       cell: (row) => (
-        <button onClick={() => handleDelete(row)}>Eliminar</button>
+        <>
+          <button
+            className="bg-orange-600 rounded text-white mr-2 p-1"
+            onClick={() => handleUpdate(row)}
+          >
+            <Icon icon="lets-icons:edit-fill" className="text-xl" />
+          </button>
+          <button
+            className="bg-red-600 rounded text-white p-1"
+            onClick={() => handleDelete(row)}
+          >
+            <Icon icon="mdi:delete" className="text-xl" />
+          </button>
+        </>
       ),
-      style: {
-        color: "#f43",
-        fontSize: 14,
-      },
     },
   ];
 
@@ -208,7 +235,10 @@ const CarModelList: React.FC = () => {
         className="pl-3 pr-10 mt-1 border-gray-300 focus:outline-none sm:text-sm rounded-md relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
       />
       <div className="m-3"></div>
-      <div className="grid grid-col-1 border rounded">
+      <div
+        className="
+grid grid-col-1 border rounded"
+      >
         <DataTable
           columns={columns}
           data={filteredCarModels}
@@ -227,6 +257,14 @@ const CarModelList: React.FC = () => {
           onAccept={handleDeleteConfirmation}
           onCancel={handleDeleteCancel}
           actionType="delete"
+        />
+      )}
+
+      {carModelToUpdate && (
+        <CarModelUpdateModal
+          carModel={carModelToUpdate}
+          onClose={handleUpdateModalClose}
+          onConfirm={handleUpdateConfirmation}
         />
       )}
     </section>

@@ -5,6 +5,7 @@ import Loading from "../utils/loading";
 import ConfirmationModal from "../modals/confirmation-modal";
 import UpdateBrandModal from "./brand-update";
 import SuccessModal from "../modals/success-modal";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface Brand {
   id: number;
@@ -149,13 +150,13 @@ const BrandList: React.FC = () => {
             className="bg-orange-600 rounded text-white mr-2 p-1"
             onClick={() => handleUpdate(row)}
           >
-            Actualizar
+            <Icon icon="lets-icons:edit-fill" className="text-xl" />
           </button>
           <button
             className="bg-red-600 rounded text-white p-1"
             onClick={() => handleDelete(row)}
           >
-            Eliminar
+            <Icon icon="mdi:delete" className="text-xl" />
           </button>
         </>
       ),
