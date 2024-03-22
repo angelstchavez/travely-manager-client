@@ -6,6 +6,7 @@ import ConfirmationModal from "../modals/confirmation-modal";
 import UpdateVehicleModal from "./vehicle-update"; // Importamos el nuevo componente de modal de actualización
 import { Icon } from "@iconify/react/dist/iconify.js";
 import SuccessModal from "../modals/success-modal";
+import ColorIcon from "../utils/color-icon";
 
 interface Vehicle {
   id: number;
@@ -150,11 +151,16 @@ function VehicleTable() {
     },
     {
       name: "Color",
-      selector: (row) => row.color,
       sortable: true,
       style: {
         fontSize: 14,
+        width: "250px",
       },
+      cell: (row) => (
+        <>
+          <ColorIcon color={row.color} />
+        </>
+      ),
     },
     {
       name: "Fabricación",

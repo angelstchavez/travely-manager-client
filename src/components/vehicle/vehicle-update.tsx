@@ -337,12 +337,15 @@ function UpdateCarModal({ vehicle, onClose }: UpdateCarModalProps) {
               required
             >
               <option value="">Seleccione</option>
-              <option value="rojo">Rojo</option>
-              <option value="azul">Azul</option>
-              <option value="verde">Verde</option>
+              <option value="Rojo">Rojo</option>
+              <option value="Azul">Azul</option>
+              <option value="Verde">Verde</option>
               <option value="amarillo">Amarillo</option>
-              <option value="blanco">Blanco</option>
-              <option value="negro">Negro</option>
+              <option value="Naranja">Naranja</option>
+              <option value="Morado">Morado</option>
+              <option value="Café">Café</option>
+              <option value="Blanco">Blanco</option>
+              <option value="Negro">Negro</option>
             </select>
             {errors.color && (
               <p className="text-red-500 text-xs mt-1">{errors.color}</p>
