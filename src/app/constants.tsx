@@ -15,7 +15,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     submenu: true,
     subMenuItems: [
       { title: "Registrar venta", path: "/admin/processes/register-sale" },
-      { title: "Registrar reserva", path: "/admin/processes/register-reservation" },
+      { title: "Consultar histórico", path: "/admin/processes/register-reservation" },
     ],
   },
   {
