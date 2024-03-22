@@ -5,6 +5,7 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import ErrorModal from "../modals/error-modal";
 import Cookies from "js-cookie";
 import Loading from "../utils/loading";
+import GenderIcon from "../utils/gender-icon";
 
 interface Person {
   id: number;
@@ -78,10 +79,64 @@ const TableCustomer: React.FC = () => {
     fetchData();
   }, []);
 
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString("default", { month: "short" });
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  const calculateAge = (birthdate: string): string => {
+    const birthDate = new Date(birthdate);
+    const currentDate = new Date();
+    let age = currentDate.getFullYear() - birthDate.getFullYear();
+    const birthMonth = birthDate.getMonth();
+    const currentMonth = currentDate.getMonth();
+
+    if (
+      currentMonth < birthMonth ||
+      (currentMonth === birthMonth &&
+        currentDate.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
+    return `${age} años`;
+  };
+
   const columns: TableColumn<Customer>[] = [
     {
       name: "Nombre",
       selector: (row) => `${row.person.names} ${row.person.surnames}`,
+      sortable: true,
+      style: {
+        fontSize: 14,
+      },
+    },
+    {
+      name: "Género",
+      sortable: true,
+      style: {
+        fontSize: 14,
+      },
+      cell: (row) => (
+        <>
+          <GenderIcon gender={row.person.gender} />
+        </>
+      ),
+    },
+    {
+      name: "Fecha de nacimiento",
+      selector: (row: Customer) => formatDate(row.person.birthdate),
+      sortable: true,
+      style: {
+        fontSize: 14,
+      },
+    },
+    {
+      name: "Edad",
+      selector: (row: Customer) => calculateAge(row.person.birthdate),
       sortable: true,
       style: {
         fontSize: 14,
