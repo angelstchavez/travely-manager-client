@@ -8,10 +8,8 @@ import Loading from "../utils/loading";
 
 interface Person {
   id: number;
-  firstName: string;
-  middleName: string | null;
-  lastName: string;
-  secondLastName: string | null;
+  names: string;
+  surnames: string;
   identificationNumber: string;
   identificationType: string;
   gender: string;
@@ -83,7 +81,7 @@ const TableCustomer: React.FC = () => {
   const columns: TableColumn<Customer>[] = [
     {
       name: "Nombre",
-      selector: (row) => `${row.person.firstName} ${row.person.lastName}`,
+      selector: (row) => `${row.person.names} ${row.person.surnames}`,
       sortable: true,
       style: {
         fontSize: 14,
@@ -126,10 +124,10 @@ const TableCustomer: React.FC = () => {
   useEffect(() => {
     const filtered = customers.filter(
       (customer) =>
-        customer.person.firstName
+        customer.person.names
           .toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
-        customer.person.lastName
+        customer.person.surnames
           .toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
         customer.person.identificationNumber
