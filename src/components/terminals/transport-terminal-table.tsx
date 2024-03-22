@@ -17,7 +17,7 @@ interface TransportTerminal {
 }
 
 interface City {
-  id: string;
+  id: number;
   name: string;
 }
 
@@ -241,7 +241,7 @@ const TableTransportTerminal: React.FC = () => {
       </div>
       {transportTerminalToDelete && (
         <ConfirmationModal
-          processText={`eliminar el el terminal "${transportTerminalToDelete.name} - ${transportTerminalToDelete.city}"`}
+          processText={`eliminar el el terminal "${transportTerminalToDelete.name}"`}
           onAccept={handleDeleteConfirmation}
           onCancel={handleDeleteCancel}
           actionType="delete"
