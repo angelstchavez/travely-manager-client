@@ -6,7 +6,7 @@ import ConfirmationModal from "../modals/confirmation-modal";
 import UpdateVehicleModal from "./vehicle-update"; // Importamos el nuevo componente de modal de actualización
 import { Icon } from "@iconify/react/dist/iconify.js";
 import SuccessModal from "../modals/success-modal";
-import ColorIcon from "../utils/color-icon";
+import ColorIcon from "../utils/icons/color-icon";
 
 interface Vehicle {
   id: number;

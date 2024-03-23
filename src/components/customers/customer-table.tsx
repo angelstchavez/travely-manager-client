@@ -5,7 +5,11 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import ErrorModal from "../modals/error-modal";
 import Cookies from "js-cookie";
 import Loading from "../utils/loading";
-import GenderIcon from "../utils/gender-icon";
+import GenderIcon from "../utils/icons/gender-icon";
+import DocumentTypeIcon from "../utils/icons/document-type-icon";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import SuccessModal from "../modals/success-modal";
+import ConfirmationModal from "../modals/confirmation-modal";
 
 interface Person {
   id: number;
@@ -29,8 +33,15 @@ interface Customer {
 const TableCustomer: React.FC = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [filteredCustomers, setFilteredCustomers] = useState<Customer[]>([]);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [customerToDelete, setCustomerToDelete] = useState<Customer | null>(
+    null
+  );
+  const [customerToUpdate, setCustomerToUpdate] = useState<Customer | null>(
+    null
+  ); // Nuevo estado para el vehículo a actualizar
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
   const [searchTerm, setSearchTerm] = useState<string>("");
 
@@ -69,6 +80,7 @@ const TableCustomer: React.FC = () => {
 
         setCustomers(responseData.data);
         setFilteredCustomers(responseData.data);
+        setLoading(false);
       } catch (error: any) {
         setError(error);
       } finally {
@@ -105,6 +117,66 @@ const TableCustomer: React.FC = () => {
     return `${age} años`;
   };
 
+  const handleDeleteConfirmation = async () => {
+    if (customerToDelete) {
+      try {
+        const cookieValue = decodeURIComponent(Cookies.get("authTokens") || "");
+        const cookieData = JSON.parse(cookieValue);
+        const token = cookieData?.data?.token;
+
+        if (!token) {
+          throw new Error("No se encontró el token en el cookie.");
+        }
+
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/customer/delete?carId=${customerToDelete.id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const updatedCustomers = customers.filter(
+            (customer) => customer.id !== customerToDelete.id
+          );
+          setCustomers(updatedCustomers);
+          setFilteredCustomers(updatedCustomers);
+          setCustomerToDelete(null);
+        } else {
+          throw new Error("Error al eliminar el vehículo.");
+        }
+      } catch (error) {
+        setError("Error al eliminar el vehículo.");
+      }
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setCustomerToDelete(null);
+  };
+
+  const handleDelete = (customer: Customer) => {
+    setCustomerToDelete(customer);
+  };
+
+  const handleUpdate = (customer: Customer) => {
+    setCustomerToUpdate(customer);
+  };
+
+  const handleUpdateModalClose = () => {
+    setCustomerToUpdate(null);
+  };
+
+  const handleUpdateConfirmation = async (updatedCustomerData: Customer) => {
+    // Lógica para enviar los datos actualizados al servidor y manejar la respuesta
+    setCustomerToUpdate(null);
+    setSuccessMessage("El cliente se actualizó satisfactoriamente.");
+  };
+
   const columns: TableColumn<Customer>[] = [
     {
       name: "Nombre",
@@ -117,9 +189,6 @@ const TableCustomer: React.FC = () => {
     {
       name: "Género",
       sortable: true,
-      style: {
-        fontSize: 14,
-      },
       cell: (row) => (
         <>
           <GenderIcon gender={row.person.gender} />
@@ -144,11 +213,15 @@ const TableCustomer: React.FC = () => {
     },
     {
       name: "Tipo de Identificación",
-      selector: (row) => row.person.identificationType,
       sortable: true,
       style: {
-        fontSize: 14,
+        width: "700px",
       },
+      cell: (row) => (
+        <>
+          <DocumentTypeIcon documentType={row.person.identificationType} />
+        </>
+      ),
     },
     {
       name: "Número de Identificación",
@@ -173,6 +246,25 @@ const TableCustomer: React.FC = () => {
       style: {
         fontSize: 14,
       },
+    },
+    {
+      name: "Acciones",
+      cell: (row) => (
+        <>
+          <button
+            className="bg-orange-600 rounded text-white mr-2 p-1"
+            onClick={() => handleUpdate(row)}
+          >
+            <Icon icon="lets-icons:edit-fill" className="text-xl" />
+          </button>
+          <button
+            className="bg-red-600 rounded text-white p-1"
+            onClick={() => handleDelete(row)}
+          >
+            <Icon icon="mdi:delete" className="text-xl" />
+          </button>
+        </>
+      ),
     },
   ];
 
@@ -204,7 +296,7 @@ const TableCustomer: React.FC = () => {
         Cientes
       </h2>
       <div className="m-2"></div>
-      {error && <ErrorModal errorDescription={(error as Error).message} />}
+      {error && <div>Error: {error}</div>}
       <input
         type="text"
         placeholder="Buscar por cliente"
@@ -222,6 +314,15 @@ const TableCustomer: React.FC = () => {
           progressComponent={<Loading />}
         />
       </div>
+      {customerToDelete && (
+        <ConfirmationModal
+          processText={`eliminar el cliente "${customerToDelete.person.names} ${customerToDelete.person.surnames}"`}
+          onAccept={handleDeleteConfirmation}
+          onCancel={handleDeleteCancel}
+          actionType="delete"
+        />
+      )}
+      {successMessage && <SuccessModal successMessage={successMessage} />}
     </section>
   );
 };
