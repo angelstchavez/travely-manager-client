@@ -8,7 +8,6 @@ import { Framer } from "@/lib/framer";
 import VeicleTab from "../vehicle/vehicleTab";
 import ModelTab from "./model-tab";
 import BrandTab from "./brandTab";
-import MaintenanceTab from "./maintenance-tab";
 
 const VehicleTabs = () => {
   const [hookProps] = useState({
