@@ -25,9 +25,10 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     submenu: true,
     subMenuItems: [
       { title: "Viajes", path: "/admin/registers/trips" },
-      { title: "Rutas", path: "/admin/registers/routes" },
-      { title: "Vehiculos", path: "/admin/registers/vehicles" },
+      { title: "Rutas de viaje", path: "/admin/registers/routes" },
       { title: "Clientes", path: "/admin/registers/customers" },
+      { title: "Mantenientos", path: "/admin/registers/maintenances" },
+      { title: "Vehiculos", path: "/admin/registers/vehicles" },
       { title: "Terminales", path: "/admin/registers/transport-terminals" },
     ],
   },
