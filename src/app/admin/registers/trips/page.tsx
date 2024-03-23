@@ -1,3 +1,5 @@
+"use client"
+
 import TripForm from "@/components/trip/trip-form";
 import TripReport from "@/components/trip/trip-report";
 import TripTable from "@/components/trip/trip-table";

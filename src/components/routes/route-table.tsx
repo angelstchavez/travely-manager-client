@@ -148,21 +148,27 @@ const TableRoute: React.FC = () => {
 
   const columns: TableColumn<TravelRoute>[] = [
     {
-      name: "Ciudad de Origen",
-      selector: (row) => row.departureCity.name,
+      name: "Ruta",
       sortable: true,
       style: {
-        fontSize: 14,
+        width: "500px",
       },
+      cell: (row) => (
+        <>
+          <div className="py-1 p-1 flex items-center rounded bg-red-100 text-red-900 font-semibold">
+            <p className="mr-1 text-red-600 text-xl">
+              {" "}
+              <Icon icon="fluent:location-ripple-16-filled" />
+            </p>
+
+            <span>
+              {row.departureCity.name} - {row.destinationCity.name}
+            </span>
+          </div>
+        </>
+      ),
     },
-    {
-      name: "Ciudad de Destino",
-      selector: (row) => row.destinationCity.name,
-      sortable: true,
-      style: {
-        fontSize: 14,
-      },
-    },
+
     {
       name: "Distancia (Kilómetros)",
       selector: (row) => row.distanceKilometers + " Km",
