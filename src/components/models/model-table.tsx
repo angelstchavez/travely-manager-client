@@ -150,8 +150,6 @@ const CarModelList: React.FC = () => {
     }, 3000);
   };
 
-  const totalPages = Math.ceil(filteredCarModels.length / itemsPerPage);
-
   const columns: TableColumn<CarModel>[] = [
     {
       name: "Nombre",
