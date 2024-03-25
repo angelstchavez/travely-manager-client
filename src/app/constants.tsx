@@ -27,7 +27,6 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
       { title: "Viajes", path: "/admin/registers/trips" },
       { title: "Rutas de viaje", path: "/admin/registers/routes" },
       { title: "Clientes", path: "/admin/registers/customers" },
-      { title: "Mantenientos", path: "/admin/registers/maintenances" },
       { title: "Vehiculos", path: "/admin/registers/vehicles" },
       { title: "Terminales", path: "/admin/registers/transport-terminals" },
     ],
