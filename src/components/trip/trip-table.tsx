@@ -107,8 +107,9 @@ function TripTable() {
   const [successMessage, setSuccessMessage] = useState<string>("");
 
   const cookieValue = decodeURIComponent(Cookies.get("authTokens") || "");
-  const cookieData = JSON.parse(cookieValue);
+  const cookieData = cookieValue ? JSON.parse(cookieValue) : null;
   const token = cookieData?.data?.token;
+  
 
   useEffect(() => {
     const fetchData = async () => {
