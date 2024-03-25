@@ -150,7 +150,7 @@ function TripTable() {
     };
 
     fetchData();
-  }, []);
+  }, [token]);
 
   const handleDeleteConfirmation = async () => {
     if (tripToDelete) {
