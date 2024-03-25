@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -21,7 +22,6 @@ const UserTable: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [userToDelete, setUserToDelete] = useState<User | null>(null);
@@ -41,7 +41,7 @@ const UserTable: React.FC = () => {
         }
 
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/get-all?page=${currentPage}&perPage=${itemsPerPage}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/get-all`,
           {
             method: "GET",
             headers: {
@@ -70,7 +70,7 @@ const UserTable: React.FC = () => {
     };
 
     fetchData();
-  }, [currentPage, itemsPerPage]);
+  }, []);
 
   const handleDeleteConfirmation = async () => {
     if (userToDelete) {
@@ -149,7 +149,7 @@ const UserTable: React.FC = () => {
       sortable: true,
       style: {
         fontSize: 14,
-        width: "400px"
+        width: "400px",
       },
       cell: (row) => <RoleIcon role={row.role} />,
     },
@@ -218,9 +218,7 @@ const UserTable: React.FC = () => {
       user.username.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setUsers(filtered);
-  }, [users, searchTerm]);
-
-  const totalPages = Math.ceil(users.length / itemsPerPage);
+  }, []);
 
   return (
     <>
@@ -243,9 +241,6 @@ const UserTable: React.FC = () => {
             columns={columns}
             data={users}
             pagination
-            paginationPerPage={itemsPerPage}
-            paginationTotalRows={users.length}
-            onChangePage={(page) => setCurrentPage(page)}
             progressPending={loading}
             progressComponent={<Loading />}
           />
