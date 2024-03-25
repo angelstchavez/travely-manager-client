@@ -153,11 +153,21 @@ const TableTransportTerminal: React.FC = () => {
   const columns: TableColumn<TransportTerminal>[] = [
     {
       name: "Nombre",
-      selector: (row) => row.name,
       sortable: true,
       style: {
-        fontSize: 14,
+        width: "500px",
       },
+      cell: (row) => (
+        <>
+          <div className="py-1 p-1 flex items-center rounded bg-blue-100 text-tm20 font-semibold">
+            <p className="mr-1 text-tm20 text-xl">
+              {" "}
+              <Icon icon="heroicons:building-office-20-solid" />
+            </p>
+            <span>{row.name}</span>
+          </div>
+        </>
+      ),
     },
     {
       name: "Ciudad",

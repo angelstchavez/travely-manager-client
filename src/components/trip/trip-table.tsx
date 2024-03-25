@@ -213,7 +213,7 @@ function TripTable() {
       name: "Ruta",
       sortable: true,
       style: {
-        width: "9 00px",
+        width: "900px",
       },
       cell: (row) => (
         <>
