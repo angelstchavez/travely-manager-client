@@ -6,8 +6,8 @@ import { useTabs } from "@/hooks/use-tabs";
 import { Framer } from "@/lib/framer";
 
 import EmployeeTab from "./EmployeeTab";
-import DriverTab from "./driver-tab";
-import SellerTab from "./seller-tab";
+import DriverTab from "../employee/employee-driver-table";
+import SellerTab from "../employee/employee-seller-table";
 
 const EmployeeTabs = () => {
   const [hookProps] = useState({

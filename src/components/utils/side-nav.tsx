@@ -68,7 +68,7 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
                     key={idx}
                     href={subItem.path}
                     className={`${
-                      subItem.path === pathname ? "p-1 font-semibold text-tm40 bg-zinc-50 rounded border" : "p-1"
+                      subItem.path === pathname ? "p-1 font-semibold text-tm40 bg-zinc-100 rounded border" : "p-1"
                     }`}
                   >
                     <span>{subItem.title}</span>
