@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 interface Seat {
   id: string;
   number: number;
-  status: "Libre" | "Reservado" | "Vendido";
+  status: "Disponible" | "Reservado" | "Vendido";
   tripId: number;
 }
 
@@ -70,7 +70,7 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
             <Seat
               id={seat.id}
               number={seat.number}
-              status={seat.status === "Vendido" ? "Vendido" : "Libre"}
+              status={seat.status}
             />
           </div>
         ))}
@@ -85,7 +85,7 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
             <Seat
               id={seat.id}
               number={seat.number}
-              status={seat.status === "Vendido" ? "Vendido" : "Libre"}
+              status={seat.status}
             />
           </div>
         ))}
@@ -104,7 +104,7 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
             <Seat
               id={seat.id}
               number={seat.number}
-              status={seat.status === "Vendido" ? "Vendido" : "Libre"}
+              status={seat.status}
             />
           </div>
         ))}
@@ -121,7 +121,7 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
             <Seat
               id={seat.id}
               number={seat.number}
-              status={seat.status === "Vendido" ? "Vendido" : "Libre"}
+              status={seat.status}
             />
           </div>
         ))}

@@ -11,18 +11,18 @@ interface SaleRegisterProps {
 const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
   return (
     <div className="fixed inset-0 z-50 overflow-auto bg-tm90 bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg shadow-lg grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
+      <div className="bg-white rounded-lg shadow-lg grid grid-cols-1 sm:grid-cols-2 gap-2 p-2">
         <div>
+          <SeatStatusCounts tripId={tripId} />
           <Bus tripId={tripId} />
         </div>
         <div className="overflow-auto">
-          <SeatStatusCounts tripId={tripId} />
           <TripDetails tripId={tripId} />
         </div>
         <div>
           <button
             onClick={onCancel}
-            className="mt-4 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold py-2 px-4 rounded"
+            className="bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold py-2 px-4 rounded"
           >
             Cancelar
           </button>

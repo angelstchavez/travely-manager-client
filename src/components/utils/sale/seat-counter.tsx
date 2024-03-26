@@ -48,14 +48,14 @@ const SeatStatusCounts: React.FC<SeatStatusCountsProps> = ({ tripId }) => {
   }, [tripId]); // Se agrega tripId como dependencia para que useEffect se ejecute cuando cambie
 
   return (
-    <div className="mb-4 flex justify-center items-center border rounded p-2">
+    <div className="mb-2 flex justify-center items-center border rounded p-1">
       <div>
         <div className="text-center">
           <h2 className="text-xl font-bold">Estado de Asientos</h2>
         </div>
         <div className="flex justify-center">
           <div className="mr-6 flex flex-col items-center">
-            <span className="text-4xl text-zinc-300">
+            <span className="text-5xl text-zinc-300">
               <Icon icon="material-symbols:event-seat" />
             </span>
             <p className="text-sm text-gray-700">
@@ -63,7 +63,7 @@ const SeatStatusCounts: React.FC<SeatStatusCountsProps> = ({ tripId }) => {
             </p>
           </div>
           <div className="mr-6 flex flex-col items-center">
-            <span className="text-4xl text-yellow-500">
+            <span className="text-5xl text-orange-600">
               <Icon icon="material-symbols:event-seat" />
             </span>
             <p className="text-sm text-gray-700">
@@ -71,7 +71,7 @@ const SeatStatusCounts: React.FC<SeatStatusCountsProps> = ({ tripId }) => {
             </p>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-4xl text-green-600">
+            <span className="text-5xl text-tm20">
               <Icon icon="material-symbols:event-seat" />
             </span>
             <p className="text-sm">Vendidos: {statusCounts.Vendido}</p>
