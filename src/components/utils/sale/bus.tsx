@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Seat from "./seat";
 import Cookies from "js-cookie";
 
-interface Seat {
+interface SeatData {
   id: string;
   number: number;
   status: "Disponible" | "Reservado" | "Vendido";
@@ -11,11 +11,14 @@ interface Seat {
 
 interface BusProps {
   tripId: number;
+  onSelectedSeatsChange: (selectedSeatData: {
+    id: string;
+    number: number;
+  }) => void; // Cambiado el tipo de dato que recibe la función onSelectedSeatsChange
 }
 
-const Bus: React.FC<BusProps> = ({ tripId }) => {
-  const [seats, setSeats] = useState<Seat[]>([]);
-  const [selectedSeatId, setSelectedSeatId] = useState<string | null>(null);
+const Bus: React.FC<BusProps> = ({ tripId, onSelectedSeatsChange }) => {
+  const [seats, setSeats] = useState<SeatData[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,8 +60,9 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
   const thirdSection = seats.slice(thirdLength * 2, thirdLength * 3);
   const fourthSection = seats.slice(thirdLength * 3);
 
-   const handleSeatClick = (id: string) => {
-    setSelectedSeatId(id);
+  const handleSeatClick = (seatData: { id: string; number: number }) => {
+    // Modificado el argumento para recibir el objeto con ID y número
+    onSelectedSeatsChange(seatData); // Pasar el objeto con ID y número al hacer clic en la silla
   };
 
   return (
@@ -75,7 +79,12 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
                   index !== firstThird.length - 1 ? "mb-2" : ""
                 }`}
               >
-                <Seat id={seat.id} number={seat.number} status={seat.status} onSeatClick={handleSeatClick}/>
+                <Seat
+                  id={seat.id}
+                  number={seat.number}
+                  status={seat.status}
+                  onSeatClick={handleSeatClick}
+                />
               </div>
             ))}
           </div>
@@ -88,7 +97,12 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
                   index !== secondThird.length - 1 ? "mb-2" : ""
                 }`}
               >
-                <Seat id={seat.id} number={seat.number} status={seat.status} onSeatClick={handleSeatClick}/>
+                <Seat
+                  id={seat.id}
+                  number={seat.number}
+                  status={seat.status}
+                  onSeatClick={handleSeatClick}
+                />
               </div>
             ))}
           </div>
@@ -103,7 +117,12 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
                   index !== thirdSection.length - 1 ? "mb-2" : ""
                 }`}
               >
-                <Seat id={seat.id} number={seat.number} status={seat.status}onSeatClick={handleSeatClick}/>
+                <Seat
+                  id={seat.id}
+                  number={seat.number}
+                  status={seat.status}
+                  onSeatClick={handleSeatClick}
+                />
               </div>
             ))}
           </div>
@@ -116,18 +135,27 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
                   index !== fourthSection.length - 1 ? "mb-2" : ""
                 }`}
               >
-                <Seat id={seat.id} number={seat.number} status={seat.status}onSeatClick={handleSeatClick}/>
+                <Seat
+                  id={seat.id}
+                  number={seat.number}
+                  status={seat.status}
+                  onSeatClick={handleSeatClick}
+                />
               </div>
             ))}
           </div>
         </div>
         <div className="grid grid-cols-5">
           <div className="col-span-2 h-10 bg-zinc-100 flex items-center justify-center">
-          <div className="text-center text-zinc-600 font-bold text-xs">Area del auxiliar</div>
+            <div className="text-center text-zinc-600 font-bold text-xs">
+              Area del auxiliar
+            </div>
           </div>
           <div className="col-span-1"></div>
           <div className="col-span-2 h-10 bg-zinc-100 flex items-center justify-center">
-            <div className="text-center text-zinc-600 font-bold text-xs">Area del conductor</div>
+            <div className="text-center text-zinc-600 font-bold text-xs">
+              Area del conductor
+            </div>
           </div>
         </div>
         <div className="bg-zinc-200 w-full h-2 border-b border-l border-r border-zinc-200 rounded-b-full"></div>{" "}
