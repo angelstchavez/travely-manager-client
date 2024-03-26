@@ -48,23 +48,62 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
     };
 
     fetchData();
-  }, [tripId]); // Agregar tripId como dependencia para que useEffect se ejecute cuando cambie
+  }, [tripId]);
+
+  const thirdLength = Math.ceil(seats.length / 4);
+  const firstThird = seats.slice(0, thirdLength);
+  const secondThird = seats.slice(thirdLength, thirdLength * 2);
+  const thirdSection = seats.slice(thirdLength * 2, thirdLength * 3);
+  const fourthSection = seats.slice(thirdLength * 3);
 
   return (
     <div className="grid grid-cols-5 gap-2 border rounded p-2">
-      {seats.map((seat, index) => (
-        <React.Fragment key={seat.id}>
-          {(index + 1) % 5 === 3 ? ( // Si es el tercer elemento en una fila (columna 3), renderizar espacio
-            <div className="w-full"></div>
-          ) : (
-            <Seat
-              id={seat.id}
-              number={seat.number}
-              status={seat.status === "Vendido" ? "Vendido" : "Libre"}
-            />
-          )}
-        </React.Fragment>
-      ))}
+      {/* Columna 1 */}
+      <div className="col-span-1">
+        {firstThird.map((seat) => (
+          <Seat
+            key={seat.id}
+            id={seat.id}
+            number={seat.number}
+            status={seat.status === "Vendido" ? "Vendido" : "Libre"}
+          />
+        ))}
+      </div>
+      {/* Columna 2 */}
+      <div className="col-span-1">
+        {secondThird.map((seat) => (
+          <Seat
+            key={seat.id}
+            id={seat.id}
+            number={seat.number}
+            status={seat.status === "Vendido" ? "Vendido" : "Libre"}
+          />
+        ))}
+      </div>
+      {/* Columna 3 (vacía) */}
+      <div className="col-span-1 bg-zinc-100 rounded"></div>
+      {/* Columna 4 */}
+      <div className="col-span-1">
+        {thirdSection.map((seat) => (
+          <Seat
+            key={seat.id}
+            id={seat.id}
+            number={seat.number}
+            status={seat.status === "Vendido" ? "Vendido" : "Libre"}
+          />
+        ))}
+      </div>
+      {/* Columna 5 */}
+      <div className="col-span-1">
+        {fourthSection.map((seat) => (
+          <Seat
+            key={seat.id}
+            id={seat.id}
+            number={seat.number}
+            status={seat.status === "Vendido" ? "Vendido" : "Libre"}
+          />
+        ))}
+      </div>
     </div>
   );
 };
