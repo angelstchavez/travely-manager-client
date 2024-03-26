@@ -56,52 +56,74 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
   const thirdSection = seats.slice(thirdLength * 2, thirdLength * 3);
   const fourthSection = seats.slice(thirdLength * 3);
 
+  // ...
+
   return (
-    <div className="grid grid-cols-5 gap-2 border rounded p-2">
+    <div className="grid grid-cols-5 gap-3 border rounded p-2">
       {/* Columna 1 */}
       <div className="col-span-1">
-        {firstThird.map((seat) => (
-          <Seat
+        {firstThird.map((seat, index) => (
+          <div
             key={seat.id}
-            id={seat.id}
-            number={seat.number}
-            status={seat.status === "Vendido" ? "Vendido" : "Libre"}
-          />
+            className={`mb-2 ${index !== firstThird.length - 1 ? "mb-2" : ""}`}
+          >
+            <Seat
+              id={seat.id}
+              number={seat.number}
+              status={seat.status === "Vendido" ? "Vendido" : "Libre"}
+            />
+          </div>
         ))}
       </div>
       {/* Columna 2 */}
       <div className="col-span-1">
-        {secondThird.map((seat) => (
-          <Seat
+        {secondThird.map((seat, index) => (
+          <div
             key={seat.id}
-            id={seat.id}
-            number={seat.number}
-            status={seat.status === "Vendido" ? "Vendido" : "Libre"}
-          />
+            className={`mb-2 ${index !== secondThird.length - 1 ? "mb-2" : ""}`}
+          >
+            <Seat
+              id={seat.id}
+              number={seat.number}
+              status={seat.status === "Vendido" ? "Vendido" : "Libre"}
+            />
+          </div>
         ))}
       </div>
       {/* Columna 3 (vacía) */}
-      <div className="col-span-1 bg-zinc-100 rounded"></div>
+      <div className="col-span-1 bg-zinc-100 rounded-md mb-2"></div>
       {/* Columna 4 */}
       <div className="col-span-1">
-        {thirdSection.map((seat) => (
-          <Seat
+        {thirdSection.map((seat, index) => (
+          <div
             key={seat.id}
-            id={seat.id}
-            number={seat.number}
-            status={seat.status === "Vendido" ? "Vendido" : "Libre"}
-          />
+            className={`mb-2 ${
+              index !== thirdSection.length - 1 ? "mb-2" : ""
+            }`}
+          >
+            <Seat
+              id={seat.id}
+              number={seat.number}
+              status={seat.status === "Vendido" ? "Vendido" : "Libre"}
+            />
+          </div>
         ))}
       </div>
       {/* Columna 5 */}
       <div className="col-span-1">
-        {fourthSection.map((seat) => (
-          <Seat
+        {fourthSection.map((seat, index) => (
+          <div
             key={seat.id}
-            id={seat.id}
-            number={seat.number}
-            status={seat.status === "Vendido" ? "Vendido" : "Libre"}
-          />
+            className={`mb-2 ${
+              index !== fourthSection.length - 1 ? "mb-2" : ""
+            }`}
+          >
+            <Seat
+              id={seat.id}
+              number={seat.number}
+              status={seat.status === "Vendido" ? "Vendido" : "Libre"}
+            />
+          </div>
         ))}
       </div>
     </div>
