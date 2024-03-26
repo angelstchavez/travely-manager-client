@@ -10,25 +10,35 @@ interface SaleRegisterProps {
 
 const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
   return (
-    <div className="fixed inset-0 z-50 overflow-auto bg-tm90 bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg shadow-lg grid grid-cols-1 sm:grid-cols-2 gap-2 p-2">
-        <div>
-          <SeatStatusCounts tripId={tripId} />
-          <Bus tripId={tripId} />
+    <>
+      <div className="bg-white rounded-md shadow-lg">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2">
+          <div>
+            <SeatStatusCounts tripId={tripId} />
+            <Bus tripId={tripId} />
+          </div>
+          <div className="overflow-auto">
+            <TripDetails tripId={tripId} />
+          </div>
         </div>
-        <div className="overflow-auto">
-          <TripDetails tripId={tripId} />
-        </div>
-        <div>
-          <button
-            onClick={onCancel}
-            className="bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold py-2 px-4 rounded"
-          >
-            Cancelar
-          </button>
+        <div className="flex justify-end p-2">
+          <div className="space-x-2">
+            <button
+              onClick={onCancel}
+              className="bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold py-2 px-4 rounded"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={onCancel}
+              className="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+            >
+              Registrar
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

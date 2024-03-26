@@ -6,7 +6,7 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import SuccessModal from "../modals/success-modal";
 import Loading from "../utils/loading";
-import SaleRegister from "./sale-register";
+import SaleTab from "../utils/sale/sale-tab";
 
 interface Trip {
   id: number;
@@ -335,7 +335,7 @@ function SaleTripsTable() {
         </div>
         {successMessage && <SuccessModal successMessage={successMessage} />}
         {selectedTripId && (
-          <SaleRegister tripId={selectedTripId} onCancel={handleCancel} />
+          <SaleTab tripId={selectedTripId} onCancel={handleCancel} />
         )}
       </section>
     </>

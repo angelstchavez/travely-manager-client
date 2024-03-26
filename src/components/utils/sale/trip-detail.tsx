@@ -20,7 +20,7 @@ const TripDetails: React.FC<TripDetailsProps> = ({ tripId }) => {
         }
 
         const response = await fetch(
-          `http://localhost:90/api/v1/trip/get-by-id/${tripId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/trip/get-by-id/${tripId}`,
           {
             method: "GET",
             headers: {
@@ -42,6 +42,24 @@ const TripDetails: React.FC<TripDetailsProps> = ({ tripId }) => {
     fetchData();
   }, [tripId]);
 
+  const formatCurrency = (value: number): string => {
+    return new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+    }).format(value);
+  };
+
+  const formatDate = (date: string): string => {
+    return new Date(date).toLocaleDateString("es-CO");
+  };
+
+  const formatTime = (time: string): string => {
+    const [hours, minutes, seconds] = time.split(":");
+    const formattedHours = parseInt(hours) % 12 || 12; // Convertir a formato de 12 horas
+    const amPm = parseInt(hours) < 12 ? "AM" : "PM";
+    return `${formattedHours}:${minutes} ${amPm}`;
+  };
+
   if (!tripDetails) {
     return <div>Cargando...</div>;
   }
@@ -52,22 +70,26 @@ const TripDetails: React.FC<TripDetailsProps> = ({ tripId }) => {
         {tripDetails.travelRoute.departureCity.name} -{" "}
         {tripDetails.travelRoute.destinationCity.name}
       </h2>
-      <div className="py-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="text-center">
           <h3 className="font-semibold">Fecha de Viaje</h3>
-          <p>{tripDetails.travelDate}</p>
+          <p>{formatDate(tripDetails.travelDate)}</p>
           <h3 className="font-semibold">Hora de Viaje</h3>
-          <p>{tripDetails.travelTime}</p>
+          <p>{formatTime(tripDetails.travelTime)}</p>
           <h3 className="font-semibold">Precio del Boleto</h3>
-          <p>{tripDetails.ticketPrice}</p>
+          <div className="inline-block bg-green-700 text-white font-bold rounded px-1 py-1">
+            {formatCurrency(tripDetails.ticketPrice)}
+          </div>
         </div>
-        <div>
+        <div className="text-center">
           <h3 className="font-semibold">Distancia</h3>
           <p>{tripDetails.travelRoute.distanceKilometers} Km</p>
           <h3 className="font-semibold">Duración</h3>
           <p>{tripDetails.travelRoute.durationHours} Horas</p>
-          <p>Salida: {tripDetails.departureTerminal.name}</p>
-          <p>Llegada: {tripDetails.destinationTerminal.name}</p>
+          <h3 className="font-semibold">Autobús</h3>
+          <div className="inline-block bg-tm20 text-white font-bold rounded px-1 py-1">
+            Placa {tripDetails.carDriver.car.plate}
+          </div>
         </div>
       </div>
     </div>

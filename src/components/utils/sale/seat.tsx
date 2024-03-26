@@ -18,14 +18,14 @@ const Seat: React.FC<SeatProps> = ({ id, number, status, onHover }) => {
       hoverColor = "hover:bg-gray-100";
       break;
     case "Reservado":
-      seatColor = "bg-orange-600";
+      seatColor = "bg-zinc-500";
       textColor = "text-white";
-      hoverColor = "hover:bg-orange-500";
+      hoverColor = "hover:bg-zinc-500";
       break;
     case "Vendido":
       seatColor = "bg-tm20";
       textColor = "text-white";
-      hoverColor = "hover:bg-tm10";
+      hoverColor = "hover:bg-tm20";
       break;
     default:
       seatColor = "bg-tm00";

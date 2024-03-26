@@ -50,21 +50,18 @@ const SeatStatusCounts: React.FC<SeatStatusCountsProps> = ({ tripId }) => {
   return (
     <div className="mb-2 flex justify-center items-center border rounded p-1">
       <div>
-        <div className="text-center">
-          <h2 className="text-xl font-bold">Estado de Asientos</h2>
-        </div>
         <div className="flex justify-center">
           <div className="mr-6 flex flex-col items-center">
             <span className="text-5xl text-zinc-300">
-              <Icon icon="material-symbols:event-seat" />
+              <Icon icon="icon-park-twotone:baby-car-seat" />
             </span>
             <p className="text-sm text-gray-700">
               Disponibles: {statusCounts.Disponible}
             </p>
           </div>
           <div className="mr-6 flex flex-col items-center">
-            <span className="text-5xl text-orange-600">
-              <Icon icon="material-symbols:event-seat" />
+            <span className="text-5xl text-zinc-600">
+              <Icon icon="icon-park-twotone:baby-car-seat" />
             </span>
             <p className="text-sm text-gray-700">
               Reservados: {statusCounts.Reservado}
@@ -72,7 +69,7 @@ const SeatStatusCounts: React.FC<SeatStatusCountsProps> = ({ tripId }) => {
           </div>
           <div className="flex flex-col items-center">
             <span className="text-5xl text-tm20">
-              <Icon icon="material-symbols:event-seat" />
+              <Icon icon="icon-park-twotone:baby-car-seat" />
             </span>
             <p className="text-sm">Vendidos: {statusCounts.Vendido}</p>
           </div>
