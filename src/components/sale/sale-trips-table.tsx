@@ -143,6 +143,10 @@ function SaleTripsTable() {
     filterTrips();
   }, [cityFilter, destinationCityFilter, dateFilter, timeFilter, trips]);
 
+  const handleCancel = () => {
+    setSelectedTripId(null);
+  };
+
   const columns: TableColumn<Trip>[] = [
     {
       name: "Origen",
@@ -330,8 +334,9 @@ function SaleTripsTable() {
           />
         </div>
         {successMessage && <SuccessModal successMessage={successMessage} />}
-        {selectedTripId && <SaleRegister tripId={selectedTripId} />}{" "}
-        {/* Mostrar SaleRegister si selectedTripId está definido */}
+        {selectedTripId && (
+          <SaleRegister tripId={selectedTripId} onCancel={handleCancel} />
+        )}
       </section>
     </>
   );
