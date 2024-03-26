@@ -2,7 +2,6 @@ import React from "react";
 import Bus from "../utils/sale/bus";
 import SeatStatusCounts from "../utils/sale/seat-counter";
 import TripDetails from "../utils/sale/trip-detail";
-import classNames from "classnames";
 
 interface SaleRegisterProps {
   tripId: number;
@@ -12,13 +11,13 @@ interface SaleRegisterProps {
 const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
   return (
     <>
-      <div className="bg-white rounded-md shadow-lg p-1">
+      <div className="bg-white rounded-md shadow-lg p-1 overflow-auto ">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2">
-          <div>
-            <SeatStatusCounts tripId={tripId} />
+          <div className="overflow-hidden md:w-[300px] md:h-[650px] lg:w-[300px] lg:h-[650px]">
             <Bus tripId={tripId} />
           </div>
-          <div>
+          <div className="overflow-hidden md:w-[300px] md:h-[650px] lg:w-[300px] lg:h-[650px]">
+            <SeatStatusCounts tripId={tripId} />
             <TripDetails tripId={tripId} />
             <div className="flex justify-end py-2">
               <div className="space-x-2">

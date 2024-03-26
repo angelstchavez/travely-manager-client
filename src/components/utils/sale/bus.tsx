@@ -15,6 +15,7 @@ interface BusProps {
 
 const Bus: React.FC<BusProps> = ({ tripId }) => {
   const [seats, setSeats] = useState<Seat[]>([]);
+  const [selectedSeatId, setSelectedSeatId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,7 +57,9 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
   const thirdSection = seats.slice(thirdLength * 2, thirdLength * 3);
   const fourthSection = seats.slice(thirdLength * 3);
 
-  // ...
+   const handleSeatClick = (id: string) => {
+    setSelectedSeatId(id);
+  };
 
   return (
     <>
@@ -72,7 +75,7 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
                   index !== firstThird.length - 1 ? "mb-2" : ""
                 }`}
               >
-                <Seat id={seat.id} number={seat.number} status={seat.status} />
+                <Seat id={seat.id} number={seat.number} status={seat.status} onSeatClick={handleSeatClick}/>
               </div>
             ))}
           </div>
@@ -85,7 +88,7 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
                   index !== secondThird.length - 1 ? "mb-2" : ""
                 }`}
               >
-                <Seat id={seat.id} number={seat.number} status={seat.status} />
+                <Seat id={seat.id} number={seat.number} status={seat.status} onSeatClick={handleSeatClick}/>
               </div>
             ))}
           </div>
@@ -100,7 +103,7 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
                   index !== thirdSection.length - 1 ? "mb-2" : ""
                 }`}
               >
-                <Seat id={seat.id} number={seat.number} status={seat.status} />
+                <Seat id={seat.id} number={seat.number} status={seat.status}onSeatClick={handleSeatClick}/>
               </div>
             ))}
           </div>
@@ -113,7 +116,7 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
                   index !== fourthSection.length - 1 ? "mb-2" : ""
                 }`}
               >
-                <Seat id={seat.id} number={seat.number} status={seat.status} />
+                <Seat id={seat.id} number={seat.number} status={seat.status}onSeatClick={handleSeatClick}/>
               </div>
             ))}
           </div>
