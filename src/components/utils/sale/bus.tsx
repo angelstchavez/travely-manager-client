@@ -70,7 +70,7 @@ const Bus: React.FC<BusProps> = ({ tripId, onSelectedSeatsChange }) => {
       <div className="border rounded-xl">
         <div className="bg-zinc-200 w-full h-2 border-t border-l border-r border-zinc-200 rounded-t-full"></div>{" "}
         <div className="grid grid-cols-5">
-          <div className="col-span-2 h-10 bg-zinc-100 flex items-center justify-center">
+          <div className="col-span-2 h-10 bg-zinc-300 flex items-center justify-center">
             <div className="text-center text-zinc-600 font-bold text-xs">
               Area del conductor
             </div>
@@ -156,6 +156,19 @@ const Bus: React.FC<BusProps> = ({ tripId, onSelectedSeatsChange }) => {
                 />
               </div>
             ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-5">
+          <div className="col-span-2 h-8 bg-zinc-100 flex items-center justify-center">
+            <div className="text-center text-zinc-600 font-bold text-xs">
+              Baño
+            </div>
+          </div>
+          <div className="col-span-1"></div>
+          <div className="col-span-2 h-8 bg-zinc-100 flex items-center justify-center">
+            <div className="text-center text-zinc-600 font-bold text-xs">
+              Baño
+            </div>
           </div>
         </div>
         <div className="bg-zinc-200 w-full h-2 border-b border-l border-r border-zinc-200 rounded-b-full"></div>{" "}
