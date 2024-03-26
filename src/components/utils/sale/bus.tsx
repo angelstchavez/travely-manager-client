@@ -59,74 +59,77 @@ const Bus: React.FC<BusProps> = ({ tripId }) => {
   // ...
 
   return (
-    <div className="grid grid-cols-5 gap-3 border rounded p-2">
-      {/* Columna 1 */}
-      <div className="col-span-1">
-        {firstThird.map((seat, index) => (
-          <div
-            key={seat.id}
-            className={`mb-2 ${index !== firstThird.length - 1 ? "mb-2" : ""}`}
-          >
-            <Seat
-              id={seat.id}
-              number={seat.number}
-              status={seat.status}
-            />
+    <>
+      <div className="border rounded-xl">
+        <div className="bg-zinc-200 w-full h-2 border-t border-l border-r border-zinc-200 rounded-t-full"></div>{" "}
+        <div className="grid grid-cols-5 gap-3 p-2">
+          {/* Columna 1 */}
+          <div className="col-span-1">
+            {firstThird.map((seat, index) => (
+              <div
+                key={seat.id}
+                className={`mb-2 ${
+                  index !== firstThird.length - 1 ? "mb-2" : ""
+                }`}
+              >
+                <Seat id={seat.id} number={seat.number} status={seat.status} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      {/* Columna 2 */}
-      <div className="col-span-1">
-        {secondThird.map((seat, index) => (
-          <div
-            key={seat.id}
-            className={`mb-2 ${index !== secondThird.length - 1 ? "mb-2" : ""}`}
-          >
-            <Seat
-              id={seat.id}
-              number={seat.number}
-              status={seat.status}
-            />
+          {/* Columna 2 */}
+          <div className="col-span-1">
+            {secondThird.map((seat, index) => (
+              <div
+                key={seat.id}
+                className={`mb-2 ${
+                  index !== secondThird.length - 1 ? "mb-2" : ""
+                }`}
+              >
+                <Seat id={seat.id} number={seat.number} status={seat.status} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      {/* Columna 3 (vacía) */}
-      <div className="col-span-1 bg-zinc-100 rounded-md mb-2"></div>
-      {/* Columna 4 */}
-      <div className="col-span-1">
-        {thirdSection.map((seat, index) => (
-          <div
-            key={seat.id}
-            className={`mb-2 ${
-              index !== thirdSection.length - 1 ? "mb-2" : ""
-            }`}
-          >
-            <Seat
-              id={seat.id}
-              number={seat.number}
-              status={seat.status}
-            />
+          {/* Columna 3 (vacía) */}
+          <div className="col-span-1 bg-zinc-100 rounded-md mb-2"></div>
+          {/* Columna 4 */}
+          <div className="col-span-1">
+            {thirdSection.map((seat, index) => (
+              <div
+                key={seat.id}
+                className={`mb-2 ${
+                  index !== thirdSection.length - 1 ? "mb-2" : ""
+                }`}
+              >
+                <Seat id={seat.id} number={seat.number} status={seat.status} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      {/* Columna 5 */}
-      <div className="col-span-1">
-        {fourthSection.map((seat, index) => (
-          <div
-            key={seat.id}
-            className={`mb-2 ${
-              index !== fourthSection.length - 1 ? "mb-2" : ""
-            }`}
-          >
-            <Seat
-              id={seat.id}
-              number={seat.number}
-              status={seat.status}
-            />
+          {/* Columna 5 */}
+          <div className="col-span-1">
+            {fourthSection.map((seat, index) => (
+              <div
+                key={seat.id}
+                className={`mb-2 ${
+                  index !== fourthSection.length - 1 ? "mb-2" : ""
+                }`}
+              >
+                <Seat id={seat.id} number={seat.number} status={seat.status} />
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+        <div className="grid grid-cols-5">
+          <div className="col-span-2 h-10 bg-zinc-100 flex items-center justify-center">
+          <div className="text-center text-zinc-600 font-bold text-xs">Area del auxiliar</div>
+          </div>
+          <div className="col-span-1"></div>
+          <div className="col-span-2 h-10 bg-zinc-100 flex items-center justify-center">
+            <div className="text-center text-zinc-600 font-bold text-xs">Area del conductor</div>
+          </div>
+        </div>
+        <div className="bg-zinc-200 w-full h-2 border-b border-l border-r border-zinc-200 rounded-b-full"></div>{" "}
       </div>
-    </div>
+    </>
   );
 };
 

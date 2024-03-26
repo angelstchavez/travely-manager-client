@@ -41,7 +41,7 @@ const Seat: React.FC<SeatProps> = ({ id, number, status, onHover }) => {
       style={{ width: "50px", height: "30px" }}
       onMouseEnter={onHover}
     >
-      <span className={`font-bold text-xl ${textColor}`}>{number}</span>
+      <span className={`font-bold text-xm ${textColor}`}>{number}</span>
     </div>
   );
 };

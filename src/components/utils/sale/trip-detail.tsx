@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import Loading from "../loading";
 
 interface TripDetailsProps {
   tripId: number;
@@ -61,7 +62,11 @@ const TripDetails: React.FC<TripDetailsProps> = ({ tripId }) => {
   };
 
   if (!tripDetails) {
-    return <div>Cargando...</div>;
+    return (
+      <div>
+        <Loading></Loading>
+      </div>
+    );
   }
 
   return (
@@ -77,7 +82,7 @@ const TripDetails: React.FC<TripDetailsProps> = ({ tripId }) => {
           <h3 className="font-semibold">Hora de Viaje</h3>
           <p>{formatTime(tripDetails.travelTime)}</p>
           <h3 className="font-semibold">Precio del Boleto</h3>
-          <div className="inline-block bg-green-700 text-white font-bold rounded px-1 py-1">
+          <div className="inline-block bg-green-200 text-green-700 font-bold rounded px-1">
             {formatCurrency(tripDetails.ticketPrice)}
           </div>
         </div>
@@ -87,7 +92,7 @@ const TripDetails: React.FC<TripDetailsProps> = ({ tripId }) => {
           <h3 className="font-semibold">Duración</h3>
           <p>{tripDetails.travelRoute.durationHours} Horas</p>
           <h3 className="font-semibold">Autobús</h3>
-          <div className="inline-block bg-tm20 text-white font-bold rounded px-1 py-1">
+          <div className="inline-block bg-blue-200 text-tm40 font-bold rounded px-1">
             Placa {tripDetails.carDriver.car.plate}
           </div>
         </div>

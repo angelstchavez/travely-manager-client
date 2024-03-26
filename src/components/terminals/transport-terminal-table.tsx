@@ -233,7 +233,7 @@ const TableTransportTerminal: React.FC = () => {
       <div className="m-2"></div>
       <input
         type="text"
-        placeholder="Bustransport-terminal por terminal"
+        placeholder="Buscar por terminal"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="pl-3 pr-12 mt-1 border-gray-300 focus:outline-none sm:text-sm rounded-md relative inline-flex items-center space-x-2 px-4 py-2 border text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
