@@ -36,14 +36,12 @@ function SaleTab({ tripId, onCancel }: SaleTabProps) {
   const framer = useTabs(hookProps);
 
   return (
-    <div className="fixed inset-0 z-50 bg-zinc-600 bg-opacity-50 flex items-center justify-center overflow-auto">
-      <div className="flex flex-col">
-        <div className="w-full items-start flex bg-white px-2 border rounded-md">
-          <Framer.Tabs {...framer.tabProps} />
-        </div>
-        <div className="py-2 overflow-auto">{framer.selectedTab.children}</div>
+    <>
+      <div className="mt-2 items-start flex bg-white px-2 border rounded-md">
+        <Framer.Tabs {...framer.tabProps} />
       </div>
-    </div>
+      <div className="py-2 overflow-auto">{framer.selectedTab.children}</div>
+    </>
   );
 }
 

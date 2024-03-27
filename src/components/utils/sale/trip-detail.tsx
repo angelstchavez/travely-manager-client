@@ -75,7 +75,7 @@ const TripDetails: React.FC<TripDetailsProps> = ({ tripId }) => {
         {tripDetails.travelRoute.departureCity.name} -{" "}
         {tripDetails.travelRoute.destinationCity.name}
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-4 md:grid-cols-2 gap-4">
         <div className="text-center">
           <h3 className="font-semibold">Fecha de Viaje</h3>
           <p>{formatDate(tripDetails.travelDate)}</p>
