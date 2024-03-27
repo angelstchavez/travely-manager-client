@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState } from "react";
 
 interface SelectedSeatsDisplayProps {
@@ -21,14 +22,20 @@ const SelectedSeatsDisplay: React.FC<SelectedSeatsDisplayProps> = ({
           </div>
         ) : (
           selectedSeatIds.map((seat) => (
-            <div key={seat.id} className="m-1">
+            <div key={seat.id} className="m-0.5">
               <div
-                className={` border border-gray-300 rounded-md flex items-center justify-center transition-colors duration-200 bg-green-600 hover:bg-green-500`}
-                style={{ width: "40px", height: "40px" }}
+                className={`mt-0.5 border border-gray-300 rounded-md flex items-center justify-center bg-tm40`}
+                style={{ width: "50px", height: "60px" }}
               >
-                <span className={`font-bold text-xm text-white`}>
-                  {seat.number}
-                </span>
+                <div style={{ textAlign: "center" }}>
+                  <span className={`font-bold text-xl text-white`}>
+                    {seat.number}
+                  </span>
+                  <br />
+                  <span className="text-2xl">
+                    <Icon icon="noto:seat" />
+                  </span>
+                </div>
               </div>
             </div>
           ))

@@ -50,7 +50,7 @@ const Seat: React.FC<SeatProps> = ({ id, number, status, onSeatClick }) => {
       style={{ width: "50px", height: "50px" }}
       onClick={handleClick}
     >
-      <span className={`font-bold text-xm ${textColor}`}>{number}</span>
+      <span className={`font-bold text-xl ${textColor}`}>{number}</span>
     </div>
   );
 };

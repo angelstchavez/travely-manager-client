@@ -4,6 +4,7 @@ import SeatStatusCounts from "../utils/sale/seat-counter";
 import TripDetails from "../utils/sale/trip-detail";
 import SelectedSeatsDisplay from "../utils/sale/selected-seat";
 import ConfirmationModal from "../modals/confirmation-modal"; // Importamos el componente de confirmación
+import TotalSale from "../utils/sale/total-sale";
 
 interface SaleRegisterProps {
   tripId: number;
@@ -85,11 +86,23 @@ const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
                 <SelectedSeatsDisplay selectedSeatIds={selectedSeats} />
               </div>
               <div className="mt-2">
+                <TotalSale
+                  tripId={tripId}
+                  count={selectedSeats.length}
+                ></TotalSale>
+              </div>
+              <div className="mt-2 px-1 flex justify-end">
                 <button
                   onClick={handleCancel}
-                  className="bg-zinc-200 p-1 px-3 rounded border"
+                  className="bg-zinc-200 text-zinc-400 p-1 px-3 rounded border mr-2"
                 >
                   Cancelar
+                </button>
+                <button
+                  onClick={handleCancel}
+                  className=" bg-orange-600 hover:bg-orange-600/90 text-white font-semibold p-1 px-3 rounded"
+                >
+                  Registrar pasajeros
                 </button>
               </div>
             </div>
