@@ -77,66 +77,40 @@ const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
   return (
     <>
       {showMainSection && (
-        <div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2">
-            <div className="overflow-hidden md:w-[300px] md:h-[600px] lg:w-[300px] lg:h-[600px]">
-              <Bus
-                tripId={tripId}
-                onSelectedSeatsChange={handleSelectedSeatsChange}
-              />
-            </div>
-            <div className="overflow-hidden md:w-[300px] md:h-[600px] lg:w-[300px] lg:h-[600px]">
-              <SeatStatusCounts tripId={tripId} />
-              <TripDetails tripId={tripId} />
-              <SelectedSeatsDisplay selectedSeatIds={selectedSeats} />
-              <div className="flex justify-end py-2">
-                <div className="space-x-2">
-                  <button
-                    onClick={onCancel}
-                    className="bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold py-2 px-4 rounded"
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    onClick={handleContinueClick}
-                    className="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Continuar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showConfirmationSection && (
-        <div className="bg-white rounded-md border overflow-auto p-2">
-          {selectedSeats.map((seat, index) => (
-            <PassengersSale
-              key={index}
-              seatId={seat.id}
-              seatNumber={seat.number}
-              selectedSeat={seat}
+        <div className="flex flex-col sm:flex-row gap-2 p-2">
+          <div className="overflow-hidden md:w-[300px] lg:w-[300px]">
+            <SeatStatusCounts tripId={tripId} />
+            <Bus
+              tripId={tripId}
+              onSelectedSeatsChange={handleSelectedSeatsChange}
             />
-          ))}
-          <div className="flex justify-end py-2">
-            <div className="tm-1 space-x-2">
-              <button
-                onClick={handleReturnClick}
-                className="bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold py-2 px-4 rounded"
-              >
-                Regresar
-              </button>
-            </div>
-            <div className="space-x-2">
-              <button
-                onClick={handlePaymentClick}
-                className="bg-green-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Formulario de pago
-              </button>
-            </div>
+          </div>
+          <div className="overflow-hidden flex-grow">
+            <TripDetails tripId={tripId} />
+            {selectedSeats.map((seat, index) => (
+              <PassengersSale
+                key={index}
+                seatId={seat.id}
+                seatNumber={seat.number}
+                selectedSeat={seat}
+              />
+            ))}
+          </div>
+          <div className="tm-1 space-x-2">
+            <button
+              onClick={handleReturnClick}
+              className="bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold py-2 px-4 rounded"
+            >
+              Regresar
+            </button>
+          </div>
+          <div className="space-x-2">
+            <button
+              onClick={handlePaymentClick}
+              className="bg-green-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Pagar
+            </button>
           </div>
         </div>
       )}

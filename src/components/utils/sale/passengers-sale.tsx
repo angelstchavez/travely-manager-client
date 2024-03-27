@@ -77,9 +77,9 @@ function PassengersSale({
 
   return (
     <>
-      <div className="mt-2 flex justify-center">
+      <div className="mt-2 grid grid-cols-2 sm:grid-cols-2 gap-2 justify-center">
         <div className="border rounded p-2 bg-zinc-100">
-          <div className="justify-center text-center bg-tm10 text-white font-bold py-1 rounded">
+          <div className="justify-center text-center bg-yellow-500 text-yellow-800 font-bold py-1 rounded">
             Asiento {seatNumber}
           </div>{" "}
           {/* Muestra el número de asiento */}
