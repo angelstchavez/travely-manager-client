@@ -5,7 +5,9 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
+  useState,
 } from "react";
 import Cookies from "js-cookie";
 
@@ -49,4 +51,25 @@ export default function AuthContextProvider({
 
 export function useAuthContext() {
   return useContext(AuthContext);
+}
+
+export function useAuthToken() {
+  const [token, setToken] = useState<string>("");
+
+  const getToken = () => {
+    const authToken = Cookies.get("authTokens");
+    if (authToken) {
+      const parsedToken = JSON.parse(authToken);
+      const tokenFromData = parsedToken.data?.token;
+      if (tokenFromData) {
+        setToken(tokenFromData);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getToken();
+  }, []);
+
+  return token;
 }

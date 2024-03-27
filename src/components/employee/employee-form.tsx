@@ -1,31 +1,188 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import InputComponent from "../utils/InputComponent";
+import SelectComponent from "../utils/SelectComponent";
+import usePost from "@/hooks/usePost";
+
+const opcionesRol = [
+  { value: "Conductor", label: "Conductor" },
+  { value: "Vendedor", label: "Vendedor" },
+];
+
+const opcionesTI = [
+  { value: "Cédula de Ciudadanía", label: "Cédula" },
+  { value: "Cédula de Extranjería", label: "Pasaporte" },
+];
+
+interface FormData {
+  person: {
+    names: string;
+    surnames: string;
+    identificationNumber: string;
+    identificationType: string;
+    gender: string;
+    birthdate: string;
+    email: string;
+    mobilePhone: string;
+    createdAt: string;
+  };
+  role: string;
+  createdAt: string;
+}
 
 function EmployeeForm() {
-  const [identificationType, setIdentificationType] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
+  const [formData, setFormData] = useState<FormData>({
+    person: {
+      names: "",
+      surnames: "",
+      identificationType: "",
+      identificationNumber: "",
+      gender: "Masculino",
+      birthdate: "",
+      email: "",
+      mobilePhone: "",
+      createdAt: "2024-03-27T06:33:46.337Z",
+    },
+    role: "",
+    createdAt: "2024-03-27T06:33:46.337Z",
+  });
 
-  const handleIdentificationTypeChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setIdentificationType(event.target.value);
+  const { data, isLoading, sendPostRequest } = usePost();
+
+  // const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevState) => ({
+  //     ...prevState,
+  //     person: {
+  //       ...prevState.person,
+  //       [name]: value,
+  //     },
+  //   }));
+  // };
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    if (name in formData.person) {
+      setFormData((prevState) => ({
+        ...prevState,
+        person: {
+          ...prevState.person,
+          [name]: value,
+        },
+      }));
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
-  const handleDateChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setBirthDate(event.target.value);
+  console.log("Que valor esta tomando los input:", formData);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    sendPostRequest("/employee/create", formData);
   };
 
-  const handleContactNumberChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setContactNumber(event.target.value);
-  };
   return (
     <section className="border rounded p-4 my-4 bg-white">
       <h2 className="text-lg font-semibold">Registro de Empleados</h2>
-      {/* Inputs del formulario */}
+
+      <form onSubmit={handleSubmit}>
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <InputComponent
+              name="names"
+              label="Nombres"
+              type="text"
+              placeholder="Ingrese los nombres"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <InputComponent
+              name="surnames"
+              label="Apellidos"
+              type="text"
+              placeholder="Ingrese los apellidos"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <InputComponent
+              name="identificationNumber"
+              label="Identificación"
+              type="text"
+              placeholder="Ingrese la identificacion"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <SelectComponent
+              name="identificationType"
+              label="Tipo de indentificación"
+              options={opcionesTI}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <InputComponent
+              name="email"
+              label="Correo Electrónico"
+              type="email"
+              placeholder="example@travely.com"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <InputComponent
+              name="birthdate"
+              label="Fecha de Naciemiento"
+              type="date"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <InputComponent
+              name="mobilePhone"
+              label="Numero de Contacto"
+              type="text"
+              placeholder="Ingrese un numero"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <SelectComponent
+              name="role"
+              label="Rol"
+              options={opcionesRol}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="relative flex-grow flex items-center">
+            <button
+              type="submit"
+              className="ml-1 relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+            >
+              <span>Crear</span>
+            </button>
+          </div>
+        </div>
+      </form>
+      {/* Inputs formularios JP */}
+
+      {/* 
+      Inputs del formulario
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label
@@ -88,7 +245,7 @@ function EmployeeForm() {
             <option value="cédula">Cédula</option>
             <option value="pasaporte">Pasaporte</option>
             <option value="tarjeta de identidad">Tarjeta de Identidad</option>
-            {/* Agrega más opciones según sea necesario */}
+            Agrega más opciones según sea necesario
           </select>
         </div>
         <div>
@@ -155,7 +312,7 @@ function EmployeeForm() {
             <option value="">Seleccione</option>
             <option value="Conductor">Conductor</option>
             <option value="Vendedor">Vendedor</option>
-            {/* Opciones de marca */}
+            Opciones de marca
           </select>
         </div>
       </div>
@@ -168,7 +325,7 @@ function EmployeeForm() {
             <span>Crear</span>
           </button>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }
