@@ -1,13 +1,13 @@
-import { SelectPropss } from "@/types";
+import { SelectProps } from "@/types";
 import React from "react";
 
-const SelectComponent: React.FC<SelectPropss> = ({
+const SelectComponent: React.FC<SelectProps> = ({
   label,
   options,
   ...Props
 }) => {
   return (
-    <div>
+    <>
       <label className="block text-sm font-medium text-gray-700  ">
         {label}
       </label>
@@ -23,7 +23,7 @@ const SelectComponent: React.FC<SelectPropss> = ({
           </option>
         ))}
       </select>
-    </div>
+    </>
   );
 };
 

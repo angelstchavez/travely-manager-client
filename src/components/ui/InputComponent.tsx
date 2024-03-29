@@ -1,7 +1,8 @@
-import { InputProps } from "@/types";
-import React from "react";
+import { InputProps } from '@/types'
+import React from 'react'
 
-const InputComponent: React.FC<InputProps> = ({ label, ...Props }) => {
+
+const InputComponent: React.FC<InputProps> = ({label,...Props}) => {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700  ">
@@ -12,7 +13,7 @@ const InputComponent: React.FC<InputProps> = ({ label, ...Props }) => {
         {...Props}
       />
     </div>
-  );
-};
+  )
+}
 
-export default InputComponent;
+export default InputComponent

@@ -1,16 +1,4 @@
-// export interface InputProps {
-//     label:string;
-//     type: string; // Añadimos la propiedad type aquí
-//     name: string;
-//     placeholder?: string;
-//     // required?: boolean;
-//     value?: string;
-//     disabled?:boolean;
-//     onChange?: (e : ChangeEvent<HTMLInputElement>) => void;
-// }
-
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
@@ -19,17 +7,39 @@ interface SelectOption {
   label: string;
 }
 
-export interface SelectPropss
-  extends React.SelectHTMLAttributes<HTMLSelectElement> {
+interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label: string;
   options: SelectOption[];
 }
 
-// export interface SelectProps{
-//     // id: string;
-//     // name: string;
-//     label: string;
-//     options: SelectOption[];
-//     // value?: string;
-//     // onChange?: (e : ChangeEvent<HTMLSelectElement>) => void;
-// }
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+interface FormData {
+  person: {
+    names: string;
+    surnames: string;
+    identificationNumber: string;
+    identificationType: string;
+    gender: string;
+    birthdate: string;
+    email: string;
+    mobilePhone: string;
+    createdAt: string;
+  };
+  role: string;
+  createdAt: string;
+}
+
+export type { ButtonProps, SelectProps, InputProps, FormData };
+
+const opcionesRol = [
+  { value: "Conductor", label: "Conductor" },
+  { value: "Vendedor", label: "Vendedor" },
+];
+
+const opcionesTI = [
+  { value: "Cédula de Ciudadanía", label: "Cédula de Ciudadanía" },
+  { value: "Cédula de Extranjería", label: "Cédula de Extranjería" },
+];
+
+export { opcionesRol, opcionesTI };
