@@ -158,6 +158,7 @@ const UserTable: React.FC = () => {
       sortable: true,
       style: {
         fontSize: 14,
+      
       },
       cell: (row) => (
         <div
@@ -226,7 +227,7 @@ const UserTable: React.FC = () => {
         <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
           Usuarios
         </h2>
-        <div className="m-2"></div>
+        <div className="m-2 bg-red-400">Hola</div>
         <input
           type="text"
           placeholder="Buscar por nombre de usuario"
