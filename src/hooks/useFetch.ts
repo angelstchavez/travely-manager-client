@@ -1,9 +1,16 @@
 import { useAuthToken } from "@/contexts/authContext";
 import { useEffect, useState } from "react";
 
-const useFech = (url: string) => {
-  const [state, setState] = useState({
-    data: null,
+type UseFetchState<T> = {
+  isLoading: boolean,
+  data: T[],
+  hasError: null | Error;
+}
+
+
+const useFech=<T>(url: string) => {
+  const [fetchState, setFetchState] = useState<UseFetchState<T>>({
+    data:[],
     isLoading: true,
     hasError: null,
   });
@@ -12,7 +19,7 @@ const useFech = (url: string) => {
 
   const getFetch = async () => {
     try {
-      setState((oldValue) => ({
+      setFetchState((oldValue) => ({
         ...oldValue,
         isLoading: true,
       }));
@@ -34,16 +41,16 @@ const useFech = (url: string) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const data = await response.json();
+      const {data} = await response.json();
 
-      setState({
+      setFetchState({
         data,
         isLoading: false,
         hasError: null,
       });
     } catch (error: any) {
-      setState({
-        data: null,
+      setFetchState({
+        data:[],
         isLoading: false,
         hasError: error.message,
       });
@@ -51,13 +58,15 @@ const useFech = (url: string) => {
   };
 
   useEffect(() => {
-    getFetch();
+    if (token) {
+      getFetch();      
+    }
   }, [token]); // Ejecutar el efecto cuando token cambie
 
   return {
-    data: state.data,
-    isLoading: state.isLoading,
-    hasError: state.hasError,
+    data: fetchState.data,
+    isLoading: fetchState.isLoading,
+    hasError: fetchState.hasError,
   };
 };
 

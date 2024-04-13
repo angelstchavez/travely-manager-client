@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 const RoleIcon = ({ role }: { role: string }) => {
   return (
     <div
-      className={`pl-2 py-1 flex items-center rounded ${
+      className={`pl-2 py-1 flex items-center rounded w-[82%] ${
         role === "Administrador"
           ? "bg-green-100 text-green-800"
           : role === "Vendedor"

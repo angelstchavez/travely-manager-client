@@ -2,6 +2,8 @@ import { useAuthToken } from "@/contexts/authContext";
 import React, { useEffect, useState } from "react";
 
 const usePost = () => {
+  console.log("Cuantas veces me repito");
+  
   const [state, setState] = useState({
     data: null,
     isLoading: true,

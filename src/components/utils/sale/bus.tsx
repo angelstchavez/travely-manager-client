@@ -32,7 +32,7 @@ const Bus: React.FC<BusProps> = ({ tripId, onSelectedSeatsChange }) => {
         }
 
         const response = await fetch(
-          `http://localhost:90/api/v1/seat/get-by-trip/${tripId}`, // Se utiliza tripId en la URL del endpoint
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/seat/get-by-trip/${tripId}`, // Se utiliza tripId en la URL del endpoint
           {
             method: "GET",
             headers: {
