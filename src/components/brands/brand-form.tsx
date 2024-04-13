@@ -13,14 +13,18 @@ function BrandForm() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorDescription, setErrorDescription] = useState<string>("");
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement> // Cambiamos el tipo de evento aquí
   ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+
+    // Limpiamos el mensaje de error al empezar a escribir en el input
+    setErrorDescription("");
     setErrors((prevErrors) => ({
       ...prevErrors,
       [e.target.name]:
@@ -64,25 +68,20 @@ function BrandForm() {
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Error al crear la marca de vehículo.");
-      }
-
       const responseData = await response.json();
 
-      if (!responseData.success) {
+      if (!response.ok || !responseData.success) {
         throw new Error(
-          responseData.message || "Error al crear la marca de vehículo."
+          responseData.data || "Error al crear la marca de vehículo."
         );
       }
 
       // Si la solicitud fue exitosa, mostramos el modal de éxito
       setSuccessMessage("La marca de vehículo se creó satisfactoriamente.");
     } catch (error: any) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        general: error.message,
-      }));
+      setErrorDescription(
+        error.message || "Error al crear la marca de vehículo."
+      );
     }
   };
 
@@ -90,7 +89,6 @@ function BrandForm() {
     <section className="border rounded p-4 my-4 bg-white">
       <h2 className="text-lg font-semibold">Crear Marca de Vehículo</h2>
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {/* Nombre */}
         <div>
           <label
             htmlFor="name"
@@ -107,7 +105,7 @@ function BrandForm() {
             } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
             placeholder="Ingrese el nombre del modelo"
             value={formData.name}
-            onChange={handleInputChange}
+            onInput={handleInputChange} // Usamos onInput en lugar de onChange
             required
             maxLength={50}
           />
@@ -116,6 +114,9 @@ function BrandForm() {
           )}
         </div>
       </div>
+      {errorDescription && (
+        <p className="text-red-500 text-sm mt-2">{errorDescription}</p>
+      )}
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-end">
         <div className="relative flex-grow flex items-center">
           <button
@@ -127,9 +128,6 @@ function BrandForm() {
           </button>
         </div>
       </div>
-      {errors.general && (
-        <p className="text-red-500 text-xs mt-4">{errors.general}</p>
-      )}
       {successMessage && <SuccessModal successMessage={successMessage} />}
     </section>
   );
