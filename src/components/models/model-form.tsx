@@ -19,6 +19,7 @@ function ModelForm() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [errorDescription, setErrorDescription] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,6 +72,7 @@ function ModelForm() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+    setErrorDescription("");
     setErrors((prevErrors) => ({
       ...prevErrors,
       [e.target.name]:
@@ -117,15 +119,11 @@ function ModelForm() {
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Error al crear el modelo de vehículo.");
-      }
-
       const responseData = await response.json();
 
-      if (!responseData.success) {
+      if (!response.ok || !responseData.success) {
         throw new Error(
-          responseData.message || "Error al crear el modelo de vehículo."
+          responseData.data || "Error al crear el modelo de vehículo."
         );
       }
 
@@ -133,10 +131,9 @@ function ModelForm() {
       setShowSuccessModal(true);
       // Lógica adicional según sea necesario, como redirigir a una página diferente
     } catch (error: any) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        general: error.message,
-      }));
+      setErrorDescription(
+        error.message || "Error al crear la marca de vehículo."
+      );
     }
   };
 
@@ -311,6 +308,9 @@ function ModelForm() {
           )}
         </div>
       </div>
+      {errorDescription && (
+        <p className="text-red-500 text-sm mt-2 font-bold">{errorDescription}</p>
+      )}
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-end">
         <div className="relative flex-grow flex items-center">
           <button
@@ -322,9 +322,6 @@ function ModelForm() {
           </button>
         </div>
       </div>
-      {errors.general && (
-        <p className="text-red-500 text-xs mt-4">{errors.general}</p>
-      )}
       {showSuccessModal && (
         <SuccessModal successMessage="El modelo de vehículo se creó exitosamente." />
       )}

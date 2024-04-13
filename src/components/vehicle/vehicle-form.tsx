@@ -24,6 +24,7 @@ function VehicleForm() {
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorDescription, setErrorDescription] = useState<string>("");
 
   useEffect(() => {
     fetchData();
@@ -162,6 +163,8 @@ function VehicleForm() {
         e.target.value.trim() === "" ? "Este campo es obligatorio." : "";
     }
 
+    setErrorDescription("");
+
     setErrors((prevErrors) => ({
       ...prevErrors,
       [e.target.name]: errorMessage,
@@ -247,23 +250,18 @@ function VehicleForm() {
           body: JSON.stringify(requestData),
         }
       );
-
-      if (!response.ok) {
-        throw new Error("Error al crear el vehículo.");
-      }
-
       const responseData = await response.json();
 
-      if (!responseData.success) {
-        throw new Error(responseData.message || "Error al crear el vehículo.");
+      if (!response.ok || !responseData.success) {
+        throw new Error(responseData.data || "Error al crear el vehículo.");
       }
+
       // Si la solicitud fue exitosa, mostramos el modal de éxito
       setSuccessMessage("El vehículo se creó satisfactoriamente.");
     } catch (error: any) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        general: error.message,
-      }));
+      setErrorDescription(
+        error.message || "Error al crear la marca de vehículo."
+      );
     }
   };
 
@@ -416,6 +414,11 @@ function VehicleForm() {
           )}
         </div>
       </div>
+      {errorDescription && (
+        <p className="text-red-500 text-sm mt-2 font-bold">
+          {errorDescription}
+        </p>
+      )}
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-end">
         <div className="relative flex-grow flex items-center">
           <button

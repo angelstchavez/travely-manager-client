@@ -115,7 +115,7 @@ function BrandForm() {
         </div>
       </div>
       {errorDescription && (
-        <p className="text-red-500 text-sm mt-2">{errorDescription}</p>
+        <p className="text-red-500 text-sm mt-2 font-bold">{errorDescription}</p>
       )}
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-end">
         <div className="relative flex-grow flex items-center">
