@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import Bus from "../utils/sale/bus";
+import TotalSale from "../utils/sale/total-sale";
+import PassengerForm from "./passenger-form";
+import PaymentDetails from "./payment-details";
 import SeatStatusCounts from "../utils/sale/seat-counter";
+import Bus from "../utils/sale/bus";
 import TripDetails from "../utils/sale/trip-detail";
 import SelectedSeatsDisplay from "../utils/sale/selected-seat";
-import ConfirmationModal from "../modals/confirmation-modal"; // Importamos el componente de confirmación
-import TotalSale from "../utils/sale/total-sale";
+import ConfirmationModal from "../modals/confirmation-modal";
+import CustomerDetails from "./customer-details";
+import SuccessModal from "../modals/success-modal";
+import Cookies from "js-cookie";
 
 interface SaleRegisterProps {
   tripId: number;
@@ -27,10 +32,13 @@ const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
   const [selectedSeats, setSelectedSeats] = useState<
     { id: string; number: number }[]
   >([]);
+  const [passengers, setPassengers] = useState<Passenger[]>([]);
+  const [customerDetails, setCustomerDetails] = useState<any>({});
   const [showMainSection, setShowMainSection] = useState(true);
   const [showPaymentSection, setShowPaymentSection] = useState(false);
-  const [passengers, setPassengers] = useState<Passenger[]>([]);
-  const [showCancelConfirmation, setShowCancelConfirmation] = useState(false); // Estado para controlar la visibilidad del modal de confirmación
+  const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorDescription, setErrorDescription] = useState<string>("");
 
   const handleSelectedSeatsChange = (newSelectedSeat: {
     id: string;
@@ -56,16 +64,89 @@ const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
   };
 
   const handleCancel = () => {
-    setShowCancelConfirmation(true); // Mostramos el modal de confirmación cuando se hace clic en cancelar
+    setShowCancelConfirmation(true);
   };
 
   const handleCancelConfirmed = () => {
-    onCancel(); // Llamamos a la función onCancel cuando se confirma la cancelación
-    setShowCancelConfirmation(false); // Ocultamos el modal de confirmación después de confirmar
+    onCancel();
+    setShowCancelConfirmation(false);
   };
 
   const handleCancelModalClose = () => {
-    setShowCancelConfirmation(false); // Ocultamos el modal de confirmación si se cancela
+    setShowCancelConfirmation(false);
+  };
+
+  const handleRegisterPassengers = () => {
+    setShowMainSection(false);
+    setShowPaymentSection(true);
+  };
+
+  const handleCancelOperation = () => {
+    setShowPaymentSection(false);
+    setShowMainSection(true);
+    setSelectedSeats([]);
+    setPassengers([]);
+    setCustomerDetails({});
+  };
+
+  const handlePayment = async () => {
+    try {
+      const cookieValue = decodeURIComponent(Cookies.get("authTokens") || "");
+      const cookieData = JSON.parse(cookieValue);
+      const token = cookieData.data.token;
+
+      if (!token) {
+        throw new Error("No se encontró el token en el cookie.");
+      }
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/ticket-sale/create-ticket`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            seatIds: selectedSeats.map((seat) => seat.id),
+            passengers: passengers,
+            tripId: tripId,
+            paymentMethodId: 1,
+            customerModel: {
+              person: {
+                id: 0,
+                names: customerDetails.names,
+                surnames: customerDetails.surnames,
+                identificationType: customerDetails.identificationType,
+                identificationNumber: customerDetails.identificationNumber,
+                gender: customerDetails.gender,
+                birthdate: customerDetails.birthdate,
+                email: customerDetails.email,
+                mobilePhone: customerDetails.mobilePhone,
+                createdAt: new Date().toISOString(),
+              },
+              createdAt: new Date().toISOString(),
+            },
+          }),
+        }
+      );
+
+      const responseData = await response.json();
+
+      if (!response.ok || !responseData.success) {
+        throw new Error(
+          responseData.data || "Error al crear la venta."
+        );
+      }
+
+      // Si la solicitud fue exitosa, mostramos el modal de éxito
+      setSuccessMessage("La venta creó satisfactoriamente.");
+    } catch (error: any) {
+      setErrorDescription(
+        error.message || "Error al crear la marca de vehículo."
+      );
+    }
   };
 
   return (
@@ -86,10 +167,7 @@ const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
                 <SelectedSeatsDisplay selectedSeatIds={selectedSeats} />
               </div>
               <div className="mt-2">
-                <TotalSale
-                  tripId={tripId}
-                  count={selectedSeats.length}
-                ></TotalSale>
+                <TotalSale tripId={tripId} count={selectedSeats.length} />
               </div>
               <div className="mt-2 px-1 flex justify-end">
                 <button
@@ -99,8 +177,8 @@ const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
                   Cancelar
                 </button>
                 <button
-                  onClick={handleCancel}
-                  className=" bg-orange-600 hover:bg-orange-600/90 text-white font-semibold p-1 px-3 rounded"
+                  onClick={handleRegisterPassengers}
+                  className="bg-orange-600 hover:bg-orange-600/90 text-white font-semibold p-1 px-3 rounded"
                 >
                   Registrar pasajeros
                 </button>
@@ -109,7 +187,40 @@ const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
           </div>
         </div>
       )}
-      {/* Mostramos el modal de confirmación si showCancelConfirmation es verdadero */}
+      {showPaymentSection && (
+        <div className="p-2">
+          {selectedSeats.map((seat, index) => (
+            <PassengerForm
+              key={index}
+              seatNumber={seat.number}
+              onSubmit={(passenger: Passenger) =>
+                setPassengers((prevPassengers) => [
+                  ...prevPassengers,
+                  passenger,
+                ])
+              }
+            />
+          ))}
+          {/* Utilizamos el componente CustomerDetails para obtener los detalles del cliente */}
+          <CustomerDetails
+            onCustomerDetailsChange={(details: any) =>
+              setCustomerDetails(details)
+            }
+          />
+          <PaymentDetails
+            onSubmit={handlePayment}
+            onCancel={handleCancelOperation}
+            selectedSeats={selectedSeats}
+            tripId={tripId}
+          />
+          {errorDescription && (
+            <p className="text-red-500 text-sm mt-2 font-bold">
+              {errorDescription}
+            </p>
+          )}
+          {successMessage && <SuccessModal successMessage={successMessage} />}
+        </div>
+      )}
       {showCancelConfirmation && (
         <ConfirmationModal
           processText="cancelar la compra"

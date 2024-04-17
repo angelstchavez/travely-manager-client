@@ -1,3 +1,5 @@
+"use client"
+
 import UserForm from "@/components/user/user-form";
 import UserTablee from "@/components/user/UserTable";
 import UserTable from "@/components/user/user-table";
