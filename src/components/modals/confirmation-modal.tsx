@@ -7,12 +7,8 @@ interface ConfirmationModalProps {
   actionType: "delete" | "register"; // Nuevo prop para definir el tipo de acción
 }
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
-  processText,
-  onAccept,
-  onCancel,
-  actionType,
-}) => {
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({processText,onAccept,onCancel,actionType,}) => {
+  
   const getButtonColor = () => {
     return actionType === "delete"
       ? "bg-red-600 hover:bg-red-700 active:bg-red-700"
