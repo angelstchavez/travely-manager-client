@@ -95,9 +95,7 @@ const UserTable: React.FC = () => {
         );
 
         if (response.ok) {
-          const updatedUsers = users.filter(
-            (user) => user.id !== userToDelete.id
-          );
+          const updatedUsers = users.filter((user) => user.id !== userToDelete.id);
           setUsers(updatedUsers);
           setUserToDelete(null);
         } else {

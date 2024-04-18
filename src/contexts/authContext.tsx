@@ -16,20 +16,16 @@ type AuthTokens = {
   refresh_token: string;
 };
 
-const AUTH_TOKENS_KEY = "NEXT_JS_AUTH";
-
 export const AuthContext = createContext({
   login: (authTokens: AuthTokens) => {},
   logout: () => {},
 });
 
 export default function AuthContextProvider({
-  children,
+  children
 }: {
   children: ReactNode;
 }) {
-  const authTokensInLocalStorage = Cookies.get("authTokens");
-
   const login = useCallback(function (authTokens: AuthTokens) {
     Cookies.set("authTokens", JSON.stringify(authTokens));
   }, []);
@@ -56,7 +52,7 @@ export function useAuthContext() {
 export function useAuthToken() {
   const [token, setToken] = useState<string>("");
 
-  const getToken = () => {
+  const getToken = useCallback(() => {
     const authToken = Cookies.get("authTokens");
     if (authToken) {
       const parsedToken = JSON.parse(authToken);
@@ -65,7 +61,7 @@ export function useAuthToken() {
         setToken(tokenFromData);
       }
     }
-  };
+  }, []);
 
   useEffect(() => {
     getToken();

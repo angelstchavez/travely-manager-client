@@ -9,13 +9,15 @@ type UseFetchState<T> = {
 
 
 const useFech=<T>(url: string) => {
+
   const [fetchState, setFetchState] = useState<UseFetchState<T>>({
     data:[],
     isLoading: true,
     hasError: null,
   });
 
-  const token = useAuthToken();
+
+const token = useAuthToken();
 
   const getFetch = async () => {
     try {
@@ -24,7 +26,6 @@ const useFech=<T>(url: string) => {
         isLoading: true,
       }));
 
-      console.log("Este es el token", token);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}${url}`,
@@ -61,7 +62,7 @@ const useFech=<T>(url: string) => {
     if (token) {
       getFetch();      
     }
-  }, [token]); // Ejecutar el efecto cuando token cambie
+  }, [token,url]); // Ejecutar el efecto cuando token cambie
 
   return {
     data: fetchState.data,
@@ -71,3 +72,50 @@ const useFech=<T>(url: string) => {
 };
 
 export default useFech;
+
+export const usePost=(url: string) =>{
+
+}
+
+
+
+export interface UseDeleteResult {
+  deleteItem: () => Promise<boolean>;
+}
+
+export const useDelete = (url: string, id: number ): UseDeleteResult => {  
+  
+  const token = useAuthToken();
+
+  const deleteItem = async () => {
+    if (id === null) {
+      console.log("El ID es nulo");
+      return false;
+    }
+
+    try {
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${url}userId=${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al eliminar el elemento.');
+      }
+
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  return {
+    deleteItem
+  };
+};
+
+
