@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import SuccessModal from "../modals/success-modal";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface Brand {
   id: number;
@@ -87,7 +88,7 @@ function BrandForm() {
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
-      <h2 className="text-lg font-semibold">Crear Marca de Vehículo</h2>
+      <CustomTitleIcon icon="bi:card-list" text="Registrar marca de vehículo" />
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label
@@ -115,7 +116,9 @@ function BrandForm() {
         </div>
       </div>
       {errorDescription && (
-        <p className="text-red-500 text-sm mt-2 font-bold">{errorDescription}</p>
+        <p className="text-red-500 text-sm mt-2 font-bold">
+          {errorDescription}
+        </p>
       )}
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-end">
         <div className="relative flex-grow flex items-center">

@@ -7,6 +7,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import SuccessModal from "../modals/success-modal";
 import Loading from "../utils/loading";
 import SaleTab from "../utils/sale/sale-tab";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface Trip {
   id: number;
@@ -252,9 +253,7 @@ function SaleTripsTable() {
   return (
     <>
       <section className="border rounded p-2 my-2 bg-white">
-        <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
-          Registrar pasaje
-        </h2>
+        <CustomTitleIcon icon="wpf:search" text="Consultar viajes" />
         <div className="m-2"></div>
         {error && <div>Error: {error}</div>}
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">

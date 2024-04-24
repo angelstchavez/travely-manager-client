@@ -7,6 +7,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import ConfirmationModal from "../modals/confirmation-modal";
 import TravelRouteUpdate from "./route-update";
 import SuccessModal from "../modals/success-modal";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface City {
   id: string;
@@ -221,9 +222,7 @@ const TableRoute: React.FC = () => {
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
-      <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
-        Rutas de viaje
-      </h2>
+      <CustomTitleIcon icon="lucide:route" text="Rutas de viajes registradas" />
       <div className="m-2"></div>
       {error && <ErrorModal errorDescription={error} />}
       <input

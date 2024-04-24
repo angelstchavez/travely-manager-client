@@ -73,32 +73,35 @@ function EmployeeForm() {
       <form onSubmit={handleSubmit}>
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <InputComponent
+          <InputComponent
               name="names"
               label="Nombres"
               type="text"
               placeholder="Ingrese los nombres"
               onChange={handleChange}
+              error={""}
             />
           </div>
 
           <div>
-            <InputComponent
+          <InputComponent
               name="surnames"
               label="Apellidos"
               type="text"
               placeholder="Ingrese los apellidos"
               onChange={handleChange}
+              error={""}
             />
           </div>
 
           <div>
-            <InputComponent
+          <InputComponent
               name="identificationNumber"
               label="Identificación"
               type="text"
               placeholder="Ingrese la identificacion"
               onChange={handleChange}
+              error={""}
             />
           </div>
 
@@ -112,31 +115,34 @@ function EmployeeForm() {
           </div>
 
           <div>
-            <InputComponent
+          <InputComponent
               name="email"
               label="Correo Electrónico"
               type="email"
               placeholder="example@travely.com"
               onChange={handleChange}
+              error={""}
             />
           </div>
 
           <div>
-            <InputComponent
+          <InputComponent
               name="birthdate"
               label="Fecha de Naciemiento"
               type="date"
               onChange={handleChange}
+              error={""}
             />
           </div>
 
           <div>
-            <InputComponent
+          <InputComponent
               name="mobilePhone"
               label="Numero de Contacto"
               type="text"
               placeholder="Ingrese un numero"
               onChange={handleChange}
+              error={""}
             />
           </div>
 

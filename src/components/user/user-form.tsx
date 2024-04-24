@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import SuccessModal from "../modals/success-modal";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
+import { InputComponent } from "../ui";
 
 interface User {
   id: number;
@@ -116,81 +118,43 @@ function UserForm() {
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
-      <h2 className="text-lg font-semibold">Registrar Usuario</h2>
+      <CustomTitleIcon icon="basil:user-plus-solid" text="Registrar Usuario" />
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label
-            htmlFor="username"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Nombre de Usuario
-          </label>
-          <input
+          <InputComponent
             type="text"
             id="username"
             name="username"
-            className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
-              errors.username ? "border-red-500" : "border"
-            } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
-            placeholder="Ingrese el nombre de usuario"
-            value={formData.username}
+            label={"Nombre de usuario"}
+            placeholder="Ingrese un usuario"
+            error={errors.username}
             onChange={handleInputChange}
             required
-            maxLength={50}
-          />
-          {errors.username && (
-            <p className="text-red-500 text-xs mt-1">{errors.username}</p>
-          )}
+          ></InputComponent>
         </div>
         <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Contraseña
-          </label>
-          <input
+          <InputComponent
             type="password"
             id="password"
             name="password"
-            className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
-              errors.password ? "border-red-500" : "border"
-            } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
-            placeholder="Ingrese la contraseña"
-            value={formData.password}
+            label={"Contraseña"}
+            placeholder="Ingrese una contraseña"
+            error={errors.password}
             onChange={handleInputChange}
             required
-            maxLength={50}
-          />
-          {errors.password && (
-            <p className="text-red-500 text-xs mt-1">{errors.password}</p>
-          )}
+          ></InputComponent>
         </div>
         <div>
-          <label
-            htmlFor="confirmPassword"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Confirmar Contraseña
-          </label>
-          <input
+          <InputComponent
             type="password"
             id="confirmPassword"
             name="confirmPassword"
-            className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
-              errors.confirmPassword ? "border-red-500" : "border"
-            } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
+            label={"Confirmarcontraseña"}
             placeholder="Confirme la contraseña"
-            value={confirmPassword}
+            error={errors.confirmPassword}
             onChange={handleInputChange}
             required
-            maxLength={50}
-          />
-          {errors.confirmPassword && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.confirmPassword}
-            </p>
-          )}
+          ></InputComponent>
         </div>
         <div>
           <label
@@ -220,9 +184,7 @@ function UserForm() {
         </div>
       </div>
       {errorDescription && (
-        <p className="text-red-500 text-sm mt-2 font-bold">
-          {errorDescription}
-        </p>
+        <p className="text-red-500 text-sm mt-2">{errorDescription}</p>
       )}
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-end">
         <div className="relative flex-grow flex items-center">

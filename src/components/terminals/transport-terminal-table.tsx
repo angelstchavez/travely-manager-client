@@ -6,6 +6,7 @@ import ConfirmationModal from "../modals/confirmation-modal";
 import TransportTerminalUpdate from "./transport-terminal-update";
 import SuccessModal from "../modals/success-modal";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface TransportTerminal {
   id: number;
@@ -227,9 +228,10 @@ const TableTransportTerminal: React.FC = () => {
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
-      <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
-        Terminales de Transporte
-      </h2>
+      <CustomTitleIcon
+        icon="fluent:building-people-20-filled"
+        text="Terminales de transporte registradas"
+      />
       <div className="m-2"></div>
       <input
         type="text"

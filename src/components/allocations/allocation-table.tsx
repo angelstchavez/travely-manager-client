@@ -6,6 +6,7 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import Loading from "../utils/loading";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import ColorIcon from "../utils/icons/color-icon";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface Allocation {
   id: number;
@@ -196,9 +197,10 @@ const AllocationTable: React.FC = () => {
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
-      <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
-        Asignaciones de vehículos
-      </h2>
+      <CustomTitleIcon
+        icon="game-icons:car-key"
+        text="Asignaciones registradas"
+      />
       {error && <div>Error: {error}</div>}
       <div className="m-3"></div>
       <div className="grid grid-col-1 border rounded">

@@ -10,13 +10,13 @@ interface Props {
 
 const BoxStat = ({ cantidad, icon, title }: Props) => {
   return (
-    <div className="bg-tm20 text-zinc-200 p-4 rounded-xl">
+    <div className="bg-zinc-200 text-zinc-700 p-4 rounded-lg">
       <div className="flex items-center justify-between">
         <div>{title}</div>
-        <div className="text-2xl text-tm60">{icon}</div>
+        <div className="text-2xl text-zinc-700">{icon}</div>
       </div>
       <div>
-        <h1 className="text-2xl font-bold text-white">{cantidad}</h1>
+        <h1 className="text-2xl font-bold text-zinc-700">{cantidad}</h1>
       </div>
     </div>
   );

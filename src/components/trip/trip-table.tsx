@@ -8,6 +8,7 @@ import ConfirmationModal from "../modals/confirmation-modal";
 import Loading from "../utils/loading";
 import SuccessModal from "../modals/success-modal";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface Trip {
   id: number;
@@ -109,7 +110,6 @@ function TripTable() {
   const cookieValue = decodeURIComponent(Cookies.get("authTokens") || "");
   const cookieData = cookieValue ? JSON.parse(cookieValue) : null;
   const token = cookieData?.data?.token;
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -362,9 +362,10 @@ function TripTable() {
   return (
     <>
       <section className="border rounded p-2 my-2 bg-white">
-        <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
-          Viajes
-        </h2>
+        <CustomTitleIcon
+          icon="emojione-monotone:minibus"
+          text="Viajes disponibles"
+        />
         <div className="m-2"></div>
         {error && <div>Error: {error}</div>}
         <input

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import SuccessModal from "../modals/success-modal";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface RoutePageProps {}
 
@@ -296,7 +297,7 @@ const RouteForm: React.FC<RoutePageProps> = () => {
   return (
     <div>
       <section className="border rounded p-4 my-4 bg-white">
-        <h2 className="text-lg font-semibold">Gestor de Rutas</h2>
+        <CustomTitleIcon icon="lucide:route" text="Registrar ruta de viaje" />
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label
