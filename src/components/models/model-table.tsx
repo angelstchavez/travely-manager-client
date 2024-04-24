@@ -7,6 +7,7 @@ import Loading from "../utils/loading";
 import CarModelUpdateModal from "./model-update";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import SuccessModal from "../modals/success-modal";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface CarModel {
   id: number;
@@ -19,7 +20,7 @@ interface CarModel {
     id: number;
     name: string;
   };
-  carBrandId: number; 
+  carBrandId: number;
 }
 
 const CarModelList: React.FC = () => {
@@ -229,9 +230,10 @@ const CarModelList: React.FC = () => {
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
-      <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
-        Modelos de vehículos
-      </h2>
+      <CustomTitleIcon
+        icon="material-symbols:cards"
+        text="Modelos de vehículos registrados"
+      />
       {error && <ErrorModal errorDescription={error} />}
       <div className="m-2"></div>
       <input

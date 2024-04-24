@@ -10,6 +10,7 @@ import DocumentTypeIcon from "../utils/icons/document-type-icon";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import SuccessModal from "../modals/success-modal";
 import ConfirmationModal from "../modals/confirmation-modal";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface Person {
   id: number;
@@ -292,9 +293,7 @@ const TableCustomer: React.FC = () => {
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
-      <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
-        Cientes
-      </h2>
+      <CustomTitleIcon icon="f7:person-2-alt" text="Clientes registrados" />
       <div className="m-2"></div>
       {error && <div>Error: {error}</div>}
       <input

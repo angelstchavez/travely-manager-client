@@ -6,6 +6,7 @@ import ConfirmationModal from "../modals/confirmation-modal";
 import UpdateBrandModal from "./brand-update";
 import SuccessModal from "../modals/success-modal";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface Brand {
   id: number;
@@ -175,9 +176,10 @@ const BrandList: React.FC = () => {
   return (
     <>
       <section className="border rounded p-4 my-4 bg-white">
-        <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
-          Marcas de vehículos
-        </h2>
+        <CustomTitleIcon
+          icon="bi:card-list"
+          text="Marcas de vehículos registradas"
+        />
         <div className="m-2"></div>
         <input
           type="text"

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface Department {
   id: string;
@@ -246,9 +247,10 @@ function TransportTerminalForm() {
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
-      <h2 className="text-lg font-semibold">
-        Información de Terminal de Transporte
-      </h2>
+      <CustomTitleIcon
+        icon="fluent:building-people-20-filled"
+        text="Registrar terminal de transportre"
+      />
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label

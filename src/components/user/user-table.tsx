@@ -9,6 +9,7 @@ import ConfirmationModal from "../modals/confirmation-modal";
 import SuccessModal from "../modals/success-modal";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import RoleIcon from "../utils/icons/role-icon";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface User {
   id: number;
@@ -95,7 +96,9 @@ const UserTable: React.FC = () => {
         );
 
         if (response.ok) {
-          const updatedUsers = users.filter((user) => user.id !== userToDelete.id);
+          const updatedUsers = users.filter(
+            (user) => user.id !== userToDelete.id
+          );
           setUsers(updatedUsers);
           setUserToDelete(null);
         } else {
@@ -156,7 +159,6 @@ const UserTable: React.FC = () => {
       sortable: true,
       style: {
         fontSize: 14,
-      
       },
       cell: (row) => (
         <div
@@ -222,9 +224,10 @@ const UserTable: React.FC = () => {
   return (
     <>
       <section className="border rounded p-4 my-4 bg-white">
-        <h2 className="text-lg bg-tm40 rounded p-1 text-white text-center">
-          Usuarios
-        </h2>
+        <CustomTitleIcon
+          icon="basil:folder-user-solid"
+          text="Usuarios registrados"
+        />
         <div className="m-2 bg-red-400">Hola</div>
         <input
           type="text"

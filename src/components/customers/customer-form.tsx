@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import SuccessModal from "../modals/success-modal";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 function CustomerForm() {
   const [formData, setFormData] = useState({
@@ -137,7 +138,7 @@ function CustomerForm() {
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
-      <h2 className="text-lg font-semibold">Información del Cliente</h2>
+      <CustomTitleIcon icon="f7:person-2-alt" text="Registrar cliente" />
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label

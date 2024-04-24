@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import SuccessModal from "../modals/success-modal";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface Brand {
   id: number;
@@ -139,7 +140,10 @@ function ModelForm() {
 
   return (
     <section className="border rounded p-4 my-4 bg-white">
-      <h2 className="text-lg font-semibold">Gestor de Modelos de Vehículos</h2>
+      <CustomTitleIcon
+        icon="material-symbols:cards"
+        text="Registrar modelo de vehículo"
+      />
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Nombre */}
         <div>
@@ -309,7 +313,9 @@ function ModelForm() {
         </div>
       </div>
       {errorDescription && (
-        <p className="text-red-500 text-sm mt-2 font-bold">{errorDescription}</p>
+        <p className="text-red-500 text-sm mt-2 font-bold">
+          {errorDescription}
+        </p>
       )}
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-end">
         <div className="relative flex-grow flex items-center">
