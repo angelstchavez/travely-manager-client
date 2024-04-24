@@ -58,7 +58,7 @@ function Page() {
               Travely <span className="text-blue-200">Manager</span>
             </a>
           </div>
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+          <div className="p-2 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-tm40 md:text-2xl">
               Iniciar sesión en tu cuenta
             </h1>
@@ -100,17 +100,17 @@ function Page() {
                   name="password"
                   id="password"
                   placeholder="••••••••••"
-                  className="w-full pl-3 pr-10 focus:outline-none sm:text-sm relative inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-zinc-100"
+                  className="border w-full pl-3 pr-10 focus:outline-none sm:text-sm relative inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-zinc-100"
                 />
               </div>
               {errorDescription && (
-                <p className="text-red-500 text-sm mt-2 font-bold">
+                <p className="text-red-500 text-sm mt-2">
                   {errorDescription}
                 </p>
               )}
               <button
                 type="submit"
-                className="w-full flex justify-center items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-white bg-tm20 hover:bg-tm10"
+                className="border w-full flex justify-center items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-white bg-tm20 hover:bg-tm10"
               >
                 Iniciar sesión
               </button>
