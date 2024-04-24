@@ -71,6 +71,7 @@ function Page() {
                   Nombre de usuario:
                 </label>
                 <input
+                  autoComplete="off"
                   onChange={(e) => {
                     setUsername(e.target.value);
                     handleInputChange(); // Limpiar el mensaje de error al escribir en el campo de usuario
@@ -104,9 +105,7 @@ function Page() {
                 />
               </div>
               {errorDescription && (
-                <p className="text-red-500 text-sm mt-2">
-                  {errorDescription}
-                </p>
+                <p className="text-red-500 text-sm mt-2">{errorDescription}</p>
               )}
               <button
                 type="submit"
