@@ -236,8 +236,7 @@ function SaleTripsTable() {
       name: "Ver Sillas",
       cell: (row) => (
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font
-          bold py-2 px-4 rounded"
+          className="bg-tm20 hover:bg-tm10 text-white font-semibold py-2 px-4 rounded"
           onClick={() => handleViewSeats(row.id)}
         >
           Ver sillas
