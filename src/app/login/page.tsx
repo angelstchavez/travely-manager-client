@@ -80,7 +80,7 @@ function Page() {
                   type="text"
                   name="username"
                   id="username"
-                  className="w-full pl-3 pr-10 focus:outline-none sm:text-sm relative inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-zinc-100"
+                  className="border w-full pl-3 pr-10 focus:outline-none sm:text-sm relative inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-zinc-100"
                   placeholder="username"
                 />
               </div>

@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import CustomTitleIcon from "../utils/icons/custom-title-icon";
+import { SelectComponent } from "../ui";
+import { opcionesTI } from "@/types";
 
 interface PassengerFormProps {
   seatNumber: number;
@@ -82,11 +85,13 @@ const PassengerForm: React.FC<PassengerFormProps> = ({
   };
 
   return (
-    <div className="border rounded p-4 my-4 bg-white">
-      <h2 className="text-lg font-semibold">
-        Pasajero del asiento: {seatNumber}
-      </h2>
-      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="border border-zinc-400 rounded p-4 my-4 bg-zinc-50">
+      <CustomTitleIcon
+        icon="bi:card-list"
+        text={`Pasajero del asiento: ${seatNumber}`}
+      />
+
+      <div className="mt-4">
         <div>
           <label
             htmlFor="name"
@@ -136,29 +141,12 @@ const PassengerForm: React.FC<PassengerFormProps> = ({
           )}
         </div>
         <div>
-          <label
-            htmlFor="documentType"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Tipo de Documento
-          </label>
-          <input
-            type="text"
-            id="documentType"
-            name="documentType"
-            className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
-              errors.documentType ? "border-red-500" : "border"
-            } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
-            placeholder="Ingrese el tipo de documento"
-            value={passenger.documentType}
-            onChange={handleInputChange}
-            maxLength={50}
-            required
-          />
-          {errors.documentType && (
-            <p className="text-red-500 text-xs mt-1">{errors.documentType}</p>
-          )}
-        </div>
+            <SelectComponent
+              name="identificationType"
+              label="Tipo de indentificación"
+              options={opcionesTI}
+            />
+          </div>
         <div>
           <label
             htmlFor="documentNumber"
