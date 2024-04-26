@@ -135,9 +135,7 @@ const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
       const responseData = await response.json();
 
       if (!response.ok || !responseData.success) {
-        throw new Error(
-          responseData.data || "Error al crear la venta."
-        );
+        throw new Error(responseData.data || "Error al crear la venta.");
       }
 
       // Si la solicitud fue exitosa, mostramos el modal de éxito
@@ -189,18 +187,20 @@ const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
       )}
       {showPaymentSection && (
         <div className="p-2">
-          {selectedSeats.map((seat, index) => (
-            <PassengerForm
-              key={index}
-              seatNumber={seat.number}
-              onSubmit={(passenger: Passenger) =>
-                setPassengers((prevPassengers) => [
-                  ...prevPassengers,
-                  passenger,
-                ])
-              }
-            />
-          ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
+            {selectedSeats.map((seat, index) => (
+              <PassengerForm
+                key={index}
+                seatNumber={seat.number}
+                onSubmit={(passenger: Passenger) =>
+                  setPassengers((prevPassengers) => [
+                    ...prevPassengers,
+                    passenger,
+                  ])
+                }
+              />
+            ))}
+          </div>
           {/* Utilizamos el componente CustomerDetails para obtener los detalles del cliente */}
           <CustomerDetails
             onCustomerDetailsChange={(details: any) =>

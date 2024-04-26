@@ -28,7 +28,7 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
   };
 
   return (
-    <>
+    <div className="border-zinc-400 bg-zinc-100 border rounded-lg space-x-2 space-y-2">
       <div>
         <h2 className="text-lg font-semibold">Detalles del cliente</h2>
       </div>
@@ -178,7 +178,7 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
