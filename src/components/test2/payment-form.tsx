@@ -1,7 +1,28 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+
+interface Person {
+  id: number;
+  names: string;
+  surnames: string;
+  identificationType: string;
+  identificationNumber: string;
+  gender: string;
+  birthdate: string;
+  email: string;
+  mobilePhone: string;
+  createdAt: string;
+}
+
+interface CustomerModel {
+  person: Person;
+}
+
+interface PaymentData {
+  paymentMethodId: number;
+  amountGivenByCustomer: number;
+  customerModel: CustomerModel;
+}
 
 interface CustomerDetails {
   names: string;
@@ -20,7 +41,7 @@ interface PaymentMethod {
 }
 
 interface Props {
-  onConfirmPayment: (paymentData: any) => void;
+  onConfirmPayment: (paymentData: PaymentData) => void;
   onSetCustomerDetails: (details: CustomerDetails) => void;
 }
 
@@ -87,12 +108,15 @@ const PaymentForm: React.FC<Props> = ({
   };
 
   const handleConfirmPayment = () => {
-    const paymentData = {
+    const paymentData: PaymentData = {
       paymentMethodId: selectedPaymentMethod,
       amountGivenByCustomer,
       customerModel: {
-        person: customerDetails,
-        createdAt: new Date().toISOString(),
+        person: {
+          ...customerDetails,
+          createdAt: new Date().toISOString(),
+          id: Math.floor(Math.random() * 1000), // Random ID for demonstration
+        },
       },
     };
     onConfirmPayment(paymentData);
@@ -116,6 +140,24 @@ const PaymentForm: React.FC<Props> = ({
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setSelectedPaymentMethod(parseInt(event.target.value));
+  };
+
+  const handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+    setCustomerDetails((prevDetails) => ({
+      ...prevDetails,
+      gender: value,
+    }));
+  };
+
+  const handleIdentificationTypeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = event.target;
+    setCustomerDetails((prevDetails) => ({
+      ...prevDetails,
+      identificationType: value,
+    }));
   };
 
   return (
@@ -169,13 +211,16 @@ const PaymentForm: React.FC<Props> = ({
       </div>
       <div>
         <label htmlFor="identificationType">Tipo de Identificación:</label>
-        <input
-          type="text"
+        <select
           id="identificationType"
           name="identificationType"
           value={customerDetails.identificationType}
-          onChange={handleInputChange}
-        />
+          onChange={handleIdentificationTypeChange}
+        >
+          <option value="">Selecciona un tipo de documento</option>
+          <option value="Cedula de ciudadanía">Cédula de ciudadanía</option>
+          <option value="Cedula de extranjería">Cédula de extranjería</option>
+        </select>
       </div>
       <div>
         <label htmlFor="identificationNumber">Número de Identificación:</label>
@@ -189,14 +234,18 @@ const PaymentForm: React.FC<Props> = ({
       </div>
       <div>
         <label htmlFor="gender">Género:</label>
-        <input
-          type="text"
+        <select
           id="gender"
           name="gender"
           value={customerDetails.gender}
-          onChange={handleInputChange}
-        />
+          onChange={handleGenderChange}
+        >
+          <option value="">Selecciona el género</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+        </select>
       </div>
+
       <div>
         <label htmlFor="birthdate">Fecha de Nacimiento:</label>
         <input

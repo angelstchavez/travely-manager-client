@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import CustomTitleIcon from "../utils/icons/custom-title-icon";
 
 interface Passenger {
-  firstName: string;
-  lastName: string;
-  documentType: string;
-  documentNumber: string;
+  names: string;
+  surnames: string;
+  identificationType: string;
+  identificationNumber: string;
 }
 
 interface Props {
@@ -18,10 +18,10 @@ const PassengerInfoForm: React.FC<Props> = ({
   seatNumber,
 }) => {
   const [passenger, setPassenger] = useState<Passenger>({
-    firstName: "",
-    lastName: "",
-    documentType: "",
-    documentNumber: "",
+    names: "",
+    surnames: "",
+    identificationType: "",
+    identificationNumber: "",
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -50,7 +50,7 @@ const PassengerInfoForm: React.FC<Props> = ({
     });
     setErrors(formErrors);
     if (Object.keys(formErrors).length === 0) {
-      onAddPassengers([passenger]);
+      onAddPassengers([passenger]); // Cambia aquí para enviar la lista de pasajeros correctamente
       setRegistered(true);
       return true;
     }
@@ -59,10 +59,10 @@ const PassengerInfoForm: React.FC<Props> = ({
 
   const handleReset = () => {
     setPassenger({
-      firstName: "",
-      lastName: "",
-      documentType: "",
-      documentNumber: "",
+      names: "",
+      surnames: "",
+      identificationType: "",
+      identificationNumber: "",
     });
     setErrors({});
     setRegistered(false);
@@ -84,104 +84,108 @@ const PassengerInfoForm: React.FC<Props> = ({
       <div className="mt-4">
         <div>
           <label
-            htmlFor="firstName"
+            htmlFor="names"
             className="block text-sm font-medium text-gray-700"
           >
             Nombres:
           </label>
           <input
             type="text"
-            id="firstName"
-            name="firstName"
-            value={passenger.firstName}
+            id="names"
+            name="names"
+            value={passenger.names}
             onChange={handleInputChange}
             className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
-              errors.firstName ? "border-red-500" : "border"
+              errors.names ? "border-red-500" : "border"
             } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
             placeholder="Ingrese el nombre"
             maxLength={50}
             required
             disabled={registered}
           />
-          {errors.firstName && (
-            <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>
+          {errors.names && (
+            <p className="text-red-500 text-xs mt-1">{errors.names}</p>
           )}
         </div>
         <div>
           <label
-            htmlFor="lastName"
+            htmlFor="surnames"
             className="block text-sm font-medium text-gray-700"
           >
             Apellidos:
           </label>
           <input
             type="text"
-            id="lastName"
-            name="lastName"
-            value={passenger.lastName}
+            id="surnames"
+            name="surnames"
+            value={passenger.surnames}
             onChange={handleInputChange}
             className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
-              errors.lastName ? "border-red-500" : "border"
+              errors.surnames ? "border-red-500" : "border"
             } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
             placeholder="Ingrese el apellido"
             maxLength={50}
             required
             disabled={registered}
           />
-          {errors.lastName && (
-            <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
+          {errors.surnames && (
+            <p className="text-red-500 text-xs mt-1">{errors.surnames}</p>
           )}
         </div>
         <div>
           <label
-            htmlFor="documentType"
+            htmlFor="identificationType"
             className="block text-sm font-medium text-gray-700"
           >
             Tipo de Documento:
           </label>
           <select
-            id="documentType"
-            name="documentType"
-            value={passenger.documentType}
+            id="identificationType"
+            name="identificationType"
+            value={passenger.identificationType}
             onChange={handleInputChange}
             className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
-              errors.documentType ? "border-red-500" : "border"
+              errors.identificationType ? "border-red-500" : "border"
             } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
             required
             disabled={registered}
           >
             <option value="">Seleccione...</option>
-            <option value="DNI">DNI</option>
+            <option value="Cedula de ciudadanía">Cedula de ciudadanía</option>
             <option value="Pasaporte">Pasaporte</option>
-            {/* Agrega más opciones según sea necesario */}
+            <option value="Otro">Otro</option>
           </select>
-          {errors.documentType && (
-            <p className="text-red-500 text-xs mt-1">{errors.documentType}</p>
+          {errors.identificationType && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.identificationType}
+            </p>
           )}
         </div>
         <div>
           <label
-            htmlFor="documentNumber"
+            htmlFor="identificationNumber"
             className="block text-sm font-medium text-gray-700"
           >
             Número de Documento:
           </label>
           <input
             type="text"
-            id="documentNumber"
-            name="documentNumber"
-            value={passenger.documentNumber}
+            id="identificationNumber"
+            name="identificationNumber"
+            value={passenger.identificationNumber}
             onChange={handleInputChange}
             className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
-              errors.documentNumber ? "border-red-500" : "border"
+              errors.identificationNumber ? "border-red-500" : "border"
             } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
             placeholder="Ingrese el número de documento"
             maxLength={50}
             required
             disabled={registered}
           />
-          {errors.documentNumber && (
-            <p className="text-red-500 text-xs mt-1">{errors.documentNumber}</p>
+          {errors.identificationNumber && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.identificationNumber}
+            </p>
           )}
         </div>
       </div>
