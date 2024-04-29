@@ -1,35 +1,35 @@
 import React, { useState } from "react";
 import CustomTitleIcon from "../utils/icons/custom-title-icon";
-import { SelectComponent } from "../ui";
-import { opcionesTI } from "@/types";
-
-interface PassengerFormProps {
-  seatNumber: number;
-  onSubmit: (passenger: Passenger) => void;
-}
 
 interface Passenger {
-  name: string;
-  surname: string;
-  identificationType: string;
-  identificationNumber: string;
+  firstName: string;
+  lastName: string;
+  documentType: string;
+  documentNumber: string;
 }
 
-const PassengerForm: React.FC<PassengerFormProps> = ({
+interface Props {
+  onAddPassengers: (passengers: Passenger[]) => void;
+  seatNumber: string;
+}
+
+const PassengerInfoForm: React.FC<Props> = ({
+  onAddPassengers,
   seatNumber,
-  onSubmit,
 }) => {
   const [passenger, setPassenger] = useState<Passenger>({
-    name: "",
-    surname: "",
-    identificationType: "",
-    identificationNumber: "",
+    firstName: "",
+    lastName: "",
+    documentType: "",
+    documentNumber: "",
   });
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [registered, setRegistered] = useState(false);
-  const [editMode, setEditMode] = useState(true);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setPassenger((prevPassenger) => ({
       ...prevPassenger,
@@ -41,7 +41,7 @@ const PassengerForm: React.FC<PassengerFormProps> = ({
     }));
   };
 
-  const handleSubmit = () => {
+  const handleAddPassenger = (): boolean => {
     const formErrors: Record<string, string> = {};
     Object.entries(passenger).forEach(([key, value]) => {
       if (typeof value === "string" && value.trim() === "") {
@@ -50,26 +50,32 @@ const PassengerForm: React.FC<PassengerFormProps> = ({
     });
     setErrors(formErrors);
     if (Object.keys(formErrors).length === 0) {
-      onSubmit(passenger);
+      onAddPassengers([passenger]);
       setRegistered(true);
-      setEditMode(false);
+      return true;
     }
+    return false;
   };
 
   const handleReset = () => {
     setPassenger({
-      name: "",
-      surname: "",
-      identificationType: "",
-      identificationNumber: "",
+      firstName: "",
+      lastName: "",
+      documentType: "",
+      documentNumber: "",
     });
     setErrors({});
     setRegistered(false);
-    setEditMode(true);
   };
 
   return (
-    <div className="border border-zinc-400 rounded p-4 my-4 bg-zinc-50">
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        handleAddPassenger();
+      }}
+      className="border border-zinc-00 rounded p-4 my-4 bg-zinc-50"
+    >
       <CustomTitleIcon
         icon="bi:card-list"
         text={`Pasajero del asiento: ${seatNumber}`}
@@ -78,104 +84,118 @@ const PassengerForm: React.FC<PassengerFormProps> = ({
       <div className="mt-4">
         <div>
           <label
-            htmlFor="name"
+            htmlFor="firstName"
             className="block text-sm font-medium text-gray-700"
           >
-            Nombres
+            Nombres:
           </label>
           <input
             type="text"
-            id="name"
-            name="name"
+            id="firstName"
+            name="firstName"
+            value={passenger.firstName}
+            onChange={handleInputChange}
             className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
-              errors.name ? "border-red-500" : "border"
+              errors.firstName ? "border-red-500" : "border"
             } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
             placeholder="Ingrese el nombre"
-            value={passenger.name}
-            onChange={handleInputChange}
             maxLength={50}
             required
+            disabled={registered}
           />
-          {errors.name && (
-            <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+          {errors.firstName && (
+            <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>
           )}
         </div>
         <div>
           <label
-            htmlFor="surname"
+            htmlFor="lastName"
             className="block text-sm font-medium text-gray-700"
           >
-            Apellidos
+            Apellidos:
           </label>
           <input
             type="text"
-            id="surname"
-            name="surname"
+            id="lastName"
+            name="lastName"
+            value={passenger.lastName}
+            onChange={handleInputChange}
             className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
-              errors.surname ? "border-red-500" : "border"
+              errors.lastName ? "border-red-500" : "border"
             } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
             placeholder="Ingrese el apellido"
-            value={passenger.surname}
-            onChange={handleInputChange}
             maxLength={50}
             required
+            disabled={registered}
           />
-          {errors.surname && (
-            <p className="text-red-500 text-xs mt-1">{errors.surname}</p>
+          {errors.lastName && (
+            <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
           )}
         </div>
         <div>
-          <SelectComponent
-            name="identificationType"
-            label="Tipo de indentificación"
-            options={opcionesTI}
-          />
+          <label
+            htmlFor="documentType"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Tipo de Documento:
+          </label>
+          <select
+            id="documentType"
+            name="documentType"
+            value={passenger.documentType}
+            onChange={handleInputChange}
+            className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
+              errors.documentType ? "border-red-500" : "border"
+            } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
+            required
+            disabled={registered}
+          >
+            <option value="">Seleccione...</option>
+            <option value="DNI">DNI</option>
+            <option value="Pasaporte">Pasaporte</option>
+            {/* Agrega más opciones según sea necesario */}
+          </select>
+          {errors.documentType && (
+            <p className="text-red-500 text-xs mt-1">{errors.documentType}</p>
+          )}
         </div>
         <div>
           <label
             htmlFor="documentNumber"
             className="block text-sm font-medium text-gray-700"
           >
-            Número de Documento
+            Número de Documento:
           </label>
           <input
             type="text"
             id="documentNumber"
             name="documentNumber"
+            value={passenger.documentNumber}
+            onChange={handleInputChange}
             className={`w-full pl-3 pr-10 mt-1 border focus:outline-none sm:text-sm rounded-md ${
               errors.documentNumber ? "border-red-500" : "border"
             } relative inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50`}
             placeholder="Ingrese el número de documento"
-            value={passenger.identificationNumber}
-            onChange={handleInputChange}
             maxLength={50}
             required
+            disabled={registered}
           />
           {errors.documentNumber && (
             <p className="text-red-500 text-xs mt-1">{errors.documentNumber}</p>
           )}
         </div>
       </div>
+
       <div className="mt-4 flex justify-end">
-        {editMode ? (
-          <button
-            type="button"
-            className={`relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-white bg-tm10 hover:bg-customerSuperLigth`}
-            onClick={handleSubmit}
-          >
-            <span>
-              {registered ? "Pasajero Registrado" : "Registrar Pasajero"}
-            </span>
-          </button>
-        ) : (
-          <button
-            type="button"
-            className={`relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-white bg-gray-400 cursor-not-allowed`}
-            disabled
-          >
-            <span>Pasajero Registrado</span>
-          </button>
-        )}
+        <button
+          type="submit"
+          className={`relative inline-flex items-center space-x-2 px-6 py-2 border text-sm font-medium rounded-md text-white bg-tm10 hover:bg-customerSuperLigth`}
+          disabled={registered}
+        >
+          <span>
+            {registered ? "Pasajero Registrado" : "Registrar Pasajero"}
+          </span>
+        </button>
         {registered && (
           <button
             type="button"
@@ -186,8 +206,8 @@ const PassengerForm: React.FC<PassengerFormProps> = ({
           </button>
         )}
       </div>
-    </div>
+    </form>
   );
 };
 
-export default PassengerForm;
+export default PassengerInfoForm;

@@ -8,6 +8,7 @@ import SuccessModal from "../modals/success-modal";
 import Loading from "../utils/loading";
 import SaleTab from "../utils/sale/sale-tab";
 import CustomTitleIcon from "../utils/icons/custom-title-icon";
+import TabsNavigation from "../test2/sale-tabs";
 
 interface Trip {
   id: number;
@@ -333,7 +334,7 @@ function SaleTripsTable() {
         </div>
         {successMessage && <SuccessModal successMessage={successMessage} />}
         {selectedTripId && (
-          <SaleTab tripId={selectedTripId} onCancel={handleCancel} />
+          <TabsNavigation tripId={selectedTripId}></TabsNavigation>
         )}
       </section>
     </>

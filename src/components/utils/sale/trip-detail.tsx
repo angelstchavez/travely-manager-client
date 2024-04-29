@@ -82,7 +82,7 @@ const TripDetails: React.FC<TripDetailsProps> = ({ tripId }) => {
           <h3 className="font-semibold">Hora de Viaje</h3>
           <p>{formatTime(tripDetails.travelTime)}</p>
           <h3 className="font-semibold">Precio del Boleto</h3>
-          <div className="inline-block bg-zinc-200 font-semibold rounded px-1">
+          <div className="inline-block bg-orange-500 text-white font-semibold rounded px-1">
             {formatCurrency(tripDetails.ticketPrice)}
           </div>
         </div>
@@ -92,7 +92,7 @@ const TripDetails: React.FC<TripDetailsProps> = ({ tripId }) => {
           <h3 className="font-semibold">Duración</h3>
           <p>{tripDetails.travelRoute.durationHours} Horas</p>
           <h3 className="font-semibold">Autobús</h3>
-          <div className="inline-block bg-zinc-200 font-semibold rounded px-1">
+          <div className="inline-block bg-tm00 text-white font-semibold rounded px-1">
             Placa {tripDetails.carDriver.car.plate}
           </div>
         </div>
