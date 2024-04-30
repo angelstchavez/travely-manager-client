@@ -29,6 +29,7 @@ const SaleRegistration: React.FC<SaleRegistrationProps> = ({
   const [genders, setGenders] = useState<string[]>(["Masculino", "Femenino"]);
   const [documentTypes, setDocumentTypes] = useState<string[]>([
     "Cedula de ciudadanía",
+    "Cedula de extranjería",
     "Pasaporte",
     "Otro",
   ]);
@@ -147,7 +148,12 @@ const SaleRegistration: React.FC<SaleRegistrationProps> = ({
             name="identificationType"
             onChange={handleChange}
             className="w-full mt-1 border focus:outline-none sm:text-sm rounded-md border-gray-300 px-3 py-2"
+            defaultValue="" // Establecer el valor predeterminado como vacío
           >
+            <option value="" disabled hidden>
+              Seleccione...
+            </option>{" "}
+            {/* Opción deshabilitada y oculta */}
             {documentTypes.map((tipo, index) => (
               <option key={index} value={tipo}>
                 {tipo}
@@ -173,7 +179,12 @@ const SaleRegistration: React.FC<SaleRegistrationProps> = ({
             name="gender"
             onChange={handleChange}
             className="w-full mt-1 border focus:outline-none sm:text-sm rounded-md border-gray-300 px-3 py-2"
+            defaultValue="" // Establecer el valor predeterminado como vacío
           >
+            <option value="" disabled hidden>
+              Seleccione...
+            </option>{" "}
+            {/* Opción deshabilitada y oculta */}
             {genders.map((genero, index) => (
               <option key={index} value={genero}>
                 {genero}

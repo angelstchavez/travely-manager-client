@@ -43,11 +43,6 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     ],
   },
   {
-    title: "Configuración",
-    path: "/admin/settings",
-    icon: <Icon icon="material-symbols:settings" width="24" height="24" />,
-  },
-  {
     title: "Cerrar sesión",
     path: "/admin/logout",
     icon: <Icon icon="raphael:power" width="24" height="24" />,

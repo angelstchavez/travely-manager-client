@@ -141,9 +141,18 @@ const TabsNavigation: React.FC<TabsNavigationProps> = ({ tripId }) => {
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
   };
+
+  const isSaleRegistrationFormValid = Object.values(formData).every(
+    (value) => value !== ""
+  );
+
   return (
     <>
-      <div className={`border rounded-lg max-w-2xl mx-auto p-4 ${showComponent ? "" : "hidden"}`}>
+      <div
+        className={`border rounded-lg max-w-2xl mx-auto p-4 ${
+          showComponent ? "" : "hidden"
+        }`}
+      >
         <div className="flex border-b border-gray-200 rounded-lg border ">
           {[
             "1. Seleccionar asientos",
@@ -252,9 +261,9 @@ const TabsNavigation: React.FC<TabsNavigationProps> = ({ tripId }) => {
                 </button>
                 <button
                   onClick={handlePayment}
-                  disabled={!allPassengersRegistered}
+                  disabled={!isSaleRegistrationFormValid}
                   className={`${
-                    !allPassengersRegistered 
+                    !isSaleRegistrationFormValid
                       ? "bg-gray-300 text-gray-800"
                       : "bg-green-700 hover:bg-green-600 text-white hover:text-white"
                   } font-medium py-2 px-4 rounded focus:outline-none`}
@@ -267,11 +276,7 @@ const TabsNavigation: React.FC<TabsNavigationProps> = ({ tripId }) => {
         </div>
       </div>
 
-      {showSuccessModal && (
-        <SuccessModal
-          successMessage={successMessage}
-        />
-      )}
+      {showSuccessModal && <SuccessModal successMessage={successMessage} />}
     </>
   );
 };
