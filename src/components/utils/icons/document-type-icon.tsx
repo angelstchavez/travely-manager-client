@@ -11,6 +11,10 @@ const DocumentTypeIcon = ({ documentType }: { documentType: string }) => {
           ? "bg-yellow-100 text-yellow-900"
           : documentType === "Cédula de Extranjería"
           ? "bg-purple-100 text-purple-900"
+          : documentType === "Pasaporte"
+          ? "bg-blue-100 text-blue-900"
+          : documentType === "Otro"
+          ? "bg-gray-100 text-gray-900"
           : ""
       }`}
     >

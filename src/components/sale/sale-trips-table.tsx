@@ -8,6 +8,9 @@ import SuccessModal from "../modals/success-modal";
 import Loading from "../utils/loading";
 import SaleTab from "../utils/sale/sale-tab";
 import CustomTitleIcon from "../utils/icons/custom-title-icon";
+import TabsNavigation from "../ticketsale/sale-tabs";
+import PassengerForm from "./passenger-form";
+import PassengerSaleForm from "../ticketsale/passengers-sale";
 
 interface Trip {
   id: number;
@@ -236,8 +239,7 @@ function SaleTripsTable() {
       name: "Ver Sillas",
       cell: (row) => (
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font
-          bold py-2 px-4 rounded"
+          className="bg-tm20 hover:bg-tm10 text-white font-semibold py-2 px-4 rounded"
           onClick={() => handleViewSeats(row.id)}
         >
           Ver sillas
@@ -334,7 +336,11 @@ function SaleTripsTable() {
         </div>
         {successMessage && <SuccessModal successMessage={successMessage} />}
         {selectedTripId && (
-          <SaleTab tripId={selectedTripId} onCancel={handleCancel} />
+          <>
+            <TabsNavigation tripId={selectedTripId}></TabsNavigation>
+            <div className="mt-4"></div>
+            <PassengerSaleForm tripId={selectedTripId}></PassengerSaleForm>
+          </>
         )}
       </section>
     </>

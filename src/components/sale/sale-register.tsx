@@ -19,13 +19,8 @@ interface SaleRegisterProps {
 interface Passenger {
   name: string;
   surname: string;
-  documentType: string;
-  documentNumber: string;
-  email: string;
-  seat: {
-    id: string;
-    number: number;
-  };
+  identificationType: string;
+  identificationNumber: string;
 }
 
 const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
@@ -113,9 +108,9 @@ const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
             passengers: passengers,
             tripId: tripId,
             paymentMethodId: 1,
+            amountGivenByCustomer: 9000000,
             customerModel: {
               person: {
-                id: 0,
                 names: customerDetails.names,
                 surnames: customerDetails.surnames,
                 identificationType: customerDetails.identificationType,
@@ -176,7 +171,12 @@ const SaleRegister: React.FC<SaleRegisterProps> = ({ tripId, onCancel }) => {
                 </button>
                 <button
                   onClick={handleRegisterPassengers}
-                  className="bg-orange-600 hover:bg-orange-600/90 text-white font-semibold p-1 px-3 rounded"
+                  className={`bg-orange-600 hover:bg-orange-600/90 text-white font-semibold p-1 px-3 rounded ${
+                    selectedSeats.length === 0
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
+                  }`}
+                  disabled={selectedSeats.length === 0}
                 >
                   Registrar pasajeros
                 </button>
