@@ -3,10 +3,12 @@ import Cookies from "js-cookie";
 import TotalSale from "../utils/sale/total-sale";
 import TripDetails from "../utils/sale/trip-detail";
 import SelectedSeatsDisplay from "../utils/sale/selected-seat";
+import PaymentMethodButton from "../utils/payment-method-button";
 
 interface PaymentMethod {
   id: number;
   name: string;
+  imageUrl: string;
 }
 
 interface SaleRegistrationProps {
@@ -24,12 +26,22 @@ const SaleRegistration: React.FC<SaleRegistrationProps> = ({
   seatCount,
   selectedSeatIds,
 }) => {
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [genders, setGenders] = useState<string[]>(["Masculino", "Femenino"]);
   const [documentTypes, setDocumentTypes] = useState<string[]>([
     "Cedula de ciudadanía",
     "Pasaporte",
     "Otro",
+  ]);
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
+    number | null
+  >(null);
+
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
+    { id: 1, name: "Efectivo", imageUrl: "" },
+    { id: 2, name: "Tarjeta de crédito", imageUrl: "" },
+    { id: 3, name: "Tarjeta de débito", imageUrl: "" },
+    { id: 4, name: "Transferencia bancaria", imageUrl: "" },
   ]);
 
   useEffect(() => {
@@ -65,7 +77,11 @@ const SaleRegistration: React.FC<SaleRegistrationProps> = ({
           throw new Error("Los datos recibidos no son un array.");
         }
 
-        const data: PaymentMethod[] = responseData.data;
+        const data: PaymentMethod[] = responseData.data.map((method: any) => ({
+          id: method.id,
+          name: method.name,
+          imageUrl: method.imageUrl, // Asegúrate de tener la propiedad imageUrl en la respuesta del servidor
+        }));
         setPaymentMethods(data);
       } catch (error) {
         console.error(error);
@@ -74,6 +90,20 @@ const SaleRegistration: React.FC<SaleRegistrationProps> = ({
 
     fetchPaymentMethods();
   }, []);
+
+  const paymentMethodImages = [
+    "https://cdn-icons-png.flaticon.com/512/639/639365.png",
+    "https://cdn-icons-png.flaticon.com/512/2695/2695969.png",
+    "https://cdn-icons-png.flaticon.com/512/3344/3344907.png",
+    "https://cdn-icons-png.flaticon.com/512/1473/1473496.png",
+  ];
+
+  const handlePaymentMethodClick = (methodId: number) => {
+    setSelectedPaymentMethod(methodId);
+    handleChange({
+      target: { name: "paymentMethodId", value: methodId },
+    } as unknown as ChangeEvent<HTMLInputElement>);
+  };
 
   return (
     <div className="flex flex-col lg:flex-row lg:justify-between">
@@ -96,6 +126,7 @@ const SaleRegistration: React.FC<SaleRegistrationProps> = ({
             type="text"
             name="names"
             placeholder="Ingrese el nombre"
+            required
             onChange={handleChange}
             className="w-full mt-1 border focus:outline-none sm:text-sm rounded-md border-gray-300 px-3 py-2"
           />
@@ -181,17 +212,17 @@ const SaleRegistration: React.FC<SaleRegistrationProps> = ({
         </div>
         <div className="mb-4">
           <label className="font-semibold block">Método de Pago:</label>
-          <select
-            name="paymentMethodId"
-            onChange={handleChange}
-            className="w-full mt-1 border focus:outline-none sm:text-sm rounded-md border-gray-300 px-3 py-2"
-          >
-            {paymentMethods.map((metodo) => (
-              <option key={metodo.id} value={metodo.id}>
-                {metodo.name}
-              </option>
+          <div className="mt-1 flex flex-wrap gap-4">
+            {paymentMethods.map((metodo, index) => (
+              <PaymentMethodButton
+                key={metodo.id}
+                name={metodo.name}
+                imageUrl={paymentMethodImages[index]}
+                onClick={() => handlePaymentMethodClick(metodo.id)}
+                selected={selectedPaymentMethod === metodo.id}
+              />
             ))}
-          </select>
+          </div>
         </div>
         <div className="mb-4">
           <label className="font-semibold block">

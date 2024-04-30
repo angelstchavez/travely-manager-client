@@ -143,8 +143,8 @@ const TabsNavigation: React.FC<TabsNavigationProps> = ({ tripId }) => {
   };
   return (
     <>
-      <div className={`max-w-2xl mx-auto ${showComponent ? "" : "hidden"}`}>
-        <div className="flex border-b border-gray-200">
+      <div className={`border rounded-lg max-w-2xl mx-auto p-4 ${showComponent ? "" : "hidden"}`}>
+        <div className="flex border-b border-gray-200 rounded-lg border ">
           {[
             "1. Seleccionar asientos",
             "2. Registrar pasajeros",
@@ -153,7 +153,7 @@ const TabsNavigation: React.FC<TabsNavigationProps> = ({ tripId }) => {
             <div
               key={index}
               className={`${
-                activeTab === index ? "border-tm20" : ""
+                activeTab === index ? "border-tm20 bg-zinc-100" : ""
               } flex-1 text-center py-4 px-2 border-b-2 font-medium text-sm focus:outline-none`}
               onClick={() => handleTabChange(index)}
             >
@@ -186,7 +186,7 @@ const TabsNavigation: React.FC<TabsNavigationProps> = ({ tripId }) => {
                   className={`${
                     !canContinueSeatsTab
                       ? "bg-gray-300 text-gray-800"
-                      : "bg-blue-500 hover:bg-blue-600 text-white hover:text-white"
+                      : "bg-tm20 hover:bg-tm10 text-white hover:text-white"
                   } font-medium py-2 px-4 rounded focus:outline-none`}
                 >
                   Continuar
@@ -224,7 +224,7 @@ const TabsNavigation: React.FC<TabsNavigationProps> = ({ tripId }) => {
                   className={`${
                     !allPassengersRegistered
                       ? "bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded focus:outline-none"
-                      : "bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded focus:outline-none"
+                      : "bg-tm20 hover:bg-tm10 text-white font-medium py-2 px-4 rounded focus:outline-none"
                   }`}
                 >
                   Continuar
@@ -254,9 +254,9 @@ const TabsNavigation: React.FC<TabsNavigationProps> = ({ tripId }) => {
                   onClick={handlePayment}
                   disabled={!allPassengersRegistered}
                   className={`${
-                    !allPassengersRegistered
+                    !allPassengersRegistered 
                       ? "bg-gray-300 text-gray-800"
-                      : "bg-blue-500 hover:bg-blue-600 text-white hover:text-white"
+                      : "bg-green-700 hover:bg-green-600 text-white hover:text-white"
                   } font-medium py-2 px-4 rounded focus:outline-none`}
                 >
                   Pagar
